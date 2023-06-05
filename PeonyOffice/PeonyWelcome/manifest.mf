@@ -1,0 +1,9 @@
+Manifest-Version: 1.0
+AutoUpdate-Show-In-Client: true
+OpenIDE-Module: com.zcomapproach.garden.peony.view
+OpenIDE-Module-Install: com/zcomapproach/garden/peony/view/Installer.class
+OpenIDE-Module-Layer: com/zcomapproach/garden/peony/view/layer.xml
+OpenIDE-Module-Localizing-Bundle: com/zcomapproach/garden/peony/view/Bundle.properties
+OpenIDE-Module-Requires: org.openide.windows.WindowManager
+OpenIDE-Module-Specification-Version: 1.0.45
+

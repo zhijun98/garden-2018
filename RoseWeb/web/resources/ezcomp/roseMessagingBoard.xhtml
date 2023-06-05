@@ -1,0 +1,46 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:cc="http://xmlns.jcp.org/jsf/composite"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ez="http://xmlns.jcp.org/jsf/composite/ezcomp">
+
+    <!-- INTERFACE -->
+    <cc:interface>
+        <cc:attribute name="roseChatMessagingBean" type="com.zcomapproach.garden.rose.bean.IRoseChatMessaging" required="true"/>
+        <cc:attribute name="forBusinessPublicBoard" type="java.lang.Boolean" required="true"/>
+    </cc:interface>
+
+    <!-- IMPLEMENTATION -->
+    <cc:implementation>
+        <h:panelGrid columns="1" style="font-size: 12px; width: 100%">
+            <h:outputLabel id="replyMessage" rendered="#{cc.attrs.roseChatMessagingBean.forReplyMessage}"
+                           value="#{roseText.Reply}: #{cc.attrs.roseChatMessagingBean.targetReplyMessageProfile.messageLine}"/>
+            <h:panelGrid columns="5">
+                <h:outputLabel value="#{roseText.Message}:" style="font-weight: lighter"/>
+                <p:spacer width="5"/>
+                <p:inputText value="#{cc.attrs.roseChatMessagingBean.targetChatMessage}"
+                             style="width: 450px"/>
+                <p:spacer width="5"/>
+
+                <h:commandButton class="btn btn-success" style="color: white" rendered="#{!cc.attrs.forBusinessPublicBoard}"
+                                 action="#{cc.attrs.roseChatMessagingBean.storeTargetTalkerMessage}" 
+                                 value="#{roseText.Send}"/>
+
+                <h:commandButton class="btn btn-success" style="color: white" rendered="#{cc.attrs.forBusinessPublicBoard}"
+                                 action="#{cc.attrs.roseChatMessagingBean.storeTalkerMessageForBusinessPublicBoard()}" 
+                                 value="#{roseText.Send}"/>
+            </h:panelGrid>
+            <p:spacer width="5"/>
+            <p:outputPanel rendered="#{!cc.attrs.forBusinessPublicBoard}">
+                <ez:historicalChatMessageTree targetChatMessagingTopicRoot="#{cc.attrs.roseChatMessagingBean.targetChatMessagingTopicRoot}" 
+                                              targetReturnWebPath="#{cc.attrs.roseChatMessagingBean.targetReturnWebPath}"/>
+            </p:outputPanel>
+            <p:outputPanel rendered="#{cc.attrs.forBusinessPublicBoard}">
+                <ez:historicalChatMessageTree targetChatMessagingTopicRoot="#{cc.attrs.roseChatMessagingBean.targetChatMessagingTopicRootForBusinessPublicBoard}" 
+                                              targetReturnWebPath="#{cc.attrs.roseChatMessagingBean.targetReturnWebPath}"/>
+            </p:outputPanel>
+        </h:panelGrid>
+    </cc:implementation>
+</html>

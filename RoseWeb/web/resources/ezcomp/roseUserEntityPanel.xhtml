@@ -1,0 +1,304 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:cc="http://xmlns.jcp.org/jsf/composite"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:b="http://bootsfaces.net/ui"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ez="http://xmlns.jcp.org/jsf/composite/ezcomp">
+
+    <!--@Deprecated by userProfilePanel.xhtml-->
+    
+    <!-- INTERFACE -->
+    <cc:interface>
+        <!--RoseAccountProfileBean which could operate on some embedded entities, e.g. G01Location-->
+        <cc:attribute name="aRoseLocationEntityEditor" type="com.zcomapproach.garden.rose.bean.IRoseLocationEntityEditor" required="true"/>
+        <!--RoseAccountProfileBean which could operate on some embedded entities, e.g. G01ContactInfo-->
+        <cc:attribute name="aRoseContactInfoEntityEditor" type="com.zcomapproach.garden.rose.bean.IRoseContactInfoEntityEditor" required="true"/>
+        <!--Target entity record for this panel-->
+        <cc:attribute name="userProfile" type="com.zcomapproach.garden.rose.data.profile.RoseUserProfile" required="true"/>
+        <!--Only view data-->
+        <cc:attribute name="viewOnly" type="java.lang.Boolean" required="true"/>
+        <!--Panel toggleable-->
+        <cc:attribute name="toggleable" type="java.lang.Boolean" required="true"/>
+    </cc:interface>
+
+    <!-- IMPLEMENTATION -->
+    <cc:implementation>
+        <p:panel id="roseUserEntityPanel" style="font-size: 12px" header="#{roseText.UserProfile}" toggleable="#{cc.attrs.toggleable}">
+            <b:row>
+                <b:column col-md="3">
+                    <p:panelGrid style="width: 100%;" styleClass="roseNoBorder">
+                        <p:row styleClass="roseNoBorder">
+                            <p:column style="width:100px" styleClass="roseNoBorder">
+                                <p:outputLabel for="firstName" value="#{roseText.FirstName}"/>
+                            </p:column>
+                            <p:column styleClass="roseNoBorder">
+                                <h:outputText value="#{cc.attrs.userProfile.userEntity.firstName}" rendered="#{cc.attrs.viewOnly}"/>
+                                <p:inputText id="firstName" placeholder="#{roseText.FirstName}" rendered="#{!cc.attrs.viewOnly}"
+                                             value="#{cc.attrs.userProfile.userEntity.firstName}"
+                                             required="true" requiredMessage="#{roseText.FirstName} - #{roseText.FieldRequired_T}"
+                                             validatorMessage="#{roseText.FirstName} - #{roseText.MaxLengthRequired_T}: 45">
+                                    <f:validateLength maximum="45"/>
+                                    <p:ajax/>
+                                </p:inputText>
+                            </p:column>
+                        </p:row>
+                    </p:panelGrid>
+                </b:column>
+                <b:column col-md="3">
+                    <p:panelGrid style="width: 100%;" styleClass="roseNoBorder">
+                        <p:row styleClass="roseNoBorder">
+                            <p:column style="width:100px" styleClass="roseNoBorder">
+                                <p:outputLabel for="middleName" value="#{roseText.MiddleName}"/>
+                            </p:column>
+                            <p:column styleClass="roseNoBorder">
+                                <h:outputText value="#{cc.attrs.userProfile.userEntity.middleName}" rendered="#{cc.attrs.viewOnly}"/>
+                                <p:inputText id="middleName" placeholder="#{roseText.MiddleName}" rendered="#{!cc.attrs.viewOnly}"
+                                             value="#{cc.attrs.userProfile.userEntity.middleName}"
+                                             validatorMessage="#{roseText.MiddleName} - #{roseText.MaxLengthRequired_T}: 45">
+                                    <f:validateLength maximum="45"/>
+                                    <p:ajax/>
+                                </p:inputText>
+                            </p:column>
+                        </p:row>
+                    </p:panelGrid>
+                </b:column>
+                <b:column col-md="3">
+                    <p:panelGrid style="width: 100%;" styleClass="roseNoBorder">
+                        <p:row styleClass="roseNoBorder">
+                            <p:column style="width:100px" styleClass="roseNoBorder">
+                                <p:outputLabel for="lastName" value="#{roseText.LastName}"/>
+                            </p:column>
+                            <p:column styleClass="roseNoBorder">
+                                <h:outputText value="#{cc.attrs.userProfile.userEntity.lastName}" rendered="#{cc.attrs.viewOnly}"/>
+                                <p:inputText id="lastName" placeholder="#{roseText.LastName}" rendered="#{!cc.attrs.viewOnly}"
+                                             value="#{cc.attrs.userProfile.userEntity.lastName}"
+                                             required="true" requiredMessage="#{roseText.LastName} - #{roseText.FieldRequired_T}"
+                                             validatorMessage="#{roseText.LastName} - #{roseText.MaxLengthRequired_T}: 45">
+                                    <f:validateLength maximum="45"/>
+                                    <p:ajax/>
+                                </p:inputText>
+                            </p:column>
+                        </p:row>
+                    </p:panelGrid>
+                </b:column>
+                <b:column col-md="3">
+                    <p:panelGrid style="width: 100%;" styleClass="roseNoBorder">
+                        <p:row styleClass="roseNoBorder">
+                            <p:column style="width:100px" styleClass="roseNoBorder">
+                                <p:outputLabel for="ssn" value="#{roseText.SSN}"/>
+                            </p:column>
+                            <p:column styleClass="roseNoBorder">
+                                <h:outputText value="#{cc.attrs.userProfile.userEntity.ssn}" rendered="#{cc.attrs.viewOnly}"/>
+                                <h:panelGrid columns="1">
+                                    <p:inputMask id="ssn" placeholder="#{roseText.SSN}" rendered="#{!cc.attrs.viewOnly}"
+                                                 value="#{cc.attrs.userProfile.userEntity.ssn}" mask="999-99-9999"
+                                                 validatorMessage="#{roseText.SSN} - #{roseText.MaxLengthRequired_T}: 11">
+                                        <f:validateLength maximum="11"/>
+                                        <p:ajax/>
+                                    </p:inputMask>
+                                </h:panelGrid>
+                            </p:column>
+                        </p:row>
+                    </p:panelGrid>
+                </b:column>
+            </b:row>
+            <b:row>
+                <b:column col-md="3">
+                    <p:panelGrid style="width: 100%;" styleClass="roseNoBorder">
+                        <p:row styleClass="roseNoBorder">
+                            <p:column style="width:100px" styleClass="roseNoBorder">
+                                <p:outputLabel for="Birthday" value="#{roseText.Birthday}"/>
+                            </p:column>
+                            <p:column styleClass="roseNoBorder">
+                                <h:outputText value="#{cc.attrs.userProfile.userEntity.birthday}" rendered="#{cc.attrs.viewOnly}">
+                                    <f:convertDateTime pattern="MM-dd-yyyy" />
+                                </h:outputText>
+                                <p:calendar id="Birthday" yearRange="c-120:c+0" pattern="MM-dd-yyyy" navigator="true" rendered="#{!cc.attrs.viewOnly}"
+                                            placeholder="MM-dd-yyyy"
+                                            locale="#{roseUserSession.localeCode}" value="#{cc.attrs.userProfile.userEntity.birthday}">
+                                    <p:ajax event="dateSelect" process="@this"/>
+                                </p:calendar>
+                            </p:column>
+                        </p:row>
+                    </p:panelGrid>
+                </b:column>
+                <b:column col-md="3">
+                    <p:panelGrid style="width: 100%;" styleClass="roseNoBorder">
+                        <p:row styleClass="roseNoBorder">
+                            <p:column style="width:100px" styleClass="roseNoBorder">
+                                <p:outputLabel for="gender" value="#{roseText.Gender}"/>
+                            </p:column>
+                            <p:column styleClass="roseNoBorder">
+                                <h:outputText value="#{cc.attrs.userProfile.userEntity.gender}" rendered="#{cc.attrs.viewOnly}"/>
+                                <h:selectOneMenu id="gender" class="form-control" style="width: 155px" rendered="#{!cc.attrs.viewOnly}"
+                                                 value="#{cc.attrs.userProfile.userEntity.gender}"> 
+                                    <f:selectItem itemLabel="#{roseText.Gender}......" itemValue=""/>
+                                    <f:selectItems value="#{roseSettings.humanGenderValueList}"/>
+                                    <p:ajax event="change" process="@this"/>
+                                </h:selectOneMenu>
+                            </p:column>
+                        </p:row>
+                    </p:panelGrid>
+                </b:column>
+                <b:column col-md="3">
+                    <p:panelGrid style="width: 100%;" styleClass="roseNoBorder">
+                        <p:row styleClass="roseNoBorder">
+                            <p:column style="width:100px" styleClass="roseNoBorder">
+                                <p:outputLabel for="citizenship" value="#{roseText.Citizenship}"/>
+                            </p:column>
+                            <p:column styleClass="roseNoBorder">
+                                <h:outputText value="#{cc.attrs.userProfile.userEntity.citizenship}" rendered="#{cc.attrs.viewOnly}"/>
+                                <p:inputText id="citizenship" placeholder="#{roseText.Citizenship}" rendered="#{!cc.attrs.viewOnly}"
+                                             value="#{cc.attrs.userProfile.userEntity.citizenship}"
+                                             validatorMessage="#{roseText.Citizenship} - #{roseText.MaxLengthRequired_T}: 45">
+                                    <f:validateLength maximum="45"/>
+                                    <p:ajax/>
+                                </p:inputText>
+                            </p:column>
+                        </p:row>
+                    </p:panelGrid>
+                </b:column>
+                <b:column col-md="3">
+                    <p:panelGrid style="width: 100%;" styleClass="roseNoBorder">
+                        <p:row styleClass="roseNoBorder">
+                            <p:column style="width:100px" styleClass="roseNoBorder">
+                                <p:outputLabel for="occupation" value="#{roseText.Occupation}"/>
+                            </p:column>
+                            <p:column styleClass="roseNoBorder">
+                                <h:outputText value="#{cc.attrs.userProfile.userEntity.occupation}" rendered="#{cc.attrs.viewOnly}"/>
+                                <p:inputText id="occupation" placeholder="#{roseText.Occupation}" rendered="#{!cc.attrs.viewOnly}"
+                                             value="#{cc.attrs.userProfile.userEntity.occupation}"
+                                             validatorMessage="#{roseText.Occupation} - #{roseText.MaxLengthRequired_T}: 45">
+                                    <f:validateLength maximum="45"/>
+                                    <p:ajax/>
+                                </p:inputText>
+                            </p:column>
+                        </p:row>
+                    </p:panelGrid>
+                </b:column>
+            </b:row>
+            <p:outputPanel styleClass="roseUserLocationListPanel">
+                <p:outputPanel rendered="#{(cc.attrs.userProfile.userLocationProfileList.size() == 0) and (!cc.attrs.viewOnly)}" 
+                               style="margin-top: 5px; margin-bottom: 5px;">
+                    <p:panelGrid style="width: 100%">
+                        <p:row>
+                            <p:column>
+                                <p:commandButton value="#{roseText.AddAddressLocation}" immediate="true" icon="fa fa-plus-square" 
+                                                 update="@(.roseUserLocationListPanel)"
+                                                 actionListener="#{cc.attrs.aRoseLocationEntityEditor.addNewLocationDataEntry()}"/>
+                            </p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column>
+                                <h:outputText styleClass="roseHelpComment" value="(#{roseText.MultipleLocationsContacts_T})"/>
+                            </p:column>
+                        </p:row>
+                    </p:panelGrid>
+                </p:outputPanel>
+                <p:outputPanel rendered="#{cc.attrs.userProfile.userLocationProfileList.size() > 0}" style="margin-top: 5px; margin-bottom: 5px;">
+                    <p:repeat value="#{cc.attrs.userProfile.userLocationProfileList}" var="locationProfile">
+                        <b:row>
+                            <b:column>
+                                <p:outputPanel style="margin-top: 5px; margin-bottom: 5px; margin-left: auto; margin-right: auto; width: 100%; ">
+                                    <p:panelGrid style="width: 100%">
+                                        <p:row>
+                                            <p:column style="background-color: #fafafa">
+                                                <p:outputPanel rendered="#{cc.attrs.viewOnly}">
+                                                    <h:outputText value="#{roseText.Address}" style="font-weight: bolder"/>
+                                                </p:outputPanel>
+                                                <p:outputPanel rendered="#{!cc.attrs.viewOnly}">
+                                                    <p:commandButton value="#{roseText.AddAddressLocation}" immediate="true" icon="fa fa-plus-square" 
+                                                                     update="@(.roseUserLocationListPanel)"
+                                                                     actionListener="#{cc.attrs.aRoseLocationEntityEditor.addNewLocationDataEntry()}"/>
+                                                    <p:spacer width="2"/>
+                                                    <p:commandButton immediate="true" icon="fa fa-close"  update="@(.roseUserLocationListPanel)" style="float: right; margin-top: 2px" 
+                                                                     actionListener="#{cc.attrs.aRoseLocationEntityEditor.deleteLocationDataEntry(locationProfile.locationEntity.locationUuid)}"/>
+                                                </p:outputPanel>
+                                            </p:column>
+                                        </p:row>
+                                        <p:row>
+                                            <p:column>
+                                                <ez:roseLocationEntityPanel locationProfile="#{locationProfile}" viewOnly="#{cc.attrs.viewOnly}" />
+                                            </p:column>
+                                        </p:row>
+                                    </p:panelGrid>
+                                </p:outputPanel>
+                            </b:column>
+                        </b:row>
+                    </p:repeat>
+                </p:outputPanel>
+            </p:outputPanel>
+            <p:outputPanel styleClass="roseUserContactInfoListPanel">
+                <p:outputPanel rendered="#{(cc.attrs.userProfile.userContactInfoProfileList.size() == 0) and (!cc.attrs.viewOnly)}" 
+                               style="margin-top: 5px; margin-bottom: 5px;">
+                    <p:panelGrid style="width: 100%">
+                        <p:row>
+                            <p:column>
+                                <p:commandButton value="#{roseText.AddContactInfo}" immediate="true" icon="fa fa-plus-square" 
+                                                 update="@(.roseUserContactInfoListPanel)"
+                                                 actionListener="#{cc.attrs.aRoseContactInfoEntityEditor.addNewContactInfoDataEntry()}"/>
+                            </p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column>
+                                <h:outputText styleClass="roseHelpComment" value="(#{roseText.MultipleLocationsContacts_T})"/>
+                            </p:column>
+                        </p:row>
+                    </p:panelGrid>
+                </p:outputPanel>
+                <p:outputPanel rendered="#{cc.attrs.userProfile.userContactInfoProfileList.size() > 0}" style="margin-top: 5px; margin-bottom: 5px;">
+                    <p:repeat value="#{cc.attrs.userProfile.userContactInfoProfileList}" var="contactInfoProfile">
+                        <b:row>
+                            <b:column>
+                                <p:outputPanel style="margin-top: 5px; margin-bottom: 5px; margin-left: auto; margin-right: auto; width: 100%;">
+                                    <p:panelGrid style="width: 100%">
+                                        <p:row>
+                                            <p:column style="background-color: #fafafa">
+                                                <p:outputPanel rendered="#{cc.attrs.viewOnly}">
+                                                    <h:outputText value="#{roseText.Contact}" style="font-weight: bolder"/>
+                                                </p:outputPanel>
+                                                <p:outputPanel rendered="#{!cc.attrs.viewOnly}">
+                                                    <p:commandButton value="#{roseText.AddContactInfo}" immediate="true" icon="fa fa-plus-square" update="@(.roseUserContactInfoListPanel)"
+                                                                     actionListener="#{cc.attrs.aRoseContactInfoEntityEditor.addNewContactInfoDataEntry()}"/>
+                                                    <p:spacer width="2"/>
+                                                    <p:commandButton immediate="true" icon="fa fa-close" update="@(.roseUserContactInfoListPanel)" style="float: right; margin-top: 2px" 
+                                                                     actionListener="#{cc.attrs.aRoseContactInfoEntityEditor.deleteContactInfoDataEntry(contactInfoProfile.contactInfoEntity.contactInfoUuid)}"/>
+                                                </p:outputPanel>
+                                            </p:column>
+                                        </p:row>
+                                        <p:row>
+                                            <p:column>
+                                                <ez:roseContactInfoEntityPanel contactInfoProfile="#{contactInfoProfile}" viewOnly="#{cc.attrs.viewOnly}"/>
+                                            </p:column>
+                                        </p:row>
+                                    </p:panelGrid>
+                                </p:outputPanel>
+                            </b:column>
+                        </b:row>
+                    </p:repeat>
+                </p:outputPanel>
+            </p:outputPanel>
+            <b:row>
+                <b:column>
+                    <p:outputPanel style="margin-top: 5px; margin-bottom: 5px; margin-left: auto; margin-right: auto; width: 100%;">
+                        <h:panelGrid columns="1" style="width: 100%;">
+                            <h:outputLabel value="#{roseText.Memo}"/>
+                            <h:panelGrid columns="1" style="width: 100%">
+                                <h:outputText value="#{cc.attrs.userProfile.userEntity.memo}" rendered="#{cc.attrs.viewOnly}"/>
+                                <p:inputTextarea id="memo" placeholder="#{roseText.Memo}" rendered="#{!cc.attrs.viewOnly}"
+                                                 value="#{cc.attrs.userProfile.userEntity.memo}" rows="5" style="width: 100%"
+                                                 validatorMessage="#{roseText.Memo} - #{roseText.MaxLengthRequired_T}: 450">
+                                    <f:validateLength maximum="450"/>
+                                    <p:ajax/>
+                                </p:inputTextarea>
+                            </h:panelGrid>
+                        </h:panelGrid>
+                    </p:outputPanel>
+                </b:column>
+            </b:row>
+        </p:panel>
+    </cc:implementation>
+</html>

@@ -1,0 +1,55 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:cc="http://xmlns.jcp.org/jsf/composite"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+
+    <!-- INTERFACE -->
+    <cc:interface>
+        <cc:attribute name="accountProfileBean" type="com.zcomapproach.garden.rose.bean.RoseAccountProfileBean" required="true"/>
+    </cc:interface>
+
+    <!-- IMPLEMENTATION -->
+    <cc:implementation>
+        <p:panel id="roseUserPrivilegePanel" header="#{roseText.Privileges}" rendered="#{roseUserSession.employed}"
+                 style="margin-bottom:5px; font-size: 12px" toggleable="true" collapsed="true">
+            <h:panelGrid columns="1">
+                <h:form id="roseUserPrivilegeForm">
+                    <h:panelGrid columns="1">
+                        <ui:repeat value="#{cc.attrs.accountProfileBean.userPrivilegeGroupList}" var="privilegeGroup">
+                            <h:panelGrid columns="1">
+                                <p:spacer width="1"/>
+                                <h:outputText class="label label-info" value="#{privilegeGroup.value()}" style="font-weight: bolder; font-size: 12px" />
+                                <p:spacer width="1"/>
+                                <ui:repeat value="#{cc.attrs.accountProfileBean.retrieveTargetUserPrivilegeProfileList(privilegeGroup)}" var="privilegeProfile">
+                                    <h:panelGrid columns="1">
+                                        <h:panelGrid columns="3" style="margin-bottom: 1px">
+                                            <h:outputLabel value="#{privilegeProfile.profileName}" />
+                                            <p:spacer width="1"/>
+                                            <p:selectBooleanCheckbox value="#{privilegeProfile.authorized}" 
+                                                                     disabled="#{!rosePrivileges.checkSuperPowerAuthorized(roseUserSession.targetAccountProfile)}">
+                                                <p:ajax/>
+                                            </p:selectBooleanCheckbox>
+                                        </h:panelGrid>
+                                        <h:outputText value="#{privilegeProfile.profileDescriptiveName}" style="font-style: italic"/>
+                                        <p:spacer width="1"/>
+                                    </h:panelGrid>
+                                </ui:repeat>
+                            </h:panelGrid>
+                        </ui:repeat>
+                        <p:outputPanel styleClass="privilgeMessage" style="margin-top: 10px; margin-bottom: 10px">
+                            <h:outputText class="alert alert-info" value="#{cc.attrs.accountProfileBean.webMessage}" rendered="#{cc.attrs.accountProfileBean.webMessage.length() > 0}"/>
+                        </p:outputPanel>
+                        <p:spacer width="1"/>
+                    </h:panelGrid>
+                    <h:commandButton class="btn btn-success" value="#{roseText.SaveUserPrivileges}" 
+                                     rendered="#{rosePrivileges.checkSuperPowerAuthorized(roseUserSession.targetAccountProfile)}">
+                        <p:ajax event="click" listener="#{cc.attrs.accountProfileBean.storeTargetUserPrivilegeProfileList}" update="@(.privilgeMessage)"/>
+                    </h:commandButton>
+                </h:form>
+            </h:panelGrid>
+        </p:panel>
+    </cc:implementation>
+</html>

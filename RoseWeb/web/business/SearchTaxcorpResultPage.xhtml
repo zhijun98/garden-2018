@@ -1,0 +1,51 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ez="http://xmlns.jcp.org/jsf/composite/ezcomp"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <body>
+        <ui:composition template="./../templates/templateTopFluidCenterBottom.xhtml">
+            
+            <ui:remove><!--Title--></ui:remove>
+            <ui:param name="rosePageTopic" value="#{roseText.SearchTaxcorpResult}"/>
+            <ui:param name="topicIconAwesome" value="search"/>
+            
+            <ui:remove><!--This page displays public web post for any web users to read--></ui:remove>
+            <ui:define name="rosePageContent">
+                
+                <h:panelGroup class="container-fluid" layout="block" style="font-size: 11px;">
+                    <ui:remove><!--Result of "Search TaxcorpCase By Criteria"--></ui:remove>
+                    <h:form>
+                        <p:outputPanel>
+                            <h:outputLabel value="#{roseText.SearchTaxcorpResult}"/>
+                            <ez:taxcorpCaseEntityListSearchResultDataTable searchTaxcorpBean="#{searchTaxcorpBean}"
+                                                                           taxcorpCaseEntityList="#{searchTaxcorpBean.searchResultTaxcorpEntityList}"/>
+
+                            <p:outputPanel style="margin-top: 10px">
+                                <h:panelGrid columns="3">
+                                    <h:link class="btn btn-success" style="font-size: 12px; margin-right: 1px; color: white" 
+                                            outcome="#{rosePages.roseContactPageName}">
+                                        <i class="fa fa-paper-plane"/> #{roseText.EmailAndSMS}
+                                        <f:param name="#{roseParamKeys.entityTypeParamKey}" value="#{roseParamValues.searchTaxcorpCaseParamValue}"/>
+                                    </h:link>
+                                    <h:link class="btn btn-success" value="#{roseText.GoBack}" style="font-size: 12px"
+                                            outcome="#{searchTaxcorpBean.targetReturnWebPath}"/>
+                                </h:panelGrid>
+                            </p:outputPanel>
+                        </p:outputPanel>
+                        <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+                            <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                            <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                        </p:confirmDialog>
+                    </h:form>
+                </h:panelGroup>
+
+            </ui:define>
+        </ui:composition>
+
+    </body>
+</html>

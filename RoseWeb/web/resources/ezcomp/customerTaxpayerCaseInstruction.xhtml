@@ -1,0 +1,62 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:cc="http://xmlns.jcp.org/jsf/composite"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:b="http://bootsfaces.net/ui"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <!--This is used by customers-->
+    
+    <!-- INTERFACE -->
+    <cc:interface>
+    </cc:interface>
+
+    <!-- IMPLEMENTATION -->
+    <cc:implementation>
+        <b:row>
+            <b:column>
+                <h:panelGrid columns="3" style="margin-left: 10px; margin-top: 5px;">
+                    <ui:remove><!--Row--></ui:remove>
+                    <b:icon name="ok-circle"/><p:spacer width="5"/><h:outputText value="#{roseText.TaxpayerCaseInstructionStep01}"/>
+                    <b:icon name="ok-circle"/><p:spacer width="5"/><h:outputText value="#{roseText.TaxpayerCaseInstructionStep02}"/>
+                    <b:icon name="ok-circle"/><p:spacer width="5"/><h:outputText value="#{roseText.TaxpayerCaseInstructionStep03}"/>
+                    <b:icon name="ok-circle"/><p:spacer width="5"/><h:outputText value="#{roseText.TaxpayerCaseInstructionStep04}"/>
+                </h:panelGrid>
+            </b:column>
+        </b:row>
+        <b:row>
+            <b:column>
+                <p:panelGrid style="width: 100%; margin-top: 10px;" rendered="#{roseUserSession.customerLatestYearTaxpayerCaseProfileList.size() > 0}">
+                    <p:row>
+                        <p:column styleClass="roseWarningColors">
+                            <h:panelGrid columns="1">
+                                <p:spacer width="1"/>
+                                <h:panelGrid columns="3">
+                                    <h:graphicImage library="images" name="Warning.png" alt="#{roseText.Warning}" title="#{roseText.Warning}" 
+                                                    style="height: 25px; width: 25px;"/>
+                                    <p:spacer width="10"/>
+                                    <h:outputText value="#{roseText.RequestPersonalFamilyTaxFilingWarning_T}" style="font-weight: bolder"/>
+                                </h:panelGrid>
+                                <p:spacer width="1"/>
+                                <h:panelGrid columns="1">
+                                    <ui:repeat value="#{roseUserSession.customerLatestYearTaxpayerCaseProfileList}" var="taxpayerCase" >
+                                        <h:link style="font-size: 12px; margin-top: 15px; margin-bottom: 15px; margin-left: 25px" 
+                                                outcome="#{rosePages.taxpayerCaseViewPageName}">
+                                            <i class="fa fa-caret-square-o-right"/> #{taxpayerCase.profileDescriptiveName}
+                                            <f:param name="#{roseParamKeys.taxpayerCaseUuidParamKey}" 
+                                                     value="#{taxpayerCase.taxpayerCaseEntity.taxpayerCaseUuid}" />
+                                        </h:link><br/>
+                                    </ui:repeat>
+                                </h:panelGrid>
+                                <p:spacer width="1"/>
+                            </h:panelGrid>
+                        </p:column>
+                    </p:row>
+                </p:panelGrid>
+            </b:column>
+        </b:row>
+    </cc:implementation>
+</html>

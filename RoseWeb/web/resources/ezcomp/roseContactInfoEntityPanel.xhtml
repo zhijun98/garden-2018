@@ -1,0 +1,109 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:cc="http://xmlns.jcp.org/jsf/composite"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:b="http://bootsfaces.net/ui">
+
+    <!-- INTERFACE -->
+    <cc:interface>
+        <!--Target entity record for this panel-->
+        <cc:attribute name="contactInfoProfile" type="com.zcomapproach.garden.rose.data.profile.RoseContactInfoProfile" required="true"/>
+        <!--Only view data-->
+        <cc:attribute name="viewOnly" type="java.lang.Boolean" required="true"/>
+    </cc:interface>
+
+    <!-- IMPLEMENTATION -->
+    <cc:implementation>
+        <b:row>    
+            <b:column col-md="4">
+                <p:panelGrid style="width: 100%;" styleClass="roseNoBorder">
+                    <p:row styleClass="roseNoBorder">
+                        <p:column style="width:125px" styleClass="roseNoBorder">
+                            <p:outputLabel for="contactType" value="#{roseText.ContactMethod}"/>
+                        </p:column>
+                        <p:column styleClass="roseNoBorder">
+                            <h:outputText value="#{cc.attrs.contactInfoProfile.contactInfoEntity.contactType}" 
+                                          style="font-style: italic" rendered="#{cc.attrs.viewOnly}"/>
+                            <h:selectOneMenu id="contactType" class="form-control" rendered="#{!cc.attrs.viewOnly}"
+                                             required="true" requiredMessage="#{roseText.ContactMethod} - #{roseText.FieldRequired_T}"
+                                             value = "#{cc.attrs.contactInfoProfile.contactInfoEntity.contactType}">
+                                <f:selectItem itemLabel = "#{roseText.Select} #{roseText.ContactMethod}..." itemValue = "" /> 
+                                <f:selectItems value="#{roseSettings.contactTypeValueList}" var="contactTypeValue" 
+                                               itemValue = "#{contactTypeValue}" itemLabel = "#{contactTypeValue}" />
+                                <p:ajax event="change" process="@this" update="@(.contactInfoField)"/>
+                            </h:selectOneMenu>
+                        </p:column>
+                    </p:row>
+                </p:panelGrid>
+            </b:column> 
+            <b:column col-md="4">
+                <p:panelGrid style="width: 100%;" styleClass="roseNoBorder">
+                    <p:row styleClass="roseNoBorder">
+                        <p:column style="width:125px" styleClass="roseNoBorder">
+                            <p:outputLabel for="weChatInfo" value="#{roseText.ContactInfoData}" 
+                                           rendered="#{!cc.attrs.viewOnly and (cc.attrs.contactInfoProfile.weChat or cc.attrs.contactInfoProfile.unknownType)}"/>
+                            <p:outputLabel for="emailInfo" value="#{roseText.ContactInfoData}" 
+                                           rendered="#{!cc.attrs.viewOnly and (cc.attrs.contactInfoProfile.emailType)}"/>
+                            <p:outputLabel for="phoneLikeInfo" value="#{roseText.ContactInfoData}"
+                                           rendered="#{!cc.attrs.viewOnly and cc.attrs.contactInfoProfile.phoneLikeType}"/>
+                        </p:column>
+                        <p:column styleClass="roseNoBorder">
+                            <h:outputText value="#{cc.attrs.contactInfoProfile.contactInfoEntity.contactInfo}" 
+                                          style="font-style: italic" rendered="#{cc.attrs.viewOnly}"/>
+                            <h:panelGrid id="contactInfoFieldPanelGrid" styleClass="contactInfoField" columns="1">
+                                <p:inputText id="weChatInfo" placeholder="#{roseText.ContactInfoData}" 
+                                             required="true" requiredMessage="#{roseText.ContactInfoData} - #{roseText.FieldRequired_T}"
+                                             rendered="#{!cc.attrs.viewOnly and (cc.attrs.contactInfoProfile.weChat or cc.attrs.contactInfoProfile.unknownType)}"
+                                             value="#{cc.attrs.contactInfoProfile.contactInfoEntity.contactInfo}" 
+                                             validatorMessage="#{roseText.ContactInfoData} - #{roseText.MaxLengthRequired_T}: 100">
+                                    <f:validateLength maximum="100"/>
+                                    <p:ajax/>
+                                </p:inputText>
+                                <p:inputText id="emailInfo" placeholder="#{roseText.Email}" 
+                                             required="true" requiredMessage="#{roseText.ContactInfoData} - #{roseText.FieldRequired_T}"
+                                             rendered="#{!cc.attrs.viewOnly and (cc.attrs.contactInfoProfile.emailType)}"
+                                             value="#{cc.attrs.contactInfoProfile.contactInfoEntity.contactInfo}" 
+                                             validator="#{roseEmailValidator.validate}" 
+                                             validatorMessage="#{roseText.ContactInfoData} - (1) #{roseText.BadEmailPattern_T} (2) #{roseText.MaxLengthRequired_T}: 100">
+                                    <f:validateLength maximum="100"/>
+                                    <p:ajax/>
+                                </p:inputText>
+                                <p:inputMask id="phoneLikeInfo" placeholder="#{roseText.PhoneNumber}/#{roseText.Fax}" mask="(1)-999-999-9999"
+                                             required="true" requiredMessage="#{roseText.ContactInfoData} - #{roseText.FieldRequired_T}"
+                                             rendered="#{!cc.attrs.viewOnly and cc.attrs.contactInfoProfile.phoneLikeType}"
+                                             value="#{cc.attrs.contactInfoProfile.contactInfoEntity.contactInfo}" 
+                                             validatorMessage="#{roseText.ContactInfoData} - #{roseText.MaxLengthRequired_T}: 100">
+                                    <p:ajax/>
+                                </p:inputMask>
+                                <h:outputText value="(#{roseText.ContactInfoData_T})" style="font-size: 10px" rendered="#{!cc.attrs.viewOnly}"/>
+                            </h:panelGrid>
+                        </p:column>
+                    </p:row>
+                </p:panelGrid>
+            </b:column>
+            <b:column col-md="4">
+                <p:panelGrid style="width: 100%;" styleClass="roseNoBorder">
+                    <p:row styleClass="roseNoBorder">
+                        <p:column style="width:125px" styleClass="roseNoBorder">
+                            <p:outputLabel for="preferenceValue" value="#{roseText.Priority}"/>
+                        </p:column>
+                        <p:column styleClass="roseNoBorder">
+                            <h:outputText value="#{cc.attrs.contactInfoProfile.preferenceValue}" 
+                                          style="font-style: italic" rendered="#{cc.attrs.viewOnly}"/>
+                            <h:selectOneMenu id="preferenceValue" class="form-control" rendered="#{!cc.attrs.viewOnly}"
+                                             value = "#{cc.attrs.contactInfoProfile.preferenceValue}" style="width: 160px;">
+                                <f:selectItem itemLabel = "#{roseText.Select} #{roseText.Priority}..." itemValue = "" /> 
+                                <f:selectItems value="#{roseSettings.preferenceValueList}" var="preferenceValue" 
+                                               itemValue = "#{preferenceValue}" itemLabel = "#{preferenceValue}" />
+                                <p:ajax event="change" process="@this"/>
+                            </h:selectOneMenu>
+                        </p:column>
+                    </p:row>
+                </p:panelGrid>
+            </b:column>
+        </b:row>
+    </cc:implementation>
+</html>

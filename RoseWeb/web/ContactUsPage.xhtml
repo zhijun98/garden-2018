@@ -1,0 +1,63 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:b="http://bootsfaces.net/ui"
+      xmlns:ez="http://xmlns.jcp.org/jsf/composite/ezcomp">
+
+    <body>
+
+        <ui:composition template="./templates/templateWelcome.xhtml">
+            
+            <ui:remove><!--Title--></ui:remove>
+            <ui:param name="rosePageTopic" value="#{roseDocumentEmailBean.rosePageTopic}"/>
+            <ui:param name="topicIconAwesome" value="#{roseDocumentEmailBean.topicIconAwesomeName}"/>
+            
+            <ui:define name="f-metadata">
+                <f:metadata>
+                    <f:event listener="#{roseUserSession.handlePreRenderViewEvent()}" type="preRenderView" />
+                    <f:viewParam name="#{roseParamKeys.emailToParamKey}" value="#{roseDocumentEmailBean.targetEmailTo}"/>
+                </f:metadata>
+            </ui:define>
+
+            <ui:define name="rosePageContent">
+                <b:container>
+                    <h:form id="roseEmailForm" enctype="multipart/form-data">
+                        <p:panel header="#{roseText.ContactUs}" style="margin-bottom:5px; font-size: 12px">
+                            <b:row>
+                                <b:column col-md="8">
+                                    <ez:emailUsPanelGrid/>
+                                </b:column>
+                                <b:column col-md="4">
+                                    <p:panel>
+                                        <h:panelGrid style="width: 100%">
+                                            <h:outputLabel value="#{roseText.CompanyName}" style="float: right"/>
+                                            <h:outputText value="#{roseSettings.webOwnerName}" style="float: right"/>
+                                            <p:spacer width="1"/>
+                                            <h:outputLabel value="#{roseText.Address}" style="float: right"/>
+                                            <h:outputText value="#{roseSettings.webOwnerAddress}" style="float: right"/>
+                                            <p:spacer width="1"/>
+                                            <h:outputLabel value="#{roseText.Phone}" style="float: right"/>
+                                            <h:outputText value="#{roseSettings.webOwnerPhone}" style="float: right"/>
+                                            <p:spacer width="1"/>
+                                            <h:outputLabel value="#{roseText.Fax}" style="float: right"/>
+                                            <h:outputText value="#{roseSettings.webOwnerFax}" style="float: right"/>
+                                            <p:spacer width="1"/>
+                                            <h:outputLabel value="#{roseText.Email}" style="float: right"/>
+                                            <h:outputText value="#{roseSettings.webOwnerEmail}" style="float: right"/>
+                                        </h:panelGrid>
+                                    </p:panel>
+                                </b:column>
+                            </b:row>
+                        </p:panel>
+                    </h:form>
+                </b:container>
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>

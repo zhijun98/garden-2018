@@ -1,0 +1,49 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <body>
+
+        <ui:composition template="./../templates/templateTopCenterBottom.xhtml">
+            
+            <ui:remove><!--Title--></ui:remove>
+            <ui:param name="rosePageTopic" value="#{roseText.WebPostPublish}"/>
+            <ui:param name="topicIconAwesome" value="edit"/>
+            
+            <ui:define name="f-metadata">
+                <f:metadata>
+                    <f:event listener="#{roseUserSession.handlePreRenderViewEvent()}" type="preRenderView" />
+                    <f:viewParam name="#{roseParamKeys.webPostUuidParamKey}" value="#{roseWebPostControllerBean.targetWebPostUuid}"/>
+                </f:metadata>
+            </ui:define>
+            
+            <ui:remove><!--This page displays public web post for any web users to read--></ui:remove>
+            <ui:define name="rosePageContent">
+                <h:panelGroup class="container-fluid" layout="block" style="font-size: 11px;">
+                    <p:panel id="webPostPublishForm" header="#{roseText.PublishNewWebPost}">
+                        <h:panelGrid columns="1" style="margin-top: 5px; margin-bottom: 5px">
+                            <ui:repeat value="#{roseWebPostControllerBean.gardenWebPostPurposeProfileList}" var="webPostItem">
+                                <h:panelGrid columns="1">
+                                    <h:link value="#{webPostItem.gardenWebPostPurposeWebLabel}" 
+                                            outcome="#{rosePages.webPostPublishPageName}" 
+                                            style="text-decoration: underline" >
+                                        <f:param name="#{roseParamKeys.viewPurposeParamKey}" 
+                                                 value="#{webPostItem.gardenWebPostPurposeParamValue}"/>
+                                    </h:link>
+                                    <p:spacer width="1"/>
+                                    <h:outputText value="#{webPostItem.gardenWebPostPurposeDescription}" style="font-style: italic"/>
+                                    <p:spacer width="1"/>
+                                </h:panelGrid>
+                            </ui:repeat>
+                        </h:panelGrid>
+                    </p:panel>
+                </h:panelGroup>
+            </ui:define>
+        </ui:composition>
+
+    </body>
+</html>

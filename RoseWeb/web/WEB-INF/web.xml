@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app version="3.1" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd">
+    <context-param>
+        <param-name>javax.faces.PROJECT_STAGE</param-name>
+        <param-value>Production</param-value>
+        <!--param-value>Development</param-value-->
+    </context-param>
+    <context-param>
+        <param-name>javax.faces.DATETIMECONVERTER_DEFAULT_TIMEZONE_IS_SYSTEM_TIMEZONE</param-name>
+        <param-value>true</param-value>
+    </context-param>
+    <context-param>
+        <param-name>primefaces.THEME</param-name>  
+        <param-value>bootstrap</param-value>  
+    </context-param>
+    <context-param>
+        <param-name>primefaces.FONT_AWESOME</param-name>
+        <param-value>true</param-value>
+    </context-param>
+    
+    <!--
+        Parameters control email, SMS, and upload
+    -->
+    <context-param>
+        <param-name>com.zcomapproach.garden.rose.settings.NO_XMPP</param-name>
+        <param-value>true</param-value>
+    </context-param>
+    <context-param>
+        <param-name>com.zcomapproach.garden.rose.settings.NO_EMAIL</param-name>
+        <param-value>false</param-value>
+    </context-param>
+    <context-param>
+        <param-name>com.zcomapproach.garden.rose.settings.NO_SMS</param-name>
+        <param-value>false</param-value>
+    </context-param>
+    <context-param>
+        <param-name>com.zcomapproach.garden.rose.settings.NO_UPLOADFILE</param-name>
+        <param-value>false</param-value>
+    </context-param>
+    
+    <!--
+        Font Awesome is a highly customizable scalable vector iconset with 479 icons. 
+        In addition to the default ThemeRoller icons, Font Awesome icons are provided 
+        out of the box within PrimeFaces. In order to enable Font Awesome support, 
+        enable primefaces.FONT_AWESOME setting as true via a context param.
+    -->
+    <context-param>
+        <param-name>BootsFaces_USETHEME</param-name>
+        <param-value>#{roseSettings.bootsFacesTheme}</param-value>
+    </context-param>
+    
+    <!--BootsFaces uses Bootstrap 3.x.x which demands the following font settings-->
+    <mime-mapping>  
+        <extension>eot</extension>  
+        <mime-type>application/x-font-eot</mime-type>  
+    </mime-mapping>
+    <mime-mapping>  
+        <extension>ttf</extension>  
+        <mime-type>application/x-font-ttf</mime-type>  
+    </mime-mapping>
+    <mime-mapping>  
+        <extension>woff</extension>  
+        <mime-type>application/x-font-woff</mime-type>  
+    </mime-mapping>
+    <mime-mapping>  
+        <extension>woff2</extension>  
+        <mime-type>application/x-font-woff2</mime-type>  
+    </mime-mapping>
+    
+    <servlet>
+        <servlet-name>Faces Servlet</servlet-name>
+        <servlet-class>javax.faces.webapp.FacesServlet</servlet-class>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>Faces Servlet</servlet-name>
+        <url-pattern>/faces/*</url-pattern>
+    </servlet-mapping>
+    
+    <session-config>
+        <session-timeout>
+            30
+        </session-timeout>
+        <tracking-mode>COOKIE</tracking-mode>
+    </session-config>
+    
+    <welcome-file-list>
+        <welcome-file>faces/WelcomePage.xhtml</welcome-file>
+    </welcome-file-list>
+    
+    <error-page>
+        <exception-type>javax.faces.application.ViewExpiredException</exception-type>
+        <location>/RedirectToRose.xhtml</location>
+    </error-page>
+    <error-page>
+        <error-code>404</error-code>
+        <location>/RedirectToRose.xhtml</location>
+    </error-page>
+    <error-page>
+        <error-code>500</error-code>
+        <location>/RedirectToRose.xhtml</location>
+    </error-page>
+</web-app>

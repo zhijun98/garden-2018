@@ -1,0 +1,87 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:cc="http://xmlns.jcp.org/jsf/composite"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ez="http://xmlns.jcp.org/jsf/composite/ezcomp">
+
+    <!-- INTERFACE -->
+    <cc:interface>
+    </cc:interface>
+
+    <!-- IMPLEMENTATION -->
+    <cc:implementation>
+        <p:panel header="#{roseText.SearchUser}" style="width: 100%; margin-bottom: 10px" toggleable="true">
+            <h:panelGrid columns="1">
+                <ui:remove><!--Search User By Criteria--></ui:remove>
+                <p:panel id="searchUserByCriteriaPanel" header="#{roseText.SearchUserCriteria}" 
+                         style="margin-bottom:5px">
+                    <ez:searchUserByCriteriaForm/>
+                </p:panel>
+
+                <ui:remove><!--Search User By Date Range--></ui:remove>
+                <p:panel id="searchUserByDateRangePanel" header="#{roseText.SearchUserByDateRange}" 
+                         style="margin-bottom:5px">
+                    <h:form id="searchUserByCreatedForm">
+                        <h:panelGrid columns="17">
+                            <!--Row-->
+                            <p:outputLabel value="#{roseText.RecordCreated}:" class="rose-form-trivial-field-label form-control-static"/>
+                            <p:spacer width="10"/>
+                            <p:outputLabel value="#{roseText.From}" class="rose-form-trivial-field-label form-control-static"/>
+                            <p:spacer width="3"/>
+                            <p:calendar id="dateFrom" value="#{searchUserBean.selectedSearchCreatedDateFrom}" 
+                                        locale="#{roseUserSession.localeCode}" pattern="MM-dd-yyyy" navigator="true"
+                                        required="true" requiredMessage="#{roseText.From} - #{roseText.FieldRequired_T}">
+                                <p:ajax event="dateSelect" process="@this"/>
+                            </p:calendar>
+                            <p:spacer width="2"/>
+                            <p:message id="dateFromMsg" for="dateFrom" />
+                            <p:spacer width="2"/>
+                            <p:outputLabel value="#{roseText.To}" class="rose-form-trivial-field-label form-control-static"/>
+                            <p:spacer width="3"/>
+                            <p:calendar id="dateTo" value="#{searchUserBean.selectedSearchCreatedDateTo}" navigator="true"
+                                        locale="#{roseUserSession.localeCode}" pattern="MM-dd-yyyy"  
+                                        required="true" requiredMessage="#{roseText.To} - #{roseText.FieldRequired_T}"/>
+                            <p:spacer width="2"/>
+                            <p:message id="dateToMsg" for="dateTo" />
+                            <p:spacer width="2"/>
+                            <h:commandButton class="btn btn-success" value="#{roseText.Search}" 
+                                             action="#{searchUserBean.searchByCreatedDateRange}"/>
+                        </h:panelGrid>
+                    </h:form>
+                    <h:form id="searchUserByUpdatedForm">
+                        <h:panelGrid columns="17">
+                            <!--Row-->
+                            <p:outputLabel value="#{roseText.RecordUpdated}:" class="rose-form-trivial-field-label form-control-static"/>
+                            <p:spacer width="10"/>
+                            <p:outputLabel value="#{roseText.From}" class="rose-form-trivial-field-label form-control-static"/>
+                            <p:spacer width="3"/>
+                            <p:calendar id="dateFrom" value="#{searchUserBean.selectedSearchUpdatedDateFrom}" 
+                                        locale="#{roseUserSession.localeCode}" pattern="MM-dd-yyyy" navigator="true"
+                                        required="true" requiredMessage="#{roseText.From} - #{roseText.FieldRequired_T}">
+                                <p:ajax event="dateSelect" process="@this"/>
+                            </p:calendar>
+                            <p:spacer width="2"/>
+                            <p:message id="dateFromMsg" for="dateFrom" />
+                            <p:spacer width="2"/>
+                            <p:outputLabel value="#{roseText.To}" class="rose-form-trivial-field-label form-control-static"/>
+                            <p:spacer width="3"/>
+                            <p:calendar id="dateTo" value="#{searchUserBean.selectedSearchUpdatedDateTo}" navigator="true"
+                                        locale="#{roseUserSession.localeCode}" pattern="MM-dd-yyyy"  
+                                        required="true" requiredMessage="#{roseText.To} - #{roseText.FieldRequired_T}">
+                                <p:ajax event="dateSelect" process="@this"/>
+                            </p:calendar>
+                            <p:spacer width="2"/>
+                            <p:message id="dateToMsg" for="dateTo" />
+                            <p:spacer width="2"/>
+                            <h:commandButton class="btn btn-success" value="#{roseText.Search}" 
+                                             action="#{searchUserBean.searchByUpdatedDateRange}"/>
+                        </h:panelGrid>
+                    </h:form>
+                </p:panel>
+            </h:panelGrid>
+        </p:panel>
+    </cc:implementation>
+</html>

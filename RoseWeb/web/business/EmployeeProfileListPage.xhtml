@@ -1,0 +1,73 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:b="http://bootsfaces.net/ui"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <body>
+
+        <ui:composition template="./../templates/templateTopLeftCenterBottom.xhtml">
+            
+            <ui:remove><!--Title--></ui:remove>
+            <ui:param name="rosePageTopic" value="#{roseText.Employees}"/>
+            <ui:param name="topicIconAwesome" value="user"/>
+            
+            <ui:remove><!--This page displays public web post for any web users to read--></ui:remove>
+            <ui:define name="rosePageContent">
+                <h:form>
+                    <b:row>
+                        <b:column style="margin-bottom: 20px;">
+                            <p:dataTable var="employee" value="#{employeeProfileBean.employeeAccountProfileList}" resizableColumns="true" 
+                                         style="font-size: 12px" rows="10" paginator="true" rowsPerPageTemplate="5,10,15"
+                                         paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}">
+                                <f:facet name="header">
+                                    #{roseText.Employees} (Total: #{employeeProfileBean.employeeAccountProfileList.size()})
+                                </f:facet>
+                                <p:column headerText="#{roseText.UserID}" width="250">
+                                    <h:outputText value="#{employee.employeeEntity.employeeAccountUuid}" />
+                                </p:column>
+                                <p:column headerText="#{roseText.Employee}">
+                                    <h:outputText value="#{employee.profileName}" />
+                                </p:column>
+                                <p:column headerText="#{roseText.AccountEmail}">
+                                    <h:outputText value="#{employee.accountEntity.accountEmail}" />
+                                </p:column>
+                                <p:column headerText="#{roseText.Phone}">
+                                    <h:outputText value="#{employee.accountEntity.mobilePhone}" />
+                                </p:column>
+                                <p:column headerText="#{roseText.WorkPosition}">
+                                    <h:outputText value="#{employee.employeeEntity.workTitle}" />
+                                </p:column>
+                                <p:column headerText="#{roseText.EmploymentStatus}">
+                                    <h:outputText value="#{employee.employeeEntity.employmentStatus}" />
+                                </p:column>
+                                <p:column width="75">
+                                    <h:link style="font-size: 12px;" outcome="#{rosePages.employeeProfilePageName}">
+                                        <i class="fa fa-chevron-circle-right"/> #{roseText.Details}
+                                        <f:param name="#{roseParamKeys.employeeAccountUuidParamKey}" 
+                                                 value="#{employee.employeeEntity.employeeAccountUuid}" />
+                                    </h:link>
+                                </p:column>
+                                <p:column width="75">
+                                    <p:commandLink style="font-size: 12px;">
+                                        <i class="fa fa-times"/> #{roseText.Delete} 
+                                        <p:confirm header="Confirmation" message="Are you sure?" icon="ui-icon-alert" />
+                                        <p:ajax update="@form" listener="#{employeeProfileBean.deleteEmployeeAccountProfile(employee.employeeEntity.employeeAccountUuid)}" />
+                                    </p:commandLink>
+                                </p:column>
+                            </p:dataTable>
+                        </b:column>
+                    </b:row>
+                    <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+                        <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                        <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                    </p:confirmDialog>
+                </h:form>
+            </ui:define>
+        </ui:composition>
+
+    </body>
+</html>

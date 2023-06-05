@@ -1,0 +1,183 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:b="http://bootsfaces.net/ui"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:ez="http://xmlns.jcp.org/jsf/composite/ezcomp">
+
+    <body>
+
+        <ui:composition template="./../templates/templateTopLeftCenterBottom.xhtml">
+            
+            <ui:remove><!--Title--></ui:remove>
+            <ui:param name="rosePageTopic" value="#{roseText.BusinessControlPanel}"/>
+            <ui:param name="topicIconAwesome" value="home"/>
+            
+            <ui:define name="f-metadata">
+                <f:metadata>
+                    <f:event listener="#{roseUserSession.handlePreRenderViewEvent()}" type="preRenderView" />
+                    <f:viewParam name="#{roseParamKeys.roseChatMessageUuidParamKey}" value="#{roseUserSession.requestedTargetReplyMessageUuid}"/>
+                </f:metadata>
+            </ui:define>
+            
+            <ui:remove><!--This page displays public web post for any web users to read--></ui:remove>
+            <ui:define name="rosePageContent">
+                <b:row>
+                    <b:column col-md="3" style="font-size: 12px; margin-bottom: 20px;">
+                        <p:panel header="#{roseText.Customers}" style="width:100%">
+                            <h:panelGrid columns="1" style="margin-top: 5px; margin-bottom: 5px" >
+                                <p:outputPanel style="margin-top: 5px; margin-bottom: 5px">
+                                    <i class="fa fa-chevron-circle-right" style="margin-right: 5px"/>
+                                    <h:link value="#{roseText.AddNewCustomer}" outcome="#{rosePages.clientProfilePageName}">
+                                        <f:param name="#{roseParamKeys.viewPurposeParamKey}" 
+                                                 value="#{roseParamValues.createNewEntityParamValue}" />
+                                    </h:link>
+                                </p:outputPanel>
+                                <p:outputPanel style="margin-top: 5px; margin-bottom: 5px">
+                                    <i class="fa fa-chevron-circle-right" style="margin-right: 5px"/>
+                                    <h:link value="#{roseText.AllCustomerList}" outcome="#{rosePages.clientProfileListPageName}">
+                                        <f:param name="#{roseParamKeys.viewPurposeParamKey}" 
+                                                 value="#{roseParamValues.displayAllEntitiesParamValue}" />
+                                    </h:link>
+                                </p:outputPanel>
+                                <p:outputPanel style="margin-top: 5px; margin-bottom: 5px">
+                                    <i class="fa fa-chevron-circle-right" style="margin-right: 5px"/>
+                                    <h:link value="#{roseText.ActiveUserList}" outcome="#{rosePages.userProfileListPageName}">
+                                        <f:param name="#{roseParamKeys.viewPurposeParamKey}" 
+                                                 value="#{roseParamValues.displayActiveEntitiesParamValue}" />
+                                    </h:link>
+                                </p:outputPanel>
+                                <p:outputPanel style="margin-top: 5px; margin-bottom: 5px">
+                                    <i class="fa fa-chevron-circle-right" style="margin-right: 5px"/>
+                                    <h:link value="#{roseText.AllUserList}" outcome="#{rosePages.userProfileListPageName}">
+                                        <f:param name="#{roseParamKeys.viewPurposeParamKey}" 
+                                                 value="#{roseParamValues.displayAllEntitiesParamValue}" />
+                                    </h:link>
+                                </p:outputPanel>
+                            </h:panelGrid>
+                        </p:panel>
+                    </b:column>
+                    <b:column col-md="3" style="font-size: 12px; margin-bottom: 20px;">
+                        <p:panel header="#{roseText.BusinessManagement}" style="width:100%">
+                            <h:panelGrid columns="1" style="margin-top: 5px; margin-bottom: 5px" >
+                                <p:outputPanel style="margin-top: 5px; margin-bottom: 5px">
+                                    <i class="fa fa-chevron-circle-right" style="margin-right: 5px"/>
+                                    <h:link value="#{roseText.MyProfile}" outcome="#{rosePages.employeeProfilePageName}">
+                                        <f:param name="#{roseParamKeys.employeeAccountUuidParamKey}" 
+                                                 value="#{roseUserSession.targetAccountProfile.accountEntity.accountUuid}" />
+                                    </h:link>
+                                </p:outputPanel>
+                                <p:outputPanel style="margin-top: 5px; margin-bottom: 5px" >
+                                    <i class="fa fa-chevron-circle-right" style="margin-right: 5px"/>
+                                    <h:link value="#{roseText.AddNewEmployee}" outcome="#{rosePages.employeeProfilePageName}">
+                                        <f:param name="#{roseParamKeys.viewPurposeParamKey}" 
+                                                 value="#{roseParamValues.createNewEntityParamValue}" />
+                                    </h:link>
+                                </p:outputPanel>
+                                <p:outputPanel style="margin-top: 5px; margin-bottom: 5px" >
+                                    <i class="fa fa-chevron-circle-right" style="margin-right: 5px"/>
+                                    <h:link value="#{roseText.AllEmployees}" outcome="#{rosePages.employeeProfileListPageName}"/>
+                                </p:outputPanel>
+                                <p:outputPanel style="margin-top: 5px; margin-bottom: 5px">
+                                    <i class="fa fa-chevron-circle-right" style="margin-right: 5px"/>
+                                    <h:link value="#{roseText.WorkTeamList}" outcome="#{rosePages.workTeamListPageName}"/>
+                                </p:outputPanel>
+                            </h:panelGrid>
+                        </p:panel>
+                    </b:column>
+                    <b:column col-md="3" style="font-size: 12px; margin-bottom: 20px;">
+                        <p:panel header="#{roseText.TaxFilingServices}" style="width:100%">
+                            <h:panelGrid columns="1" style="margin-top: 5px; margin-bottom: 5px" >
+                                <p:outputPanel style="margin-top: 5px; margin-bottom: 5px">
+                                    <i class="fa fa-chevron-circle-right" style="margin-right: 5px"/>
+                                    <h:link value="#{roseText.StartNewIndividualTaxFiling}" outcome="#{rosePages.clientProfilePageName}">
+                                        <f:param name="#{roseParamKeys.viewPurposeParamKey}" 
+                                                 value="#{roseParamValues.taxpayerCaseEntityTypeParamValue}"/>
+                                    </h:link>
+                                </p:outputPanel>
+                                <p:outputPanel style="margin-top: 5px; margin-bottom: 5px">
+                                    <i class="fa fa-chevron-circle-right" style="margin-right: 5px"/>
+                                    <h:link value="#{roseText.StartNewCorporateTaxFiling}" outcome="#{rosePages.clientProfilePageName}">
+                                        <f:param name="#{roseParamKeys.viewPurposeParamKey}" 
+                                                 value="#{roseParamValues.taxcorpCaseEntityTypeParamValue}"/>
+                                    </h:link>
+                                </p:outputPanel>
+                                <p:outputPanel style="margin-top: 5px; margin-bottom: 5px">
+                                    <i class="fa fa-chevron-circle-right" style="margin-right: 5px"/>
+                                    <h:link value="#{roseText.MyIndividualTaxFilingTasks}" 
+                                            outcome="#{rosePages.employeeTaskListPageName}">
+                                        <f:param name="#{roseParamKeys.viewPurposeParamKey}" 
+                                                 value="#{roseParamValues.taxpayerCaseEntityTypeParamValue}"/>
+                                        <f:param name="#{roseParamKeys.employeeAccountUuidParamKey}" 
+                                                 value="#{roseUserSession.targetAccountProfile.accountEntity.accountUuid}"/>
+                                    </h:link>
+                                </p:outputPanel>
+                                <p:outputPanel style="margin-top: 5px; margin-bottom: 5px">
+                                    <i class="fa fa-chevron-circle-right" style="margin-right: 5px"/>
+                                    <h:link value="#{roseText.MyCorporateTaxFilingTasks}" 
+                                            outcome="#{rosePages.employeeTaskListPageName}">
+                                        <f:param name="#{roseParamKeys.viewPurposeParamKey}" 
+                                                 value="#{roseParamValues.taxcorpCaseEntityTypeParamValue}"/>
+                                        <f:param name="#{roseParamKeys.employeeAccountUuidParamKey}" 
+                                                 value="#{roseUserSession.targetAccountProfile.accountEntity.accountUuid}"/>
+                                    </h:link>
+                                </p:outputPanel>
+                            </h:panelGrid>
+                        </p:panel>
+                    </b:column>
+                    <b:column col-md="3" style="font-size: 12px; margin-bottom: 20px;">
+                        <p:panel header="#{roseText.Options}" style="width:100%">
+                            <h:panelGrid columns="1" style="margin-top: 5px; margin-bottom: 5px" >
+                                <p:outputPanel style="margin-top: 5px; margin-bottom: 5px">
+                                    <i class="fa fa-chevron-circle-right" style="margin-right: 5px"/>
+                                    <h:link value="#{roseText.Search}" outcome="#{rosePages.searchEnginePageName}"/>
+                                </p:outputPanel>
+                                <p:outputPanel style="margin-top: 5px; margin-bottom: 5px">
+                                    <i class="fa fa-chevron-circle-right" style="margin-right: 5px"/>
+                                    <h:link value="#{roseText.PublishWebPost}" 
+                                            outcome="#{rosePages.webPostPublishOptionsPageName}"/>
+                                </p:outputPanel>
+                                <p:outputPanel style="margin-top: 5px; margin-bottom: 5px">
+                                    <i class="fa fa-chevron-circle-right" style="margin-right: 5px"/>
+                                    <h:link value="#{roseText.HistoricalWebPosts}" 
+                                            outcome="#{rosePages.historicalWebPostListPageName}"/>
+                                </p:outputPanel>
+                                <p:outputPanel style="margin-top: 5px; margin-bottom: 5px">
+                                    <i class="fa fa-chevron-circle-right" style="margin-right: 5px"/>
+                                    <h:link value="#{roseText.Email}" 
+                                            outcome="#{rosePages.contactUsPageName}"/>
+                                </p:outputPanel>
+                            </h:panelGrid>
+                        </p:panel>
+                    </b:column>
+                </b:row>
+                <b:row>
+                    <b:column col-md="3" style="font-size: 12px; margin-bottom: 20px;">
+                    </b:column>
+                    <b:column col-md="3" style="font-size: 12px; margin-bottom: 20px;">
+                    </b:column>
+                    <b:column col-md="3" style="font-size: 12px; margin-bottom: 20px;">
+                    </b:column>
+                    <b:column col-md="3" style="font-size: 12px; margin-bottom: 20px;">
+                    </b:column>
+                </b:row>
+                <b:row>
+                    <b:column col-md="12" style="font-size: 12px; margin-bottom: 20px;">
+                        <p:outputPanel styleClass="roseChatMessagingPanel">
+                            <h:form>
+                                <p:panel header="#{roseText.BusinessPublicBoard}" style="font-size: 12px; margin-top: 5px; margin-bottom: 5px; width: 100%" toggleable="true">
+                                    <ez:roseMessagingBoard roseChatMessagingBean="#{roseUserSession}"
+                                                           forBusinessPublicBoard="true"/>
+                                </p:panel>
+                            </h:form>
+                        </p:outputPanel>
+                    </b:column>
+                </b:row>
+            </ui:define>
+        </ui:composition>
+
+    </body>
+</html>

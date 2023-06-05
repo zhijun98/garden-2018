@@ -1,0 +1,80 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:cc="http://xmlns.jcp.org/jsf/composite"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:ez="http://xmlns.jcp.org/jsf/composite/ezcomp">
+
+    <!--@Deprecated by userProfileCommandsForm.xhtml and other related commands included-pages-->
+
+    <!-- INTERFACE -->
+    <cc:interface>
+        <cc:attribute name="personalProfileBean" type="com.zcomapproach.garden.rose.bean.IRosePersonalProfileBean" required="true"/>
+        <!--Only view data-->
+        <cc:attribute name="viewOnly" type="java.lang.Boolean" required="true"/>
+    </cc:interface>
+
+    <!-- IMPLEMENTATION -->
+    <cc:implementation>
+        <h:panelGrid columns="1" style="width: 100%">
+            <p:messages styleClass="roseMessages" style="font-size: 11px"/>
+            <p:panel>
+                <h:panelGrid columns="7" style="width: 100%;">
+                    <p:outputPanel>
+                        <h:graphicImage class="img-rounded" library="images" name="NewIcon.png" rendered="#{cc.attrs.personalProfileBean.forCreateNewEntity}"
+                                        alt="#{roseText.RequestNewCorporateTax}" title="#{roseText.RequestNewCorporateTax}" 
+                                        style="height: 50px; width: 50px;"/>
+                        <h:graphicImage class="img-rounded" library="images" name="EditIcon.png" rendered="#{!cc.attrs.personalProfileBean.forCreateNewEntity}" 
+                                        alt="#{roseText.CorporateTaxFiling}" title="#{roseText.CorporateTaxFiling}" 
+                                        style="height: 50px; width: 50px;"/>
+                    </p:outputPanel>
+                    <h:outputText value="#{roseText.StartNewCase_T}" class="label label-success" style="font-size: 14px"
+                                  rendered="#{cc.attrs.personalProfileBean.forTaxcorpCase || cc.attrs.personalProfileBean.forTaxpayerCase}"/>
+                    <ez:searchUserByCriteriaForm/>
+                    <p:outputPanel style="float: right">
+                        <h:panelGrid columns="10">
+                            <h:commandButton class="btn btn-success" style="font-size: 12px; margin-left: 0px; margin-right: 0px" rendered="#{!cc.attrs.viewOnly}"
+                                             value="#{roseText.Save}" action="#{cc.attrs.personalProfileBean.storeTargetPersonalProfile()}"/>
+                            <h:commandButton class="btn btn-success" style="font-size: 12px; margin-left: 0px; margin-right: 0px" rendered="#{!cc.attrs.viewOnly}"
+                                             value="#{roseText.Delete}" action="#{cc.attrs.personalProfileBean.deleteTargetPersonalProfile()}"/>
+                            
+                            <p:spacer width="2"/>
+                            
+                            <h:link class="btn btn-warning" style="font-size: 12px; margin-left: 0px; margin-right: 0px; color: white" 
+                                    rendered="#{roseUserSession.employed and (!cc.attrs.personalProfileBean.forCreateNewEntity)}" 
+                                    outcome="#{rosePages.roseContactPageName}">
+                                <i class="fa fa-paper-plane"/> #{roseText.EmailAndSMS}
+                                <f:param name="#{roseParamKeys.entityTypeParamKey}" value="#{cc.attrs.personalProfileBean.entityTypeParamValue}" />
+                                <f:param name="#{roseParamKeys.entityUuidParamKey}" value="#{cc.attrs.personalProfileBean.targetPersonUuid}" />
+                            </h:link>
+                            
+                            <p:spacer width="2" rendered="#{(roseUserSession.employed) and (!cc.attrs.personalProfileBean.forCreateNewEntity)}"/>
+                            
+                            
+                            <h:commandButton class="btn btn-warning" style="font-size: 12px; margin-left: 0px; margin-right: 0px"
+                                             rendered="#{(roseUserSession.employed) and (!cc.attrs.personalProfileBean.forCreateNewEntity)}"
+                                             value="#{roseText.NewTaxpayer}" action="#{cc.attrs.personalProfileBean.requestNewIndividualTaxFiling()}"/>
+                            
+                            <p:spacer width="2"/>
+                            
+                            <h:commandButton class="btn btn-warning" style="font-size: 12px; margin-left: 0px; margin-right: 0px"
+                                             rendered="#{(roseUserSession.employed) and (!cc.attrs.personalProfileBean.forCreateNewEntity)}"
+                                             value="#{roseText.RequestNewCorporateTax}" action="#{cc.attrs.personalProfileBean.requestNewCorporateTaxFiling()}"/>
+                            
+                            <p:spacer width="2" rendered="#{(roseUserSession.employed) and (!cc.attrs.personalProfileBean.forCreateNewEntity)}"/>
+                            
+                            <h:link class="btn btn-default" style="font-size: 12px; margin-left: 0px; margin-right: 0px" 
+                                    value="#{roseText.Cancel}" outcome="#{rosePages.customerHomePageName}" 
+                                    rendered="#{roseUserSession.validAuthenticatedStatus and (!roseUserSession.employed)}"/>
+                            <h:link class="btn btn-default" style="font-size: 12px; margin-left: 0px; margin-right: 0px" 
+                                    value="#{roseText.Cancel}" outcome="#{rosePages.businessHomePageName}" 
+                                    rendered="#{roseUserSession.validAuthenticatedStatus and roseUserSession.employed}"/>
+                        </h:panelGrid>
+                    </p:outputPanel>
+                </h:panelGrid>
+            </p:panel>
+        </h:panelGrid>
+    </cc:implementation>
+</html>

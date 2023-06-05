@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.net.*?>
+<?import javafx.scene.text.*?>
+<?import com.jfoenix.controls.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane prefHeight="400.0" prefWidth="420.0" stylesheets="@../../resources/css/PeonyCss.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <VBox styleClass="peony-secondary-header" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <GridPane maxHeight="60.0" minHeight="60.0" prefHeight="60.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+              <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="200.0" minWidth="10.0" prefWidth="100.0" />
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+              </columnConstraints>
+              <rowConstraints>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+              </rowConstraints>
+               <children>
+                  <HBox fx:id="functionalHBox" alignment="CENTER_RIGHT" spacing="2.0" GridPane.columnIndex="1">
+                     <GridPane.margin>
+                        <Insets />
+                     </GridPane.margin>
+                     <padding>
+                        <Insets right="10.0" />
+                     </padding>
+                  </HBox>
+                  <VBox alignment="CENTER_LEFT">
+                     <children>
+                        <Label fx:id="titleLabel" styleClass="peony-regular-title-label" text="Address Location" />
+                     </children>
+                     <padding>
+                        <Insets left="10.0" />
+                     </padding>
+                  </VBox>
+               </children>
+            </GridPane>
+         </children>
+      </VBox>
+      <FlowPane styleClass="peony-data-form-pane" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="60.0">
+         <children>
+            <VBox styleClass="peony-data-entry-pane">
+               <children>
+                  <Label styleClass="peony-data-entry-label" text="Address" />
+                  <JFXTextField fx:id="addressField" promptText="Address" styleClass="peony-data-entry-field">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </JFXTextField>
+               </children>
+            </VBox>
+            <VBox styleClass="peony-data-entry-pane">
+               <children>
+                  <Label styleClass="peony-data-entry-label" text="City" />
+                  <JFXTextField fx:id="cityField" promptText="City" styleClass="peony-data-entry-field">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </JFXTextField>
+               </children>
+            </VBox>
+            <VBox styleClass="peony-data-entry-pane">
+               <children>
+                  <Label styleClass="peony-data-entry-label" text="State's County" />
+                  <JFXTextField fx:id="countyField" promptText="State's County" styleClass="peony-data-entry-field">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </JFXTextField>
+               </children>
+            </VBox>
+            <VBox styleClass="peony-data-entry-pane">
+               <children>
+                  <Label styleClass="peony-data-entry-label" text="State" />
+                  <JFXComboBox fx:id="stateComboBox" prefWidth="180.0" promptText="State" styleClass="peony-data-entry-field" />
+               </children>
+            </VBox>
+            <VBox styleClass="peony-data-entry-pane">
+               <children>
+                  <Label styleClass="peony-data-entry-label" text="Zip Code" />
+                  <JFXTextField fx:id="zipCodeField" promptText="Zip Code" styleClass="peony-data-entry-field">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </JFXTextField>
+               </children>
+            </VBox>
+            <VBox styleClass="peony-data-entry-pane">
+               <children>
+                  <Label styleClass="peony-data-entry-label" text="Country" />
+                  <JFXTextField fx:id="countryField" promptText="Country" styleClass="peony-data-entry-field" text="USA">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </JFXTextField>
+               </children>
+            </VBox>
+            <VBox prefWidth="370.0">
+               <children>
+                  <Label styleClass="peony-data-entry-label" text="Memo" />
+                  <JFXTextField fx:id="memoField" prefWidth="370.0" promptText="Memo" styleClass="peony-data-entry-field">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </JFXTextField>
+               </children>
+            </VBox>
+         </children>
+      </FlowPane>
+   </children>
+</AnchorPane>

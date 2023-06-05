@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import javafx.geometry.*?>
+<?import com.jfoenix.controls.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<VBox stylesheets="@../../../../../../../../PeonyResources/src/com/zcomapproach/garden/peony/resources/css/PeonyCss.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <VBox layoutX="133.0" layoutY="80.0" maxHeight="30.0" minHeight="30.0" prefHeight="30.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <GridPane prefHeight="30.0">
+               <columnConstraints>
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+               </columnConstraints>
+               <rowConstraints>
+                  <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+               </rowConstraints>
+               <children>
+                  <HBox alignment="CENTER_LEFT">
+                     <children>
+                        <Label fx:id="titleLabel" text="Label">
+                           <opaqueInsets>
+                              <Insets />
+                           </opaqueInsets>
+                           <font>
+                              <Font name="System Bold" size="14.0" />
+                           </font>
+                        </Label>
+                     </children>
+                     <opaqueInsets>
+                        <Insets />
+                     </opaqueInsets>
+                     <GridPane.margin>
+                        <Insets left="10.0" />
+                     </GridPane.margin>
+                  </HBox>
+                  <HBox fx:id="functionalHBox" alignment="CENTER_RIGHT" prefHeight="100.0" prefWidth="200.0" spacing="2.0" GridPane.columnIndex="1">
+                     <GridPane.margin>
+                        <Insets />
+                     </GridPane.margin>
+                     <padding>
+                        <Insets right="15.0" />
+                     </padding>
+                  </HBox>
+               </children>
+            </GridPane>
+         </children>
+      </VBox>
+      <FlowPane layoutX="71.0" layoutY="144.0" prefWrapLength="615.0" styleClass="peony-data-form-pane" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="40.0">
+         <children>
+            <VBox styleClass="peony-data-entry-pane">
+               <children>
+                  <Label styleClass="peony-data-entry-label" text="Tax ID/SSN" />
+                  <JFXTextField fx:id="taxIDField" prefWidth="180.0" promptText="Tax ID/SSN" styleClass="peony-data-entry-field" />
+               </children>
+            </VBox>
+            <VBox styleClass="peony-data-entry-pane">
+               <children>
+                  <Label fx:id="relationshipLabel" styleClass="peony-data-entry-label" text="Relationship" />
+                  <JFXComboBox fx:id="relationshipComboBox" prefWidth="180.0" promptText="Relationship" styleClass="peony-data-entry-field" />
+               </children>
+            </VBox>
+            <VBox styleClass="peony-data-entry-pane">
+               <children>
+                  <Label fx:id="firstNameLabel" styleClass="peony-data-entry-label" text="Frist Name" />
+                  <JFXTextField fx:id="firstNameField" promptText="Frist Name" styleClass="peony-data-entry-field" />
+               </children>
+            </VBox>
+            <VBox styleClass="peony-data-entry-pane">
+               <children>
+                  <Label fx:id="lastNameLabel" styleClass="peony-data-entry-label" text="Last Name" />
+                  <JFXTextField fx:id="lastNameField" promptText="Last Name" styleClass="peony-data-entry-field" />
+               </children>
+            </VBox>
+            <VBox styleClass="peony-data-entry-pane">
+               <children>
+                  <Label fx:id="genderLabel" styleClass="peony-data-entry-label" text="Gender" />
+                  <JFXComboBox fx:id="genderComboBox" prefWidth="180.0" promptText="Gender" styleClass="peony-data-entry-field" />
+               </children>
+            </VBox>
+            <VBox styleClass="peony-data-entry-pane">
+               <children>
+                  <Label fx:id="birthdayLabel" styleClass="peony-data-entry-label" text="Birthday" />
+                  <DatePicker fx:id="birthdayDatePicker" prefWidth="180.0" promptText="Birthday" styleClass="peony-data-entry-field" />
+               </children>
+            </VBox>
+            <VBox styleClass="peony-data-entry-pane">
+               <children>
+                  <Label fx:id="occupationLabel" styleClass="peony-data-entry-label" text="Occupation" />
+                  <JFXTextField fx:id="occupationField" promptText="Occupation" styleClass="peony-data-entry-field" />
+               </children>
+            </VBox>
+            <VBox spacing="2.0">
+               <children>
+                  <Label fx:id="contactInforLabel" styleClass="peony-data-entry-label" text="Contact Information" />
+                  <HBox alignment="CENTER_LEFT" spacing="8.0">
+                     <children>
+                        <Label fx:id="contactLabel" styleClass="peony-data-entry-field" text="No contact information yet.">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </Label>
+                        <Button fx:id="editContactButton" mnemonicParsing="false" text="Edit">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </Button>
+                     </children>
+                  </HBox>
+               </children>
+            </VBox>
+         </children>
+      </FlowPane>
+   </children>
+</VBox>

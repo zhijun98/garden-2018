@@ -1,0 +1,249 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:b="http://bootsfaces.net/ui"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ez="http://xmlns.jcp.org/jsf/composite/ezcomp">
+
+    <body>
+
+        <ui:composition template="./../templates/templateTopLeftCenterBottom.xhtml">
+            
+            <ui:remove><!--Title--></ui:remove>
+            <ui:param name="rosePageTopic" value="#{taxcorpCaseMgtBean.rosePageTopic}: #{taxcorpCaseMgtBean.targetTaxcorpCaseProfile.profileName}"/>
+            <ui:param name="topicIconAwesome" value="#{taxcorpCaseMgtBean.topicIconAwesomeName}"/>
+            
+            <ui:define name="f-metadata">
+                <f:metadata>
+                    <f:event listener="#{roseUserSession.handlePreRenderViewEvent()}" type="preRenderView" />
+                    <f:viewParam name="#{roseParamKeys.viewPurposeParamKey}" value="#{taxcorpCaseMgtBean.requestedViewPurpose}"/>
+                    <f:viewParam name="#{roseParamKeys.taxcorpCaseUuidParamKey}" value="#{taxcorpCaseMgtBean.requestedTaxcorpCaseUuid}"/>
+                </f:metadata>
+            </ui:define>
+            
+            <ui:remove><!--This page displays public web post for any web users to read--></ui:remove>
+            <ui:define name="rosePageContent">
+                <h:form>
+                    <b:row>
+                        <b:column>
+                            <ui:remove><!--Taxation--></ui:remove>
+                            <p:panel id="#{roseWebID.taxcorpCaseTaxationPanelID}" rendered="#{taxcorpCaseMgtBean.targetTaxcorpCaseProfile.readyForTaxFiling}"
+                                     collapsed="#{roseUserSession.webPageConfig.taxcorpCaseTaxationPanelCollapsed}"
+                                     style="font-size: 12px; margin-top: 5px; margin-bottom: 5px" 
+                                     header="#{roseText.TaxFilingServices}" toggleable="true">
+                                <p:ajax event="toggle" listener="#{roseUserSession.onRoseToggleEvent}" />
+                                <ez:taxcorpTaxFilingPanel taxcorpCaseMgtBean="#{taxcorpCaseMgtBean}"/>
+                            </p:panel>
+                        </b:column>
+                    </b:row>
+                </h:form>
+                <h:form>
+                    <b:row>
+                        <b:column>
+                            <p:panel header="#{taxcorpCaseMgtBean.taxFilingTypeHeader} - #{roseText.Employee}: #{taxcorpCaseMgtBean.selectedEmployeeProfileForTaxFilingAssignment.profileDescriptiveName}" 
+                                     style="font-size: 12px;" rendered="#{taxcorpCaseMgtBean.targetTaxFilingProfileList.size() > 0}">
+                                <h:panelGrid columns="5">
+                                    <h:selectOneMenu class="form-control" converter="employeeAccountProfileConverter"
+                                                     value = "#{taxcorpCaseMgtBean.selectedEmployeeProfileForTaxFilingAssignment}">
+                                        <f:selectItems value="#{taxcorpCaseMgtBean.employeeAccountProfileList}" var="employee" 
+                                               itemLabel="#{employee.profileName}" itemValue="#{employee}"/>
+                                        <p:ajax event="change" process="@this"/>
+                                    </h:selectOneMenu>
+                                    <p:spacer width="2"/>
+                                    <h:commandButton class="btn btn-default" value="#{roseText.AssignToEmployee}">
+                                        <p:ajax event="click" listener="#{taxcorpCaseMgtBean.assignSelectedEmployeeProfileToTargetTaxFiling}" update="@(.roseMessages)"/>
+                                    </h:commandButton>
+                                    <p:spacer width="2"/>
+                                    <p:messages styleClass="roseMessages" globalOnly="true"/>
+                                </h:panelGrid>
+                            </p:panel>
+                        </b:column>
+                    </b:row>
+                </h:form>
+                <h:form>
+                    <b:row>
+                        <b:column>
+                            <p:panel header="#{taxcorpCaseMgtBean.taxFilingTypeHeader}" style="font-size: 12px;">
+                                <p:dataTable id="taxcorpTaxationTable" resizableColumns="true" style="margin-bottom:5px"
+                                             var="taxationProfile" value="#{taxcorpCaseMgtBean.targetTaxFilingProfileList}" 
+                                             paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}"
+                                             rows="10" paginator="true" rowsPerPageTemplate="5,10,15">
+                                    <f:facet name="header">
+                                        #{taxcorpCaseMgtBean.taxFilingTypeHeader} (Total: #{taxcorpCaseMgtBean.targetTaxFilingProfileList.size()})
+                                    </f:facet>
+                                    <p:column headerText="#{roseText.Deadline}"
+                                              sortBy="#{taxationProfile.taxFilingEntity.deadline}">
+                                        <h:outputText id="deadline" value="#{taxationProfile.taxFilingEntity.deadline}">
+                                            <f:convertDateTime pattern="MM-dd-yyyy" type="date" />
+                                        </h:outputText>
+                                        <p:tooltip for="deadline" style="font-size: 11px" position="top"
+                                                   value="#{roseText.Memo}: #{taxationProfile.taxFilingEntity.memo}"/>
+                                    </p:column>
+                                    
+                                    <p:column headerText="#{roseText.Type}"
+                                              sortBy="#{taxationProfile.taxFilingEntity.taxFilingPeriod}">
+                                        <h:outputText value="#{taxationProfile.taxFilingEntity.taxFilingPeriod}"/>
+                                    </p:column>
+
+                                    <p:column headerText="#{roseText.ReceivedDate}">
+                                        <h:outputText id="receivedDate" value="#{taxationProfile.taxFilingEntity.receivedDate}">
+                                            <f:convertDateTime pattern="MM-dd-yyyy" type="date" />
+                                        </h:outputText>
+                                        <p:tooltip for="receivedDate" style="font-size: 11px" position="top"
+                                                   value="#{roseText.ReceivedMemo}: #{taxationProfile.taxFilingEntity.receivedMemo}"/>
+                                    </p:column>
+
+                                    <p:column headerText="#{roseText.PreparedDate}">
+                                        <h:outputText id="preparedDate" value="#{taxationProfile.taxFilingEntity.preparedDate}">
+                                            <f:convertDateTime pattern="MM-dd-yyyy" type="date" />
+                                        </h:outputText>
+                                        <p:tooltip for="preparedDate" style="font-size: 11px" position="top"
+                                                   value="#{roseText.PreparedMemo}: #{taxationProfile.taxFilingEntity.preparedMemo}"/>
+                                    </p:column>
+
+                                    <p:column headerText="#{roseText.CompletedDate}">
+                                        <h:outputText id="completedDate" value="#{taxationProfile.taxFilingEntity.completedDate}">
+                                            <f:convertDateTime pattern="MM-dd-yyyy" type="date" />
+                                        </h:outputText>
+                                        <p:tooltip for="completedDate" style="font-size: 11px" position="top"
+                                                   value="#{roseText.CompletedMemo}: #{taxationProfile.taxFilingEntity.completedMemo}"/>
+                                    </p:column>
+
+                                    <p:column headerText="#{roseText.EfiledDate}">
+                                        <h:outputText id="pickupDate" value="#{taxationProfile.taxFilingEntity.pickupDate}">
+                                            <f:convertDateTime pattern="MM-dd-yyyy" type="date" />
+                                        </h:outputText>
+                                        <p:tooltip for="pickupDate" style="font-size: 11px" position="top"
+                                                   value="#{roseText.EfiledMemo}: #{taxationProfile.taxFilingEntity.pickupMemo}"/>
+                                    </p:column>
+
+                                    <p:column headerText="#{roseText.ExtendTo}"
+                                              sortBy="#{taxationProfile.taxFilingEntity.deadline}">
+                                        <h:outputText id="extensionDate" value="#{taxationProfile.taxFilingEntity.extensionDate}">
+                                            <f:convertDateTime pattern="MM-dd-yyyy" type="date" />
+                                        </h:outputText>
+                                        <p:tooltip for="extensionDate" style="font-size: 11px" position="top"
+                                                   value="#{roseText.ExtensionMemo}: #{taxationProfile.taxFilingEntity.extensionMemo}"/>
+                                    </p:column>
+                                    
+                                    <p:column>
+                                        <p:commandLink value="#{roseText.Edit}" immediate="true">
+                                            <p:ajax listener="#{taxcorpCaseMgtBean.editTaxcorpTaxFilingProfile(taxationProfile.taxFilingEntity.taxFilingUuid)}" 
+                                                    update="@(.roseTaxFilingDataEntryPanel)"/>
+                                        </p:commandLink>
+                                    </p:column>
+                                    
+                                    <p:column>
+                                        <p:commandLink value="#{roseText.Delete}" 
+                                                       action="#{taxcorpCaseMgtBean.deleteTaxFilingEntity(taxationProfile.taxFilingEntity.taxFilingUuid)}">
+                                        </p:commandLink>
+                                    </p:column>
+                                </p:dataTable>
+                                
+                                <ui:remove><!--Payroll Tax Deadlines--></ui:remove>
+                                <p:outputPanel rendered="#{taxcorpCaseMgtBean.forPayrollTax}">
+                                    <h:panelGrid columns="1">
+                                        <h:outputText value="#{roseText.SelectPeriodsToGenerateTaxFiling_T}" style="color: darkgreen"/>
+                                        <h:selectManyCheckbox id="payrollTaxPeriod" class="form-control "  style="font-size: 11px;"
+                                                              value="#{taxcorpCaseMgtBean.targetTaxcorpCaseProfile.payrollTaxFilingPeriods}" >
+                                            <f:selectItem itemValue="#{roseSettings.quarterlyTaxPeriod}" 
+                                                          itemLabel="&nbsp;#{roseSettings.quarterlyTaxPeriod}&nbsp;&nbsp;&nbsp;" />
+                                            <f:selectItem itemValue="#{roseSettings.monthlyTaxPeriod}" 
+                                                          itemLabel="&nbsp;#{roseSettings.monthlyTaxPeriod}&nbsp;&nbsp;&nbsp;" />
+                                            <f:selectItem itemValue="#{roseSettings.monthlyNyTaxPeriod}" 
+                                                          itemLabel="&nbsp;#{roseSettings.monthlyNyTaxPeriod}&nbsp;&nbsp;&nbsp;" />
+                                            <f:selectItem itemValue="#{roseSettings.semiMonthlyTaxPeriod}" 
+                                                          itemLabel="&nbsp;#{roseSettings.semiMonthlyTaxPeriod}" />
+                                        </h:selectManyCheckbox>
+                                        <h:panelGrid columns="5" style="margin-top: 5px">
+                                            <p:commandLink class="btn btn-success" style="color: white" value="#{roseText.GeneratePayrollTaxDeadlines}"
+                                                           action="#{taxcorpCaseMgtBean.generatePayrollTaxDealines()}">
+                                            </p:commandLink>
+                                            <p:spacer width="5"/>
+                                            <p:commandLink class="btn btn-warning" style="color: white" value="#{roseText.DeleteUnprocessedDeadline}"
+                                                           action="#{taxcorpCaseMgtBean.deletePayrollTaxDealines()}">
+                                            </p:commandLink>
+                                            <p:spacer width="5"/>
+                                            <h:link class="btn btn-default" value="#{roseText.GoBack}" outcome="#{rosePages.taxcorpCaseMgtPageName}" 
+                                                    style="text-decoration: underline; font-size: 11px">
+                                                <f:param name="#{roseParamKeys.taxcorpCaseUuidParamKey}" 
+                                                         value="#{taxcorpCaseMgtBean.targetTaxcorpCaseProfile.taxcorpCaseEntity.taxcorpCaseUuid}"/>
+                                            </h:link>
+                                        </h:panelGrid>
+                                    </h:panelGrid>
+                                </p:outputPanel>
+                                
+                                <ui:remove><!--Sales Tax Deadlines--></ui:remove>
+                                <p:outputPanel rendered="#{taxcorpCaseMgtBean.forSalesTax}">
+                                    <h:panelGrid columns="1">
+                                        <h:outputText value="#{roseText.SelectPeriodsToGenerateTaxFiling_T}" style="color: darkgreen"/>
+                                        <h:selectManyCheckbox id="salesTaxPeriod" class="form-control "  style="font-size: 11px;"
+                                                              value="#{taxcorpCaseMgtBean.targetTaxcorpCaseProfile.salesTaxFilingPeriods}" >
+                                            <f:selectItem itemValue="#{roseSettings.yearlyTaxPeriod}" 
+                                                          rendered="#{taxcorpCaseMgtBean.targetTaxcorpCaseProfile.validForCalendarTax}" 
+                                                          itemLabel="&nbsp;#{roseSettings.yearlyTaxPeriod}&nbsp;&nbsp;&nbsp;" />
+                                            <f:selectItem itemValue="#{roseSettings.quarterlyTaxPeriod}" 
+                                                          itemLabel="&nbsp;#{roseSettings.quarterlyTaxPeriod}&nbsp;&nbsp;&nbsp;" />
+                                            <f:selectItem itemValue="#{roseSettings.monthlyTaxPeriod}" 
+                                                          itemLabel="&nbsp;#{roseSettings.monthlyTaxPeriod}&nbsp;&nbsp;&nbsp;" />
+                                        </h:selectManyCheckbox>
+                                        <h:panelGrid columns="5" style="margin-top: 5px">
+                                            <p:commandLink class="btn btn-success" style="color: white" value="#{roseText.GenerateSalesTaxDeadlines}"
+                                                           action="#{taxcorpCaseMgtBean.generateSalesTaxDealines()}">
+                                            </p:commandLink>
+                                            <p:spacer width="5"/>
+                                            <p:commandLink class="btn btn-warning" style="color: white" value="#{roseText.DeleteUnprocessedDeadline}"
+                                                           action="#{taxcorpCaseMgtBean.deleteSalesTaxDealines()}">
+                                            </p:commandLink>
+                                            <p:spacer width="5"/>
+                                            <h:link class="btn btn-default" value="#{roseText.GoBack}" outcome="#{rosePages.taxcorpCaseMgtPageName}" 
+                                                    style="text-decoration: underline; font-size: 11px">
+                                                <f:param name="#{roseParamKeys.taxcorpCaseUuidParamKey}" 
+                                                         value="#{taxcorpCaseMgtBean.targetTaxcorpCaseProfile.taxcorpCaseEntity.taxcorpCaseUuid}"/>
+                                            </h:link>
+                                        </h:panelGrid>
+                                    </h:panelGrid>
+                                </p:outputPanel>
+                                
+                                <ui:remove><!--Tax Return Deadlines--></ui:remove>
+                                <p:outputPanel rendered="#{taxcorpCaseMgtBean.forTaxReturn}">
+                                    <h:panelGrid columns="1">
+                                        <h:outputText value="#{roseText.SelectPeriodsToGenerateTaxFiling_T}" style="color: darkgreen"/>
+                                        <h:selectOneRadio id="taxReturnPeriod" class="form-control" style="font-size: 11px;"
+                                                          value="#{taxcorpCaseMgtBean.targetTaxcorpCaseProfile.currentTaxReturnFilingPeriod}">
+                                            <f:selectItem itemValue="#{roseSettings.yearlyTaxPeriod}" 
+                                                          itemDisabled="#{!taxcorpCaseMgtBean.targetTaxcorpCaseProfile.validForCalendarTax}" 
+                                                          itemLabel="&nbsp;#{roseSettings.yearlyTaxPeriod}&nbsp;&nbsp;&nbsp;" />
+                                            <f:selectItem itemValue="#{roseSettings.fiscalTaxPeriod}" 
+                                                          itemDisabled="#{!taxcorpCaseMgtBean.targetTaxcorpCaseProfile.validForFiscalTax}" 
+                                                          itemLabel="&nbsp;#{roseSettings.fiscalTaxPeriod}"/>
+                                        </h:selectOneRadio>
+                                        <h:panelGrid columns="5" style="margin-top: 5px">
+                                            <p:commandLink class="btn btn-success" style="color: white" value="#{roseText.GenerateTaxReturnDeadlines}"
+                                                           action="#{taxcorpCaseMgtBean.generateTaxReturnDealines()}">
+                                            </p:commandLink>
+                                            <p:spacer width="5"/>
+                                            <p:commandLink class="btn btn-warning" style="color: white" value="#{roseText.DeleteUnprocessedDeadline}"
+                                                           action="#{taxcorpCaseMgtBean.deleteTaxReturnDealines()}">
+                                            </p:commandLink>
+                                            <p:spacer width="5"/>
+                                            <h:link class="btn btn-default" value="#{roseText.GoBack}" outcome="#{rosePages.taxcorpCaseMgtPageName}" 
+                                                    style="text-decoration: underline; font-size: 11px">
+                                                <f:param name="#{roseParamKeys.taxcorpCaseUuidParamKey}" 
+                                                         value="#{taxcorpCaseMgtBean.targetTaxcorpCaseProfile.taxcorpCaseEntity.taxcorpCaseUuid}"/>
+                                            </h:link>
+                                        </h:panelGrid>
+                                    </h:panelGrid>
+                                </p:outputPanel>
+                            </p:panel>
+                        </b:column>
+                    </b:row>
+                </h:form>
+            </ui:define>
+        </ui:composition>
+
+    </body>
+</html>

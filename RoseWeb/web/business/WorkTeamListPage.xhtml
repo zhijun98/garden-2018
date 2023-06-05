@@ -1,0 +1,74 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:b="http://bootsfaces.net/ui"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <body>
+
+        <ui:composition template="./../templates/templateTopLeftCenterBottom.xhtml">
+            
+            <ui:remove><!--Title--></ui:remove>
+            <ui:param name="rosePageTopic" value="#{roseText.WorkTeamList}"/>
+            <ui:param name="topicIconAwesome" value="users"/>
+            
+            <ui:remove><!--This page displays public web post for any web users to read--></ui:remove>
+            <ui:define name="rosePageContent">
+                <p:outputPanel style="font-size: 12px">
+                    <h:form>
+                        <b:row>
+                            <b:column style="margin-bottom: 20px;">
+                                <p:dataTable id="employeeList" var="teamProfile" value="#{roseWorkTeamBean.allRoseWorkTeamProfiles}" 
+                                             style="margin-bottom:5px" resizableColumns="true">
+                                    <f:facet name="header">
+                                        #{roseText.WorkTeam}: (Total: #{roseWorkTeamBean.allRoseWorkTeamProfiles.size()})
+                                    </f:facet>
+
+                                    <p:column headerText="#{roseText.TeamName}">
+                                        <h:outputText value="#{teamProfile.workTeamEntity.teamName}" />
+                                    </p:column>
+
+                                    <p:column headerText="#{roseText.Description}">
+                                        <h:outputText value="#{teamProfile.workTeamEntity.description}" />
+                                    </p:column>
+
+                                    <p:column headerText="#{roseText.TeamMembers}">
+                                        <h:outputText value="#{teamProfile.presentativeMemberNames}" />
+                                    </p:column>
+
+                                    <p:column style="width:50px">
+                                        <h:link outcome="#{rosePages.workTeamProfilePageName}" 
+                                                value="#{roseText.View}" style="color: #009933" >
+                                            <f:param name="#{roseParamKeys.viewPurposeParamKey}" 
+                                                     value="#{roseParamValues.updateExistingEntityParamValue}" />
+                                            <f:param name="#{roseParamKeys.workTeamUuidParamKey}" 
+                                                     value="#{teamProfile.workTeamEntity.workTeamUuid}" />
+                                        </h:link>
+                                    </p:column>
+                                </p:dataTable>
+                            </b:column>
+                        </b:row>
+                        <b:row>
+                            <b:column style="margin-bottom: 20px;">
+                                <h:panelGrid columns="3">
+                                    <h:link class="btn btn-success" value="#{roseText.CreateNewTeam}"
+                                            outcome="#{rosePages.workTeamProfilePageName}" 
+                                            style="margin-right: 1px; color: white" >
+                                        <f:param name="#{roseParamKeys.viewPurposeParamKey}" 
+                                                 value="#{roseParamValues.createNewEntityParamValue}" />
+                                    </h:link>
+                                    <p:spacer width="5"/>
+                                    <h:link class="btn btn-default" outcome="#{rosePages.businessHomePageName}" value="#{roseText.GoBack}"/>
+                                </h:panelGrid>
+                            </b:column>
+                        </b:row>
+                    </h:form>
+                </p:outputPanel>
+            </ui:define>
+        </ui:composition>
+
+    </body>
+</html>

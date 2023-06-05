@@ -1,0 +1,114 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <body>
+
+        <ui:composition template="./../templates/templateTopCenterBottom.xhtml">
+            
+            <ui:remove><!--Title--></ui:remove>
+            <ui:param name="rosePageTopic" value="#{roseText.WebPostPublish}"/>
+            <ui:param name="topicIconAwesome" value="edit"/>
+            
+            <ui:define name="f-metadata">
+                <f:metadata>
+                    <f:event listener="#{roseUserSession.handlePreRenderViewEvent()}" type="preRenderView" />
+                    <f:viewParam name="#{roseParamKeys.webPostUuidParamKey}" value="#{roseWebPostControllerBean.targetWebPostUuid}"/>
+                </f:metadata>
+            </ui:define>
+            
+            <ui:remove><!--This page displays public web post for any web users to read--></ui:remove>
+            <ui:define name="rosePageContent">
+                <h:panelGroup class="container-fluid" layout="block" style="font-size: 11px;">
+                    <p:panel id="webPostPublishForm" header="#{roseText.WebPost}">
+                        <h:form id="web_post_form">
+                            <h:panelGrid columns="1">
+                                <!--Row-->
+                                <h:panelGrid columns="7">
+                                    <h:outputText value="#{roseText.Author}:" style="font-weight: bolder"/>
+                                    <p:spacer width="5"/>
+                                    <h:outputText value="#{roseUserSession.targetAccountProfile.profileDescriptiveName}" style="font-style: italic"/>
+                                    <p:spacer width="25"/>
+                                    <h:outputText value="#{roseText.Purpose}:" style="font-weight: bolder"/>
+                                    <p:spacer width="5"/>
+                                    <h:selectOneMenu class="form-control" required="true" requiredMessage="#{roseText.Purpose}: #{roseText.FieldRequired_T}" 
+                                                     value="#{roseWebPostControllerBean.targetWebPostProfile.webPostEntity.postPurpose}" >
+                                        <f:selectItem itemLabel="#{roseText.Select} #{roseText.Purpose}..." itemValue="" />
+                                        <f:selectItems value="#{roseWebPostControllerBean.roseWebPostPurposeValueList}" var="purpose" 
+                                                       itemValue = "#{purpose}" itemLabel = "#{purpose}" /> 
+                                    </h:selectOneMenu>
+                                </h:panelGrid>
+                                <!--Row-->
+                                <p:spacer width="1"/>
+                                <!--Row-->
+                                <h:panelGrid columns="3">
+                                    <p:outputLabel for="postTitle" value="#{roseText.PostTitle}:"/>
+                                    <p:spacer width="5"/>
+                                    <p:message for="postTitle"/>
+                                </h:panelGrid>
+                                <!--Row-->
+                                <p:inputText id="postTitle" value="#{roseWebPostControllerBean.targetWebPostProfile.webPostEntity.postTitle}"
+                                             maxlength="45" style="width: 100%;" placeholder="title of this paper..."
+                                             required="true" requiredMessage="#{roseText.PostTitle}: #{roseText.FieldRequired_T}"/>
+                                <!--Row-->
+                                <p:spacer width="1"/>
+                                <!--Row-->
+                                <h:panelGrid columns="3">
+                                    <p:outputLabel for="postBrief" value="#{roseText.PostBrief}:"/>
+                                    <p:spacer width="5"/>
+                                    <p:message for="postBrief"/>
+                                </h:panelGrid>
+                                <!--Row-->
+                                <p:inputTextarea id="postBrief" value="#{roseWebPostControllerBean.targetWebPostProfile.webPostEntity.postBrief}" 
+                                                 maxlength="150" style="width: 100%; margin-bottom: 5px" placeholder="brief introduction to this paper..."/>
+                                <!--Row-->
+                                <h:panelGrid columns="1">
+                                    <!--Row-->
+                                    <h:panelGrid columns="3">
+                                        <p:outputLabel value="#{roseText.Content}:" style="vertical-align: bottom"/>
+                                        <p:spacer width="10"/>
+                                        <p:commandLink style="color: blue;" value="[#{roseText.AddMoreContent}]" 
+                                                       actionListener="#{roseWebPostControllerBean.addMoreContentSection}" immediate="true"
+                                                       title="#{roseText.PostContentNotice_T}" 
+                                                       update="webPostPublishForm"/>
+                                    </h:panelGrid>
+                                    <!--Row-->
+                                    <p:messages globalOnly="true"/>
+                                    <!--Row-->
+                                    <h:outputText value="#{roseText.Notice}: #{roseText.PostContentNotice_T}" style="font-style: italic"/>
+                                    <!--Row-->
+                                        <ui:repeat value="#{roseWebPostControllerBean.targetWebPostProfile.postSectionProfileList}" var="postSectionProfile">
+                                            <h:commandLink value="#{roseText.DeleteThisSection}" style="float: right;"
+                                                               action="#{roseWebPostControllerBean.deleteContentSection(postSectionProfile.postSectionEntity.postSectionUuid)}"/>
+                                            <p:outputPanel style="margin-bottom: 10px">
+                                                <p:textEditor value="#{postSectionProfile.postSectionEntity.postContent}" 
+                                                              style="width: 100%" height="200" placeholder="content of this paper..."/>
+                                            </p:outputPanel>
+                                        </ui:repeat>
+                                    </h:panelGrid>
+                                <!--Row-->
+                                <h:panelGrid columns="5">
+                                    <h:commandButton class="btn btn-success" value="#{roseText.Publish}" 
+                                                     action="#{roseWebPostControllerBean.publishTargetWebPostProfile}"/>
+                                    <p:spacer width="2"/>
+                                    <h:commandButton class="btn btn-success" value="#{roseText.CopyPasteAsPublicWebPost}" 
+                                                     action="#{roseWebPostControllerBean.copyPastAsPublicWebPostProfile}"/>
+                                    <p:spacer width="2"/>
+                                    <h:button class="btn btn-default" value="#{roseText.GoBack}" 
+                                              outcome="#{rosePages.businessHomePageName}" rendered="#{roseUserSession.employed}" />
+                                    <h:button class="btn btn-default" value="#{roseText.GoBack}" 
+                                              outcome="#{rosePages.customerHomePageName}" rendered="#{!roseUserSession.employed}" />
+                                </h:panelGrid>
+                            </h:panelGrid>
+                        </h:form>
+                    </p:panel>
+                </h:panelGroup>
+            </ui:define>
+        </ui:composition>
+
+    </body>
+</html>

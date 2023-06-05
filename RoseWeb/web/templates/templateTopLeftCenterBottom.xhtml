@@ -1,0 +1,196 @@
+<?xml version='1.0' encoding='UTF-8' ?> 
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:b="http://bootsfaces.net/ui"
+      xmlns:ez="http://xmlns.jcp.org/jsf/composite/ezcomp"
+      xmlns:p="http://primefaces.org/ui">
+
+    <!-- One of the following INSERTS has to be overridden-->
+    <ui:insert name="f-metadata">
+        <f:metadata>
+            <f:event listener="#{roseUserSession.handlePreRenderViewEvent()}" type="preRenderView" />
+        </f:metadata>
+    </ui:insert>
+
+    <h:head>
+        <ui:remove><!--HTML head-meta and title for web pages--></ui:remove>
+        <ui:include src="includes/roseHtmlHead.xhtml"/>
+    </h:head>
+    
+    <h:body id="roseBody">
+        
+        <ui:remove><!--CSS INSERTS: inside the body so as to override PrimeFaces css--></ui:remove>
+        <ui:insert name="custom-css">
+            <h:outputStylesheet library="css" name="ie10-viewport-bug-workaround.css" />
+            <h:outputStylesheet library="css" name="rose.css" />
+        </ui:insert>
+        
+        <ui:insert name="rosePageTop">
+            <ez:rosePageTopNavbar id="ezRosePageTopNavbar"/>
+            <ez:businessWebPageTopMenubar id="ezBusinessWebPageTopMenubar" rendered="#{roseUserSession.validAuthenticatedStatus and roseUserSession.employed}"/>
+            <ez:customerWebPageTopMenubar id="ezCustomerWebPageTopMenubar" rendered="#{roseUserSession.validAuthenticatedStatus and (!roseUserSession.employed)}"/>
+        </ui:insert>
+        
+        <b:container fluid="true">
+            <b:row>
+                <b:column>
+                    <ez:rosePageTopic rosePageTopic="#{rosePageTopic}" topicIconAwesome="#{topicIconAwesome}"/>
+                </b:column>
+            </b:row>
+            <b:row>
+                <b:column col-md="2">
+                    <p:outputPanel rendered="#{roseUserSession.employed}">
+                        <h:link outcome="#{rosePages.composeEmailPageName}" style="color: blue; font-size: 12px" >
+                            <i class="fa fa-edit" style="margin: 5px"/>Compose New Email
+                        </h:link>
+                        <h:form id="roseEmployeeEmailBoxForm">
+                            <p:poll interval="#{roseUserSession.emailBoxRefreshInterval}" listener="#{roseUserSession.refreshEmailBox}" update="roseEmployeeEmailBoxForm"/>
+                            <h:panelGrid style="width: 100%">
+                                <h:outputText styleClass="roseBlinking" value="Loading emails..." 
+                                              style="color: blue; font-size: 11px" rendered="#{!roseUserSession.emailStorageLoaded}" /> 
+                                <ui:remove><!--Mailbox--></ui:remove>
+                                <p:dataList value="#{roseUserSession.roseInboxEmailList}" var="emailMsg" first="#{roseUserSession.selectedRoseInboxEmailListPageNumber}"
+                                            type="unordered" itemType="none" paginator="true" rows="5" pageLinks="3" styleClass="paginated" style="font-size: 12px">
+                                    <p:ajax event="page" listener="#{roseUserSession.onRoseInboxEmailListPageChange}"/>
+                                    <f:facet name="header">
+                                        #{roseUserSession.employeeWorkingEmail}: #{roseUserSession.roseInboxEmailList.size()}
+                                    </f:facet>
+                                    <h:panelGrid columns="1" style="font-size: 11px">
+                                        <ui:remove><!--Commands--></ui:remove>
+                                        <h:panelGrid columns="5">
+                                            <h:link outcome="#{rosePages.businessEmailBoxPageName}">
+                                                <i class="fa fa-eye" style="margin-right: 5px" title="#{roseText.View}"/>
+                                                <f:param name="#{roseParamKeys.emailIdParamKey}" value="#{emailMsg.msgUid}"/>
+                                            </h:link>
+                                            <h:link onclick="return openPrintableViewPage('#{roseUserSession.generatePrintableViewPageLink(emailMsg)}')">
+                                                <i class="fa fa-print" style="margin-right: 5px" title="#{roseText.PrintableView}"/>
+                                            </h:link>
+                                            <p:commandLink actionListener="#{roseUserSession.moveEmailIntoGarbage(emailMsg.msgUid)}" update="@form">
+                                                <i class="fa fa-remove" style="margin-right: 5px" title="#{roseText.MoveToGarbage}"/>
+                                            </p:commandLink>
+                                        </h:panelGrid>
+                                        <h:outputText value="#{emailMsg.emailFrom}" style="font-weight: bolder; color: #{emailMsg.cssFontColorForUnreadMessage}"/>
+                                        <h:outputText value="#{emailMsg.emailTimestamp}" style="font-style: italic; color: #{emailMsg.cssFontColorForUnreadMessage}">
+                                            <f:convertDateTime pattern="MM-dd-yyyy @ hh:mm:ss" />
+                                        </h:outputText>
+                                        <h:outputText value="#{roseText.Subject}: #{emailMsg.subject}" style="color: #{emailMsg.cssFontColorForUnreadMessage}"/>
+                                        <p:spacer width="1"/>
+                                    </h:panelGrid>
+                                </p:dataList>
+                                
+                                <p:spacer width="1"/>
+                                
+                                <ui:remove><!--GarbageBox--></ui:remove>
+                                <h:outputText styleClass="roseBlinking" value="Loading emails..." 
+                                              style="color: blue; font-size: 11px" rendered="#{!roseUserSession.emailStorageLoaded}" /> 
+                                <p:commandLink id="garbageboxdeletion" style="color: darkred; font-size: 11px; float: right" 
+                                               rendered="#{roseUserSession.emailStorageLoaded}" update="@form" 
+                                               actionListener="#{roseUserSession.markAllGarbageMessagesForDeletion()}">
+                                    <i class="fa fa-remove" style="margin-right: 5px" title="#{roseText.GarbageEmails_T}"/>#{roseText.DeleteAll}
+                                </p:commandLink>
+                                <p:tooltip for="garbageboxdeletion" style="font-size: 11px" position="top" value="#{roseText.GarbageEmails_T}"/>
+                                <p:dataList value="#{roseUserSession.roseGarbageMessageList}" var="emailMsg" first="#{roseUserSession.selectedRoseGarbageEmailListPageNumber}"
+                                            type="unordered" itemType="none" paginator="true" rows="5" pageLinks="3" styleClass="paginated" style="font-size: 12px">
+                                    <p:ajax event="page" listener="#{roseUserSession.onRoseGarbageEmailListPageChange}"/>
+                                    <f:facet name="header">
+                                        #{roseText.GarbageEmails}: #{roseUserSession.roseGarbageMessageList.size()}
+                                    </f:facet>
+                                    <h:panelGrid columns="1" style="font-size: 11px">
+                                        <ui:remove><!--Commands--></ui:remove>
+                                        <h:panelGrid columns="5">
+                                            <h:link outcome="#{rosePages.businessEmailBoxPageName}">
+                                                <i class="fa fa-eye" style="margin-right: 5px" title="#{roseText.View}"/>
+                                                <f:param name="#{roseParamKeys.emailIdParamKey}" value="#{emailMsg.msgUid}"/>
+                                            </h:link>
+                                            <h:link onclick="return openPrintableViewPage('#{roseUserSession.generatePrintableViewPageLink(emailMsg)}')">
+                                                <i class="fa fa-print" style="margin-right: 5px" title="#{roseText.PrintableView}"/>
+                                            </h:link>
+                                            <p:commandLink actionListener="#{roseUserSession.rollbackEmailToInbox(emailMsg.msgUid)}" update="@form">
+                                                <i class="fa fa-undo" style="margin-right: 5px" title="#{roseText.Rollback}"/>
+                                            </p:commandLink>
+                                            <p:commandLink actionListener="#{roseUserSession.markGarbageMessageForDeletion(emailMsg.msgUid)}" update="@form">
+                                                <i class="fa fa-remove" style="margin-right: 5px" title="#{roseText.Delete}"/>
+                                            </p:commandLink>
+                                        </h:panelGrid>
+                                        <h:outputText value="#{emailMsg.emailFrom}" style="font-weight: bolder"/>
+                                        <h:outputText value="#{emailMsg.emailTimestamp}" style="font-style: italic">
+                                            <f:convertDateTime pattern="MM-dd-yyyy @ hh:mm:ss" />
+                                        </h:outputText>
+                                        <h:outputText value="#{roseText.Subject}: #{emailMsg.subject}"/>
+                                        <p:spacer width="1"/>
+                                    </h:panelGrid>
+                                </p:dataList>
+                                
+                                <p:spacer width="1"/>
+                                
+                                <ui:remove><!--SentBox--></ui:remove>
+                                <h:outputText styleClass="roseBlinking" value="Loading emails..." 
+                                              style="color: blue; font-size: 11px" rendered="#{!roseUserSession.emailStorageLoaded}" /> 
+                                <p:dataList value="#{roseUserSession.roseSentMessageList}" var="emailMsg" first="#{roseUserSession.selectedRoseSentEmailListPageNumber}"
+                                            type="unordered" itemType="none" paginator="true" rows="5" pageLinks="3" styleClass="paginated" style="font-size: 12px">
+                                    <p:ajax event="page" listener="#{roseUserSession.onRoseSentEmailListPageChange}"/>
+                                    <f:facet name="header">
+                                        #{roseText.SentEmails}: #{roseUserSession.roseSentMessageList.size()}
+                                    </f:facet>
+                                    <h:panelGrid columns="1" style="font-size: 11px">
+                                        <ui:remove><!--Commands--></ui:remove>
+                                        <h:panelGrid columns="5">
+                                            <h:link outcome="#{rosePages.sentEmailBoxPageName}">
+                                                <i class="fa fa-eye" style="margin-right: 5px" title="#{roseText.View}"/>
+                                                <f:param name="#{roseParamKeys.emailIdParamKey}" value="#{emailMsg.msgUid}"/>
+                                            </h:link>
+                                            <h:link onclick="return openPrintableViewPage('#{roseUserSession.generatePrintableViewPageLink(emailMsg)}')">
+                                                <i class="fa fa-print" style="margin-right: 5px" title="#{roseText.PrintableView}"/>
+                                            </h:link>
+                                        </h:panelGrid>
+                                        <h:outputText value="#{emailMsg.emailFrom}" style="font-weight: bolder"/>
+                                        <h:outputText value="#{emailMsg.emailTimestamp}" style="font-style: italic">
+                                            <f:convertDateTime pattern="MM-dd-yyyy @ hh:mm:ss" />
+                                        </h:outputText>
+                                        <h:outputText value="#{roseText.Subject}: #{emailMsg.subject}"/>
+                                        <p:spacer width="1"/>
+                                    </h:panelGrid>
+                                </p:dataList>
+                            </h:panelGrid>
+                        </h:form>
+                    </p:outputPanel>
+                </b:column>
+                <b:column col-md="10">
+                    <p:outputPanel>
+                        <ui:insert name="rosePageContent">
+                            <p:panel header="Page Content">
+                                This page displays public web post for any web users to read
+                            </p:panel>
+                        </ui:insert>
+                    </p:outputPanel>
+                </b:column>
+            </b:row>
+        </b:container>
+        <ui:insert name="rosePageFooter">
+            <ez:rosePageFooter id="ezRosePageFooter"/>
+        </ui:insert>
+        
+        <ui:remove><!--Javascipt INSERTS--></ui:remove>
+        <ui:insert name="common-javascript">
+            <h:outputScript library="js" name="ie10-viewport-bug-workaround.js" />
+            <h:outputScript library="js" name="rose.js" />
+        </ui:insert>
+        <ui:remove>
+            <!--
+                The following custom function is invoked in the web page-loading 
+                phase (refer to rose.js). JSF temnplate client page can override 
+                this function.
+            -->
+        </ui:remove>
+        <ui:insert name="custom-javascript">
+            <script type="text/javascript">
+                function customReadyFunction() {
+                }
+            </script>
+        </ui:insert>
+    </h:body>
+
+</html>

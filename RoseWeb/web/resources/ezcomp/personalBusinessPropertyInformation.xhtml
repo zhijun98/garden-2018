@@ -1,0 +1,370 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:cc="http://xmlns.jcp.org/jsf/composite"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:b="http://bootsfaces.net/ui">
+
+    <!-- INTERFACE -->
+    <cc:interface>
+        <!--Target entity record for this panel-->
+        <cc:attribute name="personalBusinessPropertyProfile" type="com.zcomapproach.garden.rose.data.profile.PersonalBusinessPropertyProfile" required="true"/>
+        <!--Only view data-->
+        <cc:attribute name="viewOnly" type="java.lang.Boolean" required="true"/>
+    </cc:interface>
+
+    <!-- IMPLEMENTATION -->
+    <cc:implementation>
+        <b:row>
+            <b:column>
+                <h:outputText value="#{roseText.PropertyBasicInformationAndIncome}" style="font-size: 12px; color: darkgreen; font-weight: bolder; text-decoration: underline" />
+            </b:column>
+        </b:row>
+        <b:row>
+            <b:column col-md="3">
+                <p:panelGrid style="width: 100%;" styleClass="roseNoBorder">
+                    <p:row styleClass="roseNoBorder">
+                        <p:column style="width:100px" styleClass="roseNoBorder">
+                            <p:outputLabel for="businessPropertyName" value="#{roseText.BusinessPropertyName}"/>
+                        </p:column>
+                        <p:column styleClass="roseNoBorder">
+                            <h:outputText value="#{cc.attrs.personalBusinessPropertyProfile.personalBusinessPropertyEntity.businessPropertyName}" 
+                                          style="font-style: italic" rendered="#{cc.attrs.viewOnly}"/>
+                            <p:inputText id="businessPropertyName" value="#{cc.attrs.personalBusinessPropertyProfile.personalBusinessPropertyEntity.businessPropertyName}"
+                                         validatorMessage="#{roseText.BusinessPropertyName} - #{roseText.FieldLengthRequired_T}: 100" rendered="#{!cc.attrs.viewOnly}">
+                                <f:validateLength maximum="100"/>
+                                <p:ajax/>
+                            </p:inputText>
+                        </p:column>
+                    </p:row>
+                    <p:row styleClass="roseNoBorder">
+                        <p:column style="width:100px" styleClass="roseNoBorder">
+                            <p:outputLabel for="grossReceiptsSales" value="#{roseText.GrossReceiptsSales}"/>
+                        </p:column>
+                        <p:column styleClass="roseNoBorder">
+                            <h:outputText value="#{cc.attrs.personalBusinessPropertyProfile.personalBusinessPropertyEntity.grossReceiptsSales}" 
+                                          style="font-style: italic" rendered="#{cc.attrs.viewOnly}"/>
+                            <p:inputText id="grossReceiptsSales" value="#{cc.attrs.personalBusinessPropertyProfile.personalBusinessPropertyEntity.grossReceiptsSales}"
+                                         placeholder="$1,234.56" validator="#{roseUsCurrencyValidator.validate}" converter="roseUsCurrencyConverter" rendered="#{!cc.attrs.viewOnly}">
+                                <p:ajax/>
+                            </p:inputText>
+                        </p:column>
+                    </p:row>
+                </p:panelGrid>
+            </b:column>
+            <b:column col-md="3">
+                <p:panelGrid style="width: 100%;" styleClass="roseNoBorder">
+                    <p:row styleClass="roseNoBorder">
+                        <p:column style="width:100px" styleClass="roseNoBorder">
+                            <p:outputLabel for="businessEin" value="#{roseText.EinNumber}"/>
+                        </p:column>
+                        <p:column styleClass="roseNoBorder">
+                            <h:outputText value="#{cc.attrs.personalBusinessPropertyProfile.personalBusinessPropertyEntity.businessEin}" 
+                                          style="font-style: italic" rendered="#{cc.attrs.viewOnly}"/>
+                            <p:inputText id="businessEin" value="#{cc.attrs.personalBusinessPropertyProfile.personalBusinessPropertyEntity.businessEin}"
+                                         placeholder="00-1234567" maxlength="10" rendered="#{!cc.attrs.viewOnly}">
+                                <p:ajax/>
+                            </p:inputText>
+                        </p:column>
+                    </p:row>
+                    <p:row styleClass="roseNoBorder">
+                        <p:column style="width:100px" styleClass="roseNoBorder">
+                            <p:outputLabel for="costOfGoodsSold" value="#{roseText.CostOfGoodsSold}"/>
+                        </p:column>
+                        <p:column styleClass="roseNoBorder">
+                            <h:outputText value="#{cc.attrs.personalBusinessPropertyProfile.personalBusinessPropertyEntity.costOfGoodsSold}" 
+                                          style="font-style: italic" rendered="#{cc.attrs.viewOnly}"/>
+                            <p:inputText id="costOfGoodsSold" value="#{cc.attrs.personalBusinessPropertyProfile.personalBusinessPropertyEntity.costOfGoodsSold}"
+                                         placeholder="$1,234.56" validator="#{roseUsCurrencyValidator.validate}" converter="roseUsCurrencyConverter" rendered="#{!cc.attrs.viewOnly}">
+                                <p:ajax/>
+                            </p:inputText>
+                        </p:column>
+                    </p:row>
+                </p:panelGrid>
+            </b:column>
+            <b:column col-md="3">
+                <p:panelGrid style="width: 100%;" styleClass="roseNoBorder">
+                    <p:row styleClass="roseNoBorder">
+                        <p:column style="width:100px" styleClass="roseNoBorder">
+                            <p:outputLabel for="businessAddress" value="#{roseText.BusinessAddress}"/>
+                        </p:column>
+                        <p:column styleClass="roseNoBorder">
+                            <h:outputText value="#{cc.attrs.personalBusinessPropertyProfile.personalBusinessPropertyEntity.businessAddress}" 
+                                          style="font-style: italic" rendered="#{cc.attrs.viewOnly}"/>
+                            <p:inputText id="businessAddress" value="#{cc.attrs.personalBusinessPropertyProfile.personalBusinessPropertyEntity.businessAddress}"
+                                         validatorMessage="#{roseText.BusinessAddress} - #{roseText.FieldLengthRequired_T}: 250" rendered="#{!cc.attrs.viewOnly}">
+                                <f:validateLength maximum="250"/>
+                                <p:ajax/>
+                            </p:inputText>
+                        </p:column>
+                    </p:row>
+                    <p:row styleClass="roseNoBorder">
+                        <p:column style="width:100px" styleClass="roseNoBorder">
+                            <p:outputLabel for="otherIncome" value="#{roseText.OtherIncome}"/>
+                        </p:column>
+                        <p:column styleClass="roseNoBorder">
+                            <h:outputText value="#{cc.attrs.personalBusinessPropertyProfile.personalBusinessPropertyEntity.otherIncome}" 
+                                          style="font-style: italic" rendered="#{cc.attrs.viewOnly}"/>
+                            <p:inputText id="otherIncome" value="#{cc.attrs.personalBusinessPropertyProfile.personalBusinessPropertyEntity.otherIncome}"
+                                placeholder="$1,234.56" validator="#{roseUsCurrencyValidator.validate}" converter="roseUsCurrencyConverter" rendered="#{!cc.attrs.viewOnly}">
+                                <p:ajax/>
+                            </p:inputText>
+                        </p:column>
+                    </p:row>
+                </p:panelGrid>
+            </b:column>
+            <b:column col-md="3">
+                <p:panelGrid style="width: 100%;" styleClass="roseNoBorder">
+                    <p:row styleClass="roseNoBorder">
+                        <p:column style="width:100px" styleClass="roseNoBorder">
+                            <p:outputLabel for="businessDescription" value="#{roseText.BusinessDescription}"/>
+                        </p:column>
+                        <p:column styleClass="roseNoBorder">
+                            <h:outputText value="#{cc.attrs.personalBusinessPropertyProfile.personalBusinessPropertyEntity.businessDescription}" 
+                                          style="font-style: italic" rendered="#{cc.attrs.viewOnly}"/>
+                            <p:inputText id="businessDescription" value="#{cc.attrs.personalBusinessPropertyProfile.personalBusinessPropertyEntity.businessDescription}"
+                                         validatorMessage="#{roseText.BusinessDescription} - #{roseText.FieldLengthRequired_T}: 250" rendered="#{!cc.attrs.viewOnly}">
+                                <f:validateLength maximum="250"/>
+                                <p:ajax/>
+                            </p:inputText>
+                        </p:column>
+                    </p:row>
+                </p:panelGrid>
+            </b:column>
+        </b:row>
+        <b:row>
+            <b:column>
+                <h:outputText value="#{roseText.PropertyExpenses}" style="font-size: 12px; color: darkgreen; font-weight: bolder; text-decoration: underline" />
+            </b:column>
+        </b:row>
+        <b:row>
+            <b:column col-md="3">
+                <p:panelGrid style="width: 100%;" styleClass="roseNoBorder">
+                    <p:row styleClass="roseNoBorder">
+                        <p:column style="width:100px" styleClass="roseNoBorder">
+                            <p:outputLabel for="expenseAdvertising" value="#{roseText.ExpenseOnAdvertising}"/>
+                        </p:column>
+                        <p:column styleClass="roseNoBorder">
+                            <h:outputText value="#{cc.attrs.personalBusinessPropertyProfile.personalBusinessPropertyEntity.expenseAdvertising}" 
+                                          style="font-style: italic" rendered="#{cc.attrs.viewOnly}"/>
+                            <p:inputText id="expenseAdvertising" value="#{cc.attrs.personalBusinessPropertyProfile.personalBusinessPropertyEntity.expenseAdvertising}"
+                                         placeholder="$1,234.56" validator="#{roseUsCurrencyValidator.validate}" converter="roseUsCurrencyConverter" rendered="#{!cc.attrs.viewOnly}">
+                                <p:ajax/>
+                            </p:inputText>
+                        </p:column>
+                    </p:row>
+                    <p:row styleClass="roseNoBorder">
+                        <p:column style="width:100px" styleClass="roseNoBorder">
+                            <p:outputLabel for="expenseRentLease" value="#{roseText.ExpenseOnRentAndLease}"/>
+                        </p:column>
+                        <p:column styleClass="roseNoBorder">
+                            <h:outputText value="#{cc.attrs.personalBusinessPropertyProfile.personalBusinessPropertyEntity.expenseRentLease}" 
+                                          style="font-style: italic" rendered="#{cc.attrs.viewOnly}"/>
+                            <p:inputText id="expenseRentLease" value="#{cc.attrs.personalBusinessPropertyProfile.personalBusinessPropertyEntity.expenseRentLease}"
+                                         placeholder="$1,234.56" validator="#{roseUsCurrencyValidator.validate}" converter="roseUsCurrencyConverter" rendered="#{!cc.attrs.viewOnly}">
+                                <p:ajax/>
+                            </p:inputText>
+                        </p:column>
+                    </p:row>
+                    <p:row styleClass="roseNoBorder">
+                        <p:column style="width:100px" styleClass="roseNoBorder">
+                            <p:outputLabel for="expenseCableInternet" value="#{roseText.ExpenseOnCableInternet}"/>
+                        </p:column>
+                        <p:column styleClass="roseNoBorder">
+                            <h:outputText value="#{cc.attrs.personalBusinessPropertyProfile.personalBusinessPropertyEntity.expenseCableInternet}" 
+                                          style="font-style: italic" rendered="#{cc.attrs.viewOnly}"/>
+                            <p:inputText id="expenseCableInternet" value="#{cc.attrs.personalBusinessPropertyProfile.personalBusinessPropertyEntity.expenseCableInternet}"
+                                         placeholder="$1,234.56" validator="#{roseUsCurrencyValidator.validate}" converter="roseUsCurrencyConverter" rendered="#{!cc.attrs.viewOnly}">
+                                <p:ajax/>
+                            </p:inputText>
+                        </p:column>
+                    </p:row>
+                    <p:row styleClass="roseNoBorder">
+                        <p:column style="width:100px" styleClass="roseNoBorder">
+                            <p:outputLabel for="expenseUtilities" value="#{roseText.ExpenseOnUtilities}"/>
+                        </p:column>
+                        <p:column styleClass="roseNoBorder">
+                            <h:outputText value="#{cc.attrs.personalBusinessPropertyProfile.personalBusinessPropertyEntity.expenseUtilities}" 
+                                          style="font-style: italic" rendered="#{cc.attrs.viewOnly}"/>
+                            <p:inputText id="expenseUtilities" value="#{cc.attrs.personalBusinessPropertyProfile.personalBusinessPropertyEntity.expenseUtilities}"
+                                         placeholder="$1,234.56" validator="#{roseUsCurrencyValidator.validate}" converter="roseUsCurrencyConverter" rendered="#{!cc.attrs.viewOnly}">
+                                <p:ajax/>
+                            </p:inputText>
+                        </p:column>
+                    </p:row>
+                </p:panelGrid>
+            </b:column>
+            <b:column col-md="3">
+                <p:panelGrid style="width: 100%;" styleClass="roseNoBorder">
+                    <p:row styleClass="roseNoBorder">
+                        <p:column style="width:100px" styleClass="roseNoBorder">
+                            <p:outputLabel for="expenseOffice" value="#{roseText.ExpenseOnOffice}"/>
+                        </p:column>
+                        <p:column styleClass="roseNoBorder">
+                            <h:outputText value="#{cc.attrs.personalBusinessPropertyProfile.personalBusinessPropertyEntity.expenseOffice}" 
+                                          style="font-style: italic" rendered="#{cc.attrs.viewOnly}"/>
+                            <p:inputText id="expenseOffice" value="#{cc.attrs.personalBusinessPropertyProfile.personalBusinessPropertyEntity.expenseOffice}"
+                                         placeholder="$1,234.56" validator="#{roseUsCurrencyValidator.validate}" converter="roseUsCurrencyConverter" rendered="#{!cc.attrs.viewOnly}">
+                                <p:ajax/>
+                            </p:inputText>
+                        </p:column>
+                    </p:row>
+                    <p:row styleClass="roseNoBorder">
+                        <p:column style="width:100px" styleClass="roseNoBorder">
+                            <p:outputLabel for="expenseInsurance" value="#{roseText.ExpenseOnInsurance}"/>
+                        </p:column>
+                        <p:column styleClass="roseNoBorder">
+                            <h:outputText value="#{cc.attrs.personalBusinessPropertyProfile.personalBusinessPropertyEntity.expenseInsurance}" 
+                                          style="font-style: italic" rendered="#{cc.attrs.viewOnly}"/>
+                            <p:inputText id="expenseInsurance" value="#{cc.attrs.personalBusinessPropertyProfile.personalBusinessPropertyEntity.expenseInsurance}"
+                                         placeholder="$1,234.56" validator="#{roseUsCurrencyValidator.validate}" converter="roseUsCurrencyConverter" rendered="#{!cc.attrs.viewOnly}">
+                                <p:ajax/>
+                            </p:inputText>
+                        </p:column>
+                    </p:row>
+                    <p:row styleClass="roseNoBorder">
+                        <p:column style="width:100px" styleClass="roseNoBorder">
+                            <p:outputLabel for="expenseSupplies" value="#{roseText.ExpenseOnSupplies}"/>
+                        </p:column>
+                        <p:column styleClass="roseNoBorder">
+                            <h:outputText value="#{cc.attrs.personalBusinessPropertyProfile.personalBusinessPropertyEntity.expenseSupplies}" 
+                                          style="font-style: italic" rendered="#{cc.attrs.viewOnly}"/>
+                            <p:inputText id="expenseSupplies" value="#{cc.attrs.personalBusinessPropertyProfile.personalBusinessPropertyEntity.expenseSupplies}"
+                                         placeholder="$1,234.56" validator="#{roseUsCurrencyValidator.validate}" converter="roseUsCurrencyConverter" rendered="#{!cc.attrs.viewOnly}">
+                                <p:ajax/>
+                            </p:inputText>
+                        </p:column>
+                    </p:row>
+                    <p:row styleClass="roseNoBorder">
+                        <p:column style="width:100px" styleClass="roseNoBorder">
+                            <p:outputLabel for="expenseContractLabor" value="#{roseText.ExpenseOnContractLablor}"/>
+                        </p:column>
+                        <p:column styleClass="roseNoBorder">
+                            <h:outputText value="#{cc.attrs.personalBusinessPropertyProfile.personalBusinessPropertyEntity.expenseContractLabor}" 
+                                          style="font-style: italic" rendered="#{cc.attrs.viewOnly}"/>
+                            <p:inputText id="expenseContractLabor" value="#{cc.attrs.personalBusinessPropertyProfile.personalBusinessPropertyEntity.expenseContractLabor}"
+                                         placeholder="$1,234.56" validator="#{roseUsCurrencyValidator.validate}" converter="roseUsCurrencyConverter" rendered="#{!cc.attrs.viewOnly}">
+                                <p:ajax/>
+                            </p:inputText>
+                        </p:column>
+                    </p:row>
+                </p:panelGrid>
+            </b:column>
+            <b:column col-md="3">
+                <p:panelGrid style="width: 100%;" styleClass="roseNoBorder">
+                    <p:row styleClass="roseNoBorder">
+                        <p:column style="width:100px" styleClass="roseNoBorder">
+                            <p:outputLabel for="expenseCarAndTruck" value="#{roseText.ExpenseOnCarAndTruck}"/>
+                        </p:column>
+                        <p:column styleClass="roseNoBorder">
+                            <h:outputText value="#{cc.attrs.personalBusinessPropertyProfile.personalBusinessPropertyEntity.expenseCarAndTruck}" 
+                                          style="font-style: italic" rendered="#{cc.attrs.viewOnly}"/>
+                            <p:inputText id="expenseCarAndTruck" value="#{cc.attrs.personalBusinessPropertyProfile.personalBusinessPropertyEntity.expenseCarAndTruck}"
+                                         placeholder="$1,234.56" validator="#{roseUsCurrencyValidator.validate}" converter="roseUsCurrencyConverter" rendered="#{!cc.attrs.viewOnly}">
+                                <p:ajax/>
+                            </p:inputText>
+                        </p:column>
+                    </p:row>
+                    <p:row styleClass="roseNoBorder">
+                        <p:column style="width:100px" styleClass="roseNoBorder">
+                            <p:outputLabel for="expenseTravelMeals" value="#{roseText.ExpenseOnTravelAndMeals}"/>
+                        </p:column>
+                        <p:column styleClass="roseNoBorder">
+                            <h:outputText value="#{cc.attrs.personalBusinessPropertyProfile.personalBusinessPropertyEntity.expenseTravelMeals}" 
+                                          style="font-style: italic" rendered="#{cc.attrs.viewOnly}"/>
+                            <p:inputText id="expenseTravelMeals" value="#{cc.attrs.personalBusinessPropertyProfile.personalBusinessPropertyEntity.expenseTravelMeals}"
+                                         placeholder="$1,234.56" validator="#{roseUsCurrencyValidator.validate}" converter="roseUsCurrencyConverter" rendered="#{!cc.attrs.viewOnly}">
+                                <p:ajax/>
+                            </p:inputText>
+                        </p:column>
+                    </p:row>
+                    <p:row styleClass="roseNoBorder">
+                        <p:column style="width:100px" styleClass="roseNoBorder">
+                            <p:outputLabel for="expenseRepairs" value="#{roseText.ExpenseOnRepairs}"/>
+                        </p:column>
+                        <p:column styleClass="roseNoBorder">
+                            <h:outputText value="#{cc.attrs.personalBusinessPropertyProfile.personalBusinessPropertyEntity.expenseRepairs}" 
+                                          style="font-style: italic" rendered="#{cc.attrs.viewOnly}"/>
+                            <p:inputText id="expenseRepairs" value="#{cc.attrs.personalBusinessPropertyProfile.personalBusinessPropertyEntity.expenseRepairs}"
+                                         placeholder="$1,234.56" validator="#{roseUsCurrencyValidator.validate}" converter="roseUsCurrencyConverter" rendered="#{!cc.attrs.viewOnly}">
+                                <p:ajax/>
+                            </p:inputText>
+                        </p:column>
+                    </p:row>
+                    <p:row styleClass="roseNoBorder">
+                        <p:column style="width:100px" styleClass="roseNoBorder">
+                            <p:outputLabel for="expenseOthers" value="#{roseText.OtherExpenses}"/>
+                        </p:column>
+                        <p:column styleClass="roseNoBorder">
+                            <h:outputText value="#{cc.attrs.personalBusinessPropertyProfile.personalBusinessPropertyEntity.expenseOthers}" 
+                                          style="font-style: italic" rendered="#{cc.attrs.viewOnly}"/>
+                            <p:inputText id="expenseOthers" value="#{cc.attrs.personalBusinessPropertyProfile.personalBusinessPropertyEntity.expenseOthers}"
+                                         placeholder="$1,234.56" validator="#{roseUsCurrencyValidator.validate}" converter="roseUsCurrencyConverter" rendered="#{!cc.attrs.viewOnly}">
+                                <p:ajax/>
+                            </p:inputText>
+                        </p:column>
+                    </p:row>
+                </p:panelGrid>
+            </b:column>
+            <b:column col-md="3">
+                <p:panelGrid style="width: 100%;" styleClass="roseNoBorder">
+                    <p:row styleClass="roseNoBorder">
+                        <p:column style="width:100px" styleClass="roseNoBorder">
+                            <p:outputLabel for="expenseCommissions" value="#{roseText.ExpenseOnCommission}"/>
+                        </p:column>
+                        <p:column styleClass="roseNoBorder">
+                            <h:outputText value="#{cc.attrs.personalBusinessPropertyProfile.personalBusinessPropertyEntity.expenseCommissions}" 
+                                          style="font-style: italic" rendered="#{cc.attrs.viewOnly}"/>
+                            <p:inputText id="expenseCommissions" value="#{cc.attrs.personalBusinessPropertyProfile.personalBusinessPropertyEntity.expenseCommissions}"
+                                placeholder="$1,234.56" validator="#{roseUsCurrencyValidator.validate}" converter="roseUsCurrencyConverter" rendered="#{!cc.attrs.viewOnly}">
+                                <p:ajax/>
+                            </p:inputText>
+                        </p:column>
+                    </p:row>
+                    <p:row styleClass="roseNoBorder">
+                        <p:column style="width:100px" styleClass="roseNoBorder">
+                            <p:outputLabel for="expenseTelephone" value="#{roseText.ExpenseOnTelephone}"/>
+                        </p:column>
+                        <p:column styleClass="roseNoBorder">
+                            <h:outputText value="#{cc.attrs.personalBusinessPropertyProfile.personalBusinessPropertyEntity.expenseTelephone}" 
+                                          style="font-style: italic" rendered="#{cc.attrs.viewOnly}"/>
+                            <p:inputText id="expenseTelephone" value="#{cc.attrs.personalBusinessPropertyProfile.personalBusinessPropertyEntity.expenseTelephone}"
+                                placeholder="$1,234.56" validator="#{roseUsCurrencyValidator.validate}" converter="roseUsCurrencyConverter" rendered="#{!cc.attrs.viewOnly}">
+                                <p:ajax/>
+                            </p:inputText>
+                        </p:column>
+                    </p:row>
+                    <p:row styleClass="roseNoBorder">
+                        <p:column style="width:100px" styleClass="roseNoBorder">
+                            <p:outputLabel for="expenseProfServices" value="#{roseText.ExpenseOnProfessionalServices}"/>
+                        </p:column>
+                        <p:column styleClass="roseNoBorder">
+                            <h:outputText value="#{cc.attrs.personalBusinessPropertyProfile.personalBusinessPropertyEntity.expenseProfServices}" 
+                                          style="font-style: italic" rendered="#{cc.attrs.viewOnly}"/>
+                            <p:inputText id="expenseProfServices" value="#{cc.attrs.personalBusinessPropertyProfile.personalBusinessPropertyEntity.expenseProfServices}"
+                                placeholder="$1,234.56" validator="#{roseUsCurrencyValidator.validate}" converter="roseUsCurrencyConverter" rendered="#{!cc.attrs.viewOnly}">
+                                <p:ajax/>
+                            </p:inputText>
+                        </p:column>
+                    </p:row>
+                    <p:row styleClass="roseNoBorder">
+                        <p:column style="width:100px" styleClass="roseNoBorder">
+                            <p:outputLabel for="memo" value="#{roseText.Memo}"/>
+                        </p:column>
+                        <p:column styleClass="roseNoBorder">
+                            <h:outputText value="#{cc.attrs.personalBusinessPropertyProfile.personalBusinessPropertyEntity.memo}" 
+                                          style="font-style: italic" rendered="#{cc.attrs.viewOnly}"/>
+                            <p:inputText id="memo" value="#{cc.attrs.personalBusinessPropertyProfile.personalBusinessPropertyEntity.memo}" rendered="#{!cc.attrs.viewOnly}"
+                                             validatorMessage="#{roseText.FieldLengthRequired_T}: 250">
+                                <f:validateLength maximum="250"/>
+                                <p:ajax/>
+                            </p:inputText>
+                        </p:column>
+                    </p:row>
+                </p:panelGrid>
+            </b:column>
+        </b:row>
+    </cc:implementation>
+</html>

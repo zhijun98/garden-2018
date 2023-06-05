@@ -1,0 +1,252 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.net.*?>
+<?import javafx.scene.text.*?>
+<?import com.jfoenix.controls.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="600.0" minWidth="800.0" prefHeight="600.0" prefWidth="800.0" stylesheets="@../../../../../../../../PeonyResources/src/com/zcomapproach/garden/peony/resources/css/PeonyCss.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <VBox styleClass="peony-secondary-header" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <GridPane maxHeight="60.0" minHeight="60.0" prefHeight="60.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+              <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="200.0" minWidth="10.0" prefWidth="100.0" />
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+              </columnConstraints>
+              <rowConstraints>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+              </rowConstraints>
+               <children>
+                  <HBox alignment="CENTER_RIGHT" spacing="2.0" GridPane.columnIndex="1">
+                     <GridPane.margin>
+                        <Insets />
+                     </GridPane.margin>
+                     <children>
+                        <Label fx:id="taxcorpStatusLabel" text="Taxcorp Status" textFill="RED">
+                           <font>
+                              <Font name="System Bold" size="12.0" />
+                           </font>
+                           <opaqueInsets>
+                              <Insets />
+                           </opaqueInsets>
+                           <padding>
+                              <Insets bottom="5.0" left="10.0" right="10.0" top="5.0" />
+                           </padding>
+                           <HBox.margin>
+                              <Insets right="20.0" />
+                           </HBox.margin>
+                        </Label>
+                        <JFXButton fx:id="rollbackFinalizationButton" styleClass="peony-primary-small-button" text="Rollback" />
+                        <JFXButton fx:id="saveTaxcorpButton" styleClass="peony-primary-small-button" text="Save" />
+                        <DatePicker fx:id="finalizeDatePicker" prefWidth="180.0" styleClass="peony-regular-control" />
+                        <JFXButton fx:id="finalizeTaxcorpButton" styleClass="peony-primary-small-button" text="Finalize">
+                        </JFXButton>
+                     </children>
+                     <padding>
+                        <Insets right="10.0" />
+                     </padding>
+                  </HBox>
+                  <VBox alignment="CENTER_LEFT">
+                     <children>
+                        <Label styleClass="peony-regular-title-label" text="Basic Information" />
+                     </children>
+                     <padding>
+                        <Insets left="10.0" />
+                     </padding>
+                  </VBox>
+               </children>
+            </GridPane>
+         </children>
+      </VBox>
+      <FlowPane styleClass="peony-data-form-pane" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="60.0">
+         <children>
+            <VBox styleClass="peony-data-entry-pane">
+               <children>
+                  <Label styleClass="peony-data-entry-label" text="Corporate Name" />
+                  <JFXTextField fx:id="corporateNameField" promptText="Corporate Name" styleClass="peony-data-entry-field">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </JFXTextField>
+               </children>
+            </VBox>
+            <VBox styleClass="peony-data-entry-pane">
+               <children>
+                  <Label styleClass="peony-data-entry-label" text="Corporate EIN" />
+                  <JFXTextField fx:id="einField" prefWidth="180.0" promptText="Corporate EIN" styleClass="peony-data-entry-field">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </JFXTextField>
+               </children>
+            </VBox>
+            <VBox styleClass="peony-data-entry-pane">
+               <children>
+                  <Label styleClass="peony-data-entry-label" text="DBA" />
+                  <JFXTextField fx:id="taxcorpDbaField" prefWidth="180.0" promptText="DBA">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                     <styleClass>
+                        <String fx:value="peony-data-entry-field" />
+                        <String fx:value="peony-data-entry-field" />
+                     </styleClass>
+                  </JFXTextField>
+               </children>
+            </VBox>
+            <VBox styleClass="peony-data-entry-pane">
+               <children>
+                  <Label styleClass="peony-data-entry-label" text="DOS Date" />
+                  <DatePicker fx:id="dosDatePicker" prefWidth="180.0" promptText="DOS Date" styleClass="peony-data-entry-field" />
+               </children>
+            </VBox>
+            <VBox styleClass="peony-data-entry-pane">
+               <children>
+                  <Label styleClass="peony-data-entry-label" text="Business Type" />
+                  <JFXComboBox fx:id="businessTypeComboBox" prefWidth="180.0" promptText="Business Type" styleClass="peony-data-entry-field" />
+               </children>
+            </VBox>
+            <VBox styleClass="peony-data-entry-pane">
+               <children>
+                  <Label styleClass="peony-data-entry-label" text="Business Purpose" />
+                  <JFXTextField fx:id="businessPurposeField" prefWidth="180.0" promptText="Business Purpose" styleClass="peony-data-entry-field">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </JFXTextField>
+               </children>
+            </VBox>
+            <VBox styleClass="peony-data-entry-pane">
+               <children>
+                  <Label styleClass="peony-data-entry-label" text="Bank Routing Number" />
+                  <JFXTextField fx:id="bankRoutingNumberField" prefWidth="180.0" promptText="Bank Routing Number" styleClass="peony-data-entry-field">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </JFXTextField>
+               </children>
+            </VBox>
+            <VBox styleClass="peony-data-entry-pane">
+               <children>
+                  <Label styleClass="peony-data-entry-label" text="Bank Account Number" />
+                  <JFXTextField fx:id="bankAccountNumberField" prefWidth="180.0" promptText="Bank Account Number" styleClass="peony-data-entry-field">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </JFXTextField>
+               </children>
+            </VBox>
+            <VBox styleClass="peony-data-entry-pane">
+               <children>
+                  <Label styleClass="peony-data-entry-label" text="Corporate Email" />
+                  <JFXTextField fx:id="corporateEmailField" prefWidth="180.0" promptText="Corporate Email" styleClass="peony-data-entry-field">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </JFXTextField>
+               </children>
+            </VBox>
+            <VBox styleClass="peony-data-entry-pane">
+               <children>
+                  <Label styleClass="peony-data-entry-label" text="Corporate Phone" />
+                  <JFXTextField fx:id="corporatePhoneField" prefWidth="180.0" promptText="Corporate Phone" styleClass="peony-data-entry-field">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </JFXTextField>
+               </children>
+            </VBox>
+            <VBox styleClass="peony-data-entry-pane">
+               <children>
+                  <Label styleClass="peony-data-entry-label" text="Corporate Fax" />
+                  <JFXTextField fx:id="corporateFaxField" prefWidth="180.0" promptText="Corporate Fax" styleClass="peony-data-entry-field">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </JFXTextField>
+               </children>
+            </VBox>
+            <VBox styleClass="peony-data-entry-pane">
+               <children>
+                  <Label styleClass="peony-data-entry-label" text="Web IDs" />
+                  <JFXTextField fx:id="corporateWebPresenceField" prefWidth="180.0" promptText="Web IDs" styleClass="peony-data-entry-field">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </JFXTextField>
+               </children>
+            </VBox>
+            <VBox styleClass="peony-data-entry-pane">
+               <children>
+                  <Label styleClass="peony-data-entry-label" text="Address" />
+                  <JFXTextField fx:id="taxcorpAddressField" prefWidth="180.0" promptText="Address" styleClass="peony-data-entry-field">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </JFXTextField>
+               </children>
+            </VBox>
+            <VBox styleClass="peony-data-entry-pane">
+               <children>
+                  <Label styleClass="peony-data-entry-label" text="City" />
+                  <JFXTextField fx:id="taxcorpCityField" prefWidth="180.0" promptText="City" styleClass="peony-data-entry-field">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </JFXTextField>
+               </children>
+            </VBox>
+            <VBox styleClass="peony-data-entry-pane">
+               <children>
+                  <Label styleClass="peony-data-entry-label" text="State's County" />
+                  <JFXTextField fx:id="taxcorpStateCountyField" prefWidth="180.0" promptText="State's County" styleClass="peony-data-entry-field">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </JFXTextField>
+               </children>
+            </VBox>
+            <VBox styleClass="peony-data-entry-pane">
+               <children>
+                  <Label styleClass="peony-data-entry-label" text="State" />
+                  <JFXComboBox fx:id="taxcorpStateComboBox" prefWidth="180.0" promptText="State" styleClass="peony-data-entry-field" />
+               </children>
+            </VBox>
+            <VBox styleClass="peony-data-entry-pane">
+               <children>
+                  <Label styleClass="peony-data-entry-label" text="Zip Code" />
+                  <JFXTextField fx:id="taxcorpZipField" prefWidth="180.0" promptText="Zip Code" styleClass="peony-data-entry-field">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </JFXTextField>
+               </children>
+            </VBox>
+            <VBox styleClass="peony-data-entry-pane">
+               <children>
+                  <Label styleClass="peony-data-entry-label" text="Nationality" />
+                  <JFXTextField fx:id="taxcorpCountryField" prefWidth="180.0" promptText="Nationality" styleClass="peony-data-entry-field">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </JFXTextField>
+               </children>
+            </VBox>
+            <VBox>
+               <children>
+                  <Label styleClass="peony-data-entry-label" text="Note" />
+                  <JFXTextField fx:id="taxcorpMemoField" prefWidth="370.0" promptText="Note">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </JFXTextField>
+               </children>
+            </VBox>
+         </children>
+      </FlowPane>
+   </children>
+</AnchorPane>

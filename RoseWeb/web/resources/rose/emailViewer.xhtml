@@ -1,0 +1,145 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:cc="http://xmlns.jcp.org/jsf/composite"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:b="http://bootsfaces.net/ui">
+
+    <!-- INTERFACE -->
+    <cc:interface>
+    </cc:interface>
+
+    <!-- IMPLEMENTATION -->
+    <cc:implementation>
+        <p:panelGrid styleClass="roseNoBorder">
+            <p:row styleClass="roseNoBorder">
+                <p:column styleClass="roseNoBorder">
+                    <h:panelGrid columns="1">
+                        <p:outputLabel value="#{roseText.Employees}:"/>
+                        <p:selectManyCheckbox id="employee_check_list" value="#{roseUserSession.selectedEmployeeAccountProfilesForEmailForward}" 
+                                              layout="grid" columns="8" converter="employeeAccountProfileConverter" style="font-size: 12px">
+                            <f:selectItems value="#{roseUserSession.employeeAccountProfileList}" var="employee" 
+                                           itemLabel="#{employee.profileName}" itemValue="#{employee}" />
+                            <p:ajax event="change" process="@this"/>
+                        </p:selectManyCheckbox>
+                        <p:spacer width="1"/>
+                        <p:panelGrid styleClass="roseNoBorder">
+                            <p:row styleClass="roseNoBorder">
+                                <p:column styleClass="roseNoBorder">
+                                    <p:inputTextarea value="#{roseUserSession.messageForEmailForwardToEmployees}" 
+                                                 placeholder="#{roseText.MessageForEmployee}..."
+                                                 style="width: 800px;"/>
+                                </p:column>
+                            </p:row>
+                            <p:row styleClass="roseNoBorder">
+                                <p:column styleClass="roseNoBorder">
+                                    <p:commandButton value="#{roseText.ForwardToEmployees}" style="color: darkgreen" update="@form"
+                                                     actionListener="#{roseUserSession.forwardTargetEmailToSelectedEmployees}"/>
+                                </p:column>
+                            </p:row>
+                        </p:panelGrid>
+                    </h:panelGrid>
+                </p:column>
+            </p:row>
+        </p:panelGrid>
+        <b:alert severity="#{roseUserSession.webMessageSeverity}" 
+                 rendered="#{roseUserSession.webMessagePresented}">
+            #{roseUserSession.webMessage}
+        </b:alert>
+        <p:separator/>
+        <p:panelGrid styleClass="roseNoBorder">
+            <p:row styleClass="roseNoBorder">
+                <p:column styleClass="roseNoBorder" width="150">
+                    <p:outputLabel value="#{roseText.EmailFrom}:"/>
+                </p:column>
+                <p:column styleClass="roseNoBorder">
+                    <h:outputText value="#{roseUserSession.targetBusinessEmailMessage.emailFrom}"/>
+                </p:column>
+            </p:row>
+            <p:row styleClass="roseNoBorder">
+                <p:column styleClass="roseNoBorder" width="150">
+                    <p:outputLabel value="#{roseText.EmailTo}:"/>
+                </p:column>
+                <p:column styleClass="roseNoBorder">
+                    <h:outputText value="#{roseUserSession.targetBusinessEmailMessage.emailTos}"/>
+                </p:column>
+            </p:row>
+            <p:row styleClass="roseNoBorder">
+                <p:column styleClass="roseNoBorder" width="150">
+                    <p:outputLabel value="#{roseText.EmailCc}:"/>
+                </p:column>
+                <p:column styleClass="roseNoBorder">
+                    <h:outputText value="#{roseUserSession.targetBusinessEmailMessage.emailCcs}"/>
+                </p:column>
+            </p:row>
+            <p:row styleClass="roseNoBorder">
+                <p:column styleClass="roseNoBorder" width="150">
+                    <p:outputLabel value="#{roseText.DateTime}:"/>
+                </p:column>
+                <p:column styleClass="roseNoBorder">
+                    <h:outputText value="#{roseUserSession.targetBusinessEmailMessage.emailTimestamp}">
+                        <f:convertDateTime pattern="MM-dd-yyyy @ hh:mm:ss"/>
+                    </h:outputText>
+                </p:column>
+            </p:row>
+            <p:row styleClass="roseNoBorder">
+                <p:column styleClass="roseNoBorder" width="150">
+                    <p:outputLabel value="#{roseText.Subject}:"/>
+                </p:column>
+                <p:column styleClass="roseNoBorder">
+                    <h:outputText value="#{roseUserSession.targetBusinessEmailMessage.subject}"/>
+                </p:column>
+            </p:row>
+            <p:row styleClass="roseNoBorder">
+                <p:column styleClass="roseNoBorder" width="150">
+                    <p:outputLabel value="#{roseText.Attachment}:"/>
+                </p:column>
+                <p:column styleClass="roseNoBorder">
+                    <p:dataList var="attFile" value="#{roseUserSession.targetBusinessEmailMessage.attachmentFileList}">
+                        <p:outputPanel style="margin-top: 10px;">
+                            <h:outputText value="#{attFile.fileOriginalName}"/>
+                            <p:spacer width="5"/>
+                            <p:commandButton id="downloadAttachmentButton" value="#{roseText.Download}" icon="ui-icon-arrowthick-1-s"
+                                             actionListener="#{roseUserSession.prepareTargetAttachmentFile(attFile.fileOriginalName)}"
+                                             onclick="PrimeFaces.monitorDownload(showStatus, hideStatus);" >
+                                <p:fileDownload value="#{roseUserSession.downloadedAttachmentFile}"/>
+                            </p:commandButton>
+                        </p:outputPanel>
+                    </p:dataList>
+                </p:column>
+            </p:row>
+        </p:panelGrid>
+        <p:separator/>
+        <p:panelGrid styleClass="roseNoBorder">
+            <p:row styleClass="roseNoBorder">
+                <p:column styleClass="roseNoBorder" width="150">
+                    <p:outputLabel value="#{roseText.Content}:"/>
+                </p:column>
+                <p:column styleClass="roseNoBorder" style="float: left">
+                    <h:outputText styleClass="roseBlinking" value="Loading email content and, if exist, attachments..." 
+                                  style="color: blue; font-size: 11px" rendered="#{!roseUserSession.targetBusinessEmailMessage.contentLoaded}" /> 
+                    <h:inputTextarea cols="70" rows="10" readonly="true" value="#{roseUserSession.targetBusinessEmailMessage.emailContent}" 
+                                     onkeyup="autoGrowTextArea(this)" style="background-color: white" 
+                                     rendered="#{(!roseUserSession.targetBusinessEmailMessage.htmlContent) and roseUserSession.targetBusinessEmailMessage.contentLoaded}"/> 
+                    <h:outputText escape="false" value="#{roseUserSession.targetBusinessEmailMessage.emailHtmlContent}"
+                                  rendered="#{roseUserSession.targetBusinessEmailMessage.htmlContent and roseUserSession.targetBusinessEmailMessage.contentLoaded}"/>
+                </p:column>
+            </p:row>
+            <p:row styleClass="roseNoBorder">
+                <p:column styleClass="roseNoBorder" width="150">
+                </p:column>
+                <p:column styleClass="roseNoBorder">
+                    <h:panelGrid columns="5">
+                        <p:commandButton immediate="true" value="#{roseText.Reply}" style="color: darkgreen" 
+                                         actionListener="#{roseUserSession.openEmailEditorPanelForReply()}"
+                                         disabled="#{!roseUserSession.targetBusinessEmailMessage.contentLoaded}" update="@form"/>
+                        <p:spacer width="2"/>
+                        <h:button class="btn btn-default" value="#{roseText.Cancel}" outcome="#{rosePages.businessHomePageName}" />
+                    </h:panelGrid>
+                </p:column>
+            </p:row>
+        </p:panelGrid>
+    </cc:implementation>
+</html>

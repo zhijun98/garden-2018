@@ -1,0 +1,184 @@
+<?xml version='1.0' encoding='UTF-8' ?> 
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ez="http://xmlns.jcp.org/jsf/composite/ezcomp"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:b="http://bootsfaces.net/ui">
+
+    <!-- One of the following INSERTS has to be overridden-->
+    <ui:insert name="f-metadata">
+        <f:metadata>
+            <f:event listener="#{roseUserSession.handlePreRenderViewEvent()}" type="preRenderView" />
+        </f:metadata>
+    </ui:insert>
+
+    <h:head>
+        <ui:remove><!--HTML head-meta and title for web pages--></ui:remove>
+        <ui:include src="includes/roseHtmlHead.xhtml"/>
+    </h:head>
+    
+    <h:body id="roseBody">
+        <ui:remove><!--CSS INSERTS: inside the body so as to override PrimeFaces css--></ui:remove>
+        <ui:insert name="custom-css">
+            <h:outputStylesheet library="css" name="ie10-viewport-bug-workaround.css" />
+            <h:outputStylesheet library="css" name="rose.css" />
+        </ui:insert>
+        
+        <ui:insert name="rosePageTop">
+            <ez:rosePageTopNavbar id="ezRosePageTopNavbar" rendered="#{!roseSettings.brandNewRose}"/>
+            <ez:roseSetupTopNavbar id="ezRoseSetupTopNavbar" rendered="#{roseSettings.brandNewRose}"/>
+            <ez:businessWebPageTopMenubar id="ezBusinessWebPageTopMenubar" rendered="#{(!roseSettings.brandNewRose) and roseUserSession.validAuthenticatedStatus and roseUserSession.employed}"/>
+            <ez:customerWebPageTopMenubar id="ezCustomerWebPageTopMenubar" rendered="#{(!roseSettings.brandNewRose) and roseUserSession.validAuthenticatedStatus and (!roseUserSession.employed)}"/>
+        </ui:insert>
+        <ui:insert name="rosePageHero" >
+            <ez:welcomeJumbotron id="ezWelcomeJumbotron" rendered="#{!roseSettings.brandNewRose}"/>
+        </ui:insert>
+        
+        <ui:insert name="rosePageContent">
+            <ez:welcomeServiceColumns id="ezWelcomeServiceColumns" rendered="#{!roseSettings.brandNewRose}"/>
+            
+            <h:form rendered="false">
+                <h:outputLabel value="#{onlineUpdateApp.result}" style="color: blue"/>
+                <br/>
+                <p:commandButton icon="ui-icon-gear" value="Generate Taxpayer/Taxcorp List" immediate="true" 
+                                 rendered="false" actionListener="#{onlineUpdateApp.generateClientList}" update="@all"/>
+                <br/>
+                <p:commandButton icon="ui-icon-gear" value="#{roseText.OnlineUpdate}: 01" immediate="true" 
+                                 rendered="false" actionListener="#{onlineUpdateApp.transferGardenData01}" update="@all"/>
+                <br/>
+                <p:commandButton icon="ui-icon-gear" value="#{roseText.OnlineUpdate}: 02" immediate="true" 
+                                 rendered="false" actionListener="#{onlineUpdateApp.transferGardenData02}" update="@all"/>
+                <br/>
+                <p:commandButton icon="ui-icon-gear" value="#{roseText.OnlineUpdate}: 03" immediate="true" 
+                                 rendered="false" actionListener="#{onlineUpdateApp.transferGardenData03}" update="@all"/>
+                <br/>
+                <p:commandButton icon="ui-icon-gear" value="Update Tax Filing Entity Fields" immediate="true" 
+                                 rendered="false" actionListener="#{onlineUpdateApp.updateTaxFilingEntityFields}" update="@all"/>
+                <br/>
+                <p:commandButton icon="ui-icon-gear" value="Fix G01-Fisical-Typo Issue" immediate="true" 
+                                 rendered="false" actionListener="#{onlineUpdateApp.fixG01FisicalTypoIssue}" update="@all"/>
+                <br/>
+                <p:commandButton icon="ui-icon-gear" value="Update Taxcorp Contactors' Birthday" immediate="true" 
+                                 rendered="false" actionListener="#{onlineUpdateApp.updateTaxcorpContactorsBirthday}" update="@all"/>
+                <br/>
+                <p:commandButton icon="ui-icon-gear" value="Transfer g02_tax_filing_status into g02_tax_filing_case " immediate="true" 
+                                 rendered="false" actionListener="#{onlineUpdateApp.transferG02TaxFilingCaseFromStatus}" update="@all"/>
+                <br/>
+                <p:commandButton icon="ui-icon-gear" value="Transfer g02_deadline_extension into g02_tax_filing_case (Only Texcorp) " immediate="true" 
+                                 rendered="false" actionListener="#{onlineUpdateApp.transferG02TaxFilingCaseFromExtensionForTaxcorp()}" update="@all"/>
+                <br/>
+                <p:commandButton icon="ui-icon-gear" value="Transfer g02_memo into g02_tax_filing_case (Only Texcorp) " immediate="true" 
+                                 rendered="false" actionListener="#{onlineUpdateApp.transferG02TaxFilingCaseFromMemoForTaxcorp()}" update="@all"/>
+                <br/>
+                <p:commandButton icon="ui-icon-gear" value="Fix g01_log-TO-g02_log (logged-entity's UUID and Type were missed) " immediate="true" 
+                                 rendered="false" actionListener="#{onlineUpdateApp.fixLoggedEntityFields()}" update="@all"/>
+                <br/>
+                <p:commandButton icon="ui-icon-gear" value="Fix redundant memo in g02_tax_filing_case (some memo contains redundant text) " immediate="true" 
+                                 rendered="false" actionListener="#{onlineUpdateApp.fixRedundantMemoText()}" update="@all"/>
+                <br/>
+                <p:commandButton icon="ui-icon-gear" value="ConstructMemoMapForTaxFiling (to recover Chinese memo) " immediate="true" 
+                                 rendered="false" actionListener="#{onlineUpdateApp.constructMemoMapForTaxFiling()}" update="@all"/>
+                <br/>
+                <p:commandButton icon="ui-icon-gear" value="Recover Chinese Memo For TaxFiling" immediate="true" 
+                                 rendered="false" actionListener="#{onlineUpdateApp.recoverChineseMemoForTaxFiling()}" update="@all"/>
+                <br/>
+                <p:commandButton icon="ui-icon-gear" value="Transfer memos into G02TaxpayerCase" immediate="true" 
+                                 rendered="false" actionListener="#{onlineUpdateApp.transferMemosIntoG02TaxpayerCase()}" update="@all"/>
+                <br/>
+                <p:commandButton icon="ui-icon-gear" value="Transfer extensions into G02TaxpayerCase" immediate="true" 
+                                 rendered="false" actionListener="#{onlineUpdateApp.transferExtensionsIntoG02TaxpayerCase()}" update="@all"/>
+                <br/>
+                <p:commandButton icon="ui-icon-gear" value="Update G02ArchivedFile for 2019" immediate="true" 
+                                 rendered="false" actionListener="#{onlineUpdateApp.updateG02ArchivedFile()}" update="@all"/>
+                <br/>
+                <p:commandButton icon="ui-icon-gear" value="Change archived file's extension to be lower case" immediate="true" 
+                                 rendered="false" actionListener="#{onlineUpdateApp.changeFileExtensionToBeLowerCase()}" update="@all"/>
+                <br/>
+                <p:commandButton icon="ui-icon-gear" value="Update G02SystemSettings for every employees according to data in G02SystemProperties" immediate="true" 
+                                 rendered="false" actionListener="#{onlineUpdateApp.updateG02SystemSettings()}" update="@all"/>
+                <br/>
+                <p:commandButton icon="ui-icon-gear" value="Synchronize paths of offline emails and their attachments with employee's paths in system settings" immediate="true" 
+                                 rendered="false" actionListener="#{onlineUpdateApp.synchronizePathsForOfflineEmails()}" update="@all"/>
+                <br/>
+                <p:commandButton icon="ui-icon-gear" value="[DEV] Update localhost database for local development" immediate="true" 
+                                 rendered="false" actionListener="#{onlineUpdateApp.updateLocalHostForDevelopment()}" update="@all"/>
+                <br/>
+                <p:commandButton icon="ui-icon-gear" value="Update G02JobAssignment's Status" immediate="true" 
+                                 rendered="false" actionListener="#{onlineUpdateApp.updateG02JobAssignmentStatus()}" update="@all"/>
+                <br/>
+                <p:commandButton icon="ui-icon-gear" value="Merge Redundant G02DocumentTag" immediate="true" 
+                                 rendered="false" actionListener="#{onlineUpdateApp.mergeRedundantDocumentTags()}" update="@all"/>
+                <br/>
+                <p:commandButton icon="ui-icon-gear" value="Move taxpayer case's memo" immediate="true" 
+                                 rendered="false" actionListener="#{onlineUpdateApp.moveTaxpayerCaseMemo()}" update="@all"/>
+            </h:form>
+            
+            <ui:remove><!--Rose web setup presented here if it is brand-new--></ui:remove>
+            <p:outputPanel rendered="#{roseSettings.brandNewRose}">
+                <b:container>
+                    <p:spacer width="1" height="1"/>
+                    <p:outputPanel>
+                        <h:form>
+                            <p:outputPanel style="margin-bottom: 5px">
+                                <p:commandButton icon="ui-icon-gear" value="#{roseText.OnlineUpdate}" immediate="true"
+                                                 actionListener="#{onlineUpdateApp.transferGardenData}" update="@all"/>
+                                <ez:defaultSystemPropertiesPanel id="ezDefaultSystemPropertiesPanel" 
+                                                           roseSettingsGridModel="#{roseSettings.roseSettingsGridModel}"
+                                                           viewOnly="false"/>
+                            </p:outputPanel>
+                            <p:outputPanel style="margin-bottom: 5px">
+                                <ez:roseAccountEntityPanel id="ezRoseAccountEntityPanel" 
+                                                           accountProfile="#{roseSettings.businessOwnerProfile}"
+                                                           forNewAccount="true"
+                                                           securityQnADemanded="false"
+                                                           viewOnly="false" 
+                                                           toggleable="false"/>
+                            </p:outputPanel>
+                            <p:outputPanel style="margin-bottom: 5px">
+                                <ez:roseUserEntityPanel id="ezRoseUserEntityPanel" 
+                                                        aRoseContactInfoEntityEditor="#{roseSettings.businessOwnerProfile.userProfile}" 
+                                                        aRoseLocationEntityEditor="#{roseSettings.businessOwnerProfile.userProfile}" 
+                                                        userProfile="#{roseSettings.businessOwnerProfile.userProfile}"
+                                                        viewOnly="false"
+                                                        toggleable="false"/>
+                            </p:outputPanel>
+                            <p:outputPanel style="margin-bottom: 5px">
+                                <p:messages style="font-size: 11px"/>
+                            </p:outputPanel>
+                            <h:commandButton class="btn btn-success" value="#{roseText.Save}" action="#{roseSettings.storeRoseSetupSettings()}"/>
+                        </h:form>
+                    </p:outputPanel>
+                </b:container>
+            </p:outputPanel>
+            
+        </ui:insert>
+        
+        <ui:insert name="rosePageFooter">
+            <ez:rosePageFooter id="ezRosePageFooter"/>
+        </ui:insert>
+        
+        <ui:remove><!--Javascipt INSERTS--></ui:remove>
+        <ui:insert name="common-javascript">
+            <h:outputScript library="js" name="ie10-viewport-bug-workaround.js" />
+            <h:outputScript library="js" name="rose.js" />
+        </ui:insert>
+        
+        <ui:remove>
+            <!--
+                The following custom function is invoked in the web page-loading 
+                phase (refer to rose.js). JSF temnplate client page can override 
+                this function.
+            -->
+        </ui:remove>
+        <ui:insert name="custom-javascript">
+            <script type="text/javascript">
+                function customReadyFunction() {
+                }
+            </script>
+        </ui:insert>
+    </h:body>
+
+</html>

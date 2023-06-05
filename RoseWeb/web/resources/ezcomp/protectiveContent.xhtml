@@ -1,0 +1,26 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ez="http://xmlns.jcp.org/jsf/composite/ezcomp"
+      xmlns:cc="http://xmlns.jcp.org/jsf/composite"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+
+    <!-- INTERFACE -->
+    <cc:interface>
+    </cc:interface>
+
+    <!-- IMPLEMENTATION -->
+    <cc:implementation>
+        <ui:remove>
+            <!--
+                This facelet is displayed so as to protect some unaccessible page in some cases. 
+                This content should be the same as the content of templateWelcome. As an practical 
+                example, refer to Register.xhtml. 
+            -->
+        </ui:remove>
+        
+        <ez:welcomeJumbotron id="ezWelcomeJumbotron"/>
+        <ez:welcomeServiceColumns id="ezWelcomeServiceColumns"/>
+        
+    </cc:implementation>
+</html>

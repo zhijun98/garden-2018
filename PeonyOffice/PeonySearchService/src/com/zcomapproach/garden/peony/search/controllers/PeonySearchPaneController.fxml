@@ -1,0 +1,342 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.media.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.geometry.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane id="AnchorPane" prefHeight="950.0" prefWidth="1050.0" stylesheets="@../../../../../../../../PeonyResources/src/com/zcomapproach/garden/peony/resources/css/PeonyCss.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <ScrollPane layoutX="10.0" layoutY="10.0" prefViewportHeight="780.0" prefViewportWidth="855.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <content>
+            <BorderPane prefWidth="1000.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
+               <center>
+                  <VBox BorderPane.alignment="CENTER">
+                     <children>
+                        <Label styleClass="peony-regular-title-label" text="Taxpayer Search Criteria">
+                           <font>
+                              <Font name="System Bold" size="16.0" />
+                           </font>
+                           <VBox.margin>
+                              <Insets bottom="5.0" left="2.0" right="2.0" top="5.0" />
+                           </VBox.margin>
+                        </Label>
+                        <TitledPane animated="false" collapsible="false" prefHeight="120.0" styleClass="peony-titled-pane" text="Search Taxpayer by Personal Features">
+                           <content>
+                              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                                 <children>
+                                    <FlowPane alignment="CENTER_LEFT" layoutX="174.0" layoutY="-73.0" prefHeight="54.0" prefWidth="798.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                       <children>
+                                          <ComboBox fx:id="taxpayerFeatureComboBox" prefWidth="200.0">
+                                             <FlowPane.margin>
+                                                <Insets left="1.0" right="1.0" />
+                                             </FlowPane.margin>
+                                          </ComboBox>
+                                          <TextField fx:id="taxpayerFeatureValueField" prefWidth="250.0">
+                                             <FlowPane.margin>
+                                                <Insets left="1.0" right="1.0" />
+                                             </FlowPane.margin>
+                                          </TextField>
+                                          <CheckBox fx:id="taxpayerFeatureExactMatchCheckBox" mnemonicParsing="false" prefWidth="100.0" text="Exact Match">
+                                             <FlowPane.margin>
+                                                <Insets left="10.0" right="10.0" />
+                                             </FlowPane.margin>
+                                          </CheckBox>
+                                          <Button fx:id="taxpayerFeatureSearchButton" mnemonicParsing="false" styleClass="peony-primary-small-button" text="Search">
+                                             <FlowPane.margin>
+                                                <Insets left="1.0" right="1.0" />
+                                             </FlowPane.margin>
+                                          </Button>
+                                          <Label fx:id="taxpayerCriteriaNoteLabel" text="Label">
+                                             <FlowPane.margin>
+                                                <Insets left="10.0" />
+                                             </FlowPane.margin>
+                                          </Label>
+                                       </children>
+                                    </FlowPane>
+                                 </children>
+                              </AnchorPane>
+                           </content>
+                           <VBox.margin>
+                              <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                           </VBox.margin>
+                        </TitledPane>
+                        <TitledPane animated="false" collapsible="false" prefHeight="100.0" styleClass="peony-titled-pane" text="Search Taxpayer by Date Range">
+                           <content>
+                              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                                 <children>
+                                    <FlowPane alignment="CENTER_LEFT" prefHeight="54.0" prefWidth="798.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                       <children>
+                                          <Label text="Taxpayer Deadline From:">
+                                             <FlowPane.margin>
+                                                <Insets left="3.0" right="1.0" />
+                                             </FlowPane.margin>
+                                          </Label>
+                                          <DatePicker fx:id="taxpayerFromDatePicker" prefWidth="150.0">
+                                             <FlowPane.margin>
+                                                <Insets left="1.0" right="1.0" />
+                                             </FlowPane.margin>
+                                          </DatePicker>
+                                          <Label text="To:">
+                                             <FlowPane.margin>
+                                                <Insets left="3.0" right="1.0" />
+                                             </FlowPane.margin>
+                                          </Label>
+                                          <DatePicker fx:id="taxpayerToDatePicker" prefWidth="150.0">
+                                             <FlowPane.margin>
+                                                <Insets left="1.0" right="1.0" />
+                                             </FlowPane.margin>
+                                          </DatePicker>
+                                          <Button fx:id="taxpayerDateRangeSearchButton" mnemonicParsing="false" styleClass="peony-primary-small-button" text="Search">
+                                             <FlowPane.margin>
+                                                <Insets left="1.0" right="1.0" />
+                                             </FlowPane.margin>
+                                          </Button>
+                                          <Button fx:id="taxpayerStatusSummaryButton" mnemonicParsing="false" styleClass="peony-success-small-button" text="Status Summary" />
+                                          <Button fx:id="lastYearTaxpayerSearchButton" mnemonicParsing="false" styleClass="peony-primary-long-button" text="Last Years Taxpayers" />
+                                       </children>
+                                    </FlowPane>
+                                 </children>
+                              </AnchorPane>
+                           </content>
+                           <VBox.margin>
+                              <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                           </VBox.margin>
+                        </TitledPane>
+                        <TitledPane animated="false" collapsible="false" prefHeight="100.0" styleClass="peony-titled-pane" text="Search Taxpayer by Latest Work Status">
+                           <content>
+                              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                                 <children>
+                                    <FlowPane alignment="CENTER_LEFT" prefHeight="54.0" prefWidth="798.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                       <children>
+                                          <ComboBox fx:id="taxpayerWorkStatusTypeComboBox" prefWidth="300.0">
+                                             <FlowPane.margin>
+                                                <Insets left="1.0" right="1.0" />
+                                             </FlowPane.margin>
+                                          </ComboBox>
+                                          <Label text="Deadline between">
+                                             <FlowPane.margin>
+                                                <Insets left="3.0" right="3.0" />
+                                             </FlowPane.margin>
+                                          </Label>
+                                          <DatePicker fx:id="taxpayerWorkStatusDeadlineDatePickerFrom" prefWidth="150.0">
+                                             <FlowPane.margin>
+                                                <Insets left="1.0" right="1.0" />
+                                             </FlowPane.margin>
+                                          </DatePicker>
+                                          <Label text="and">
+                                             <FlowPane.margin>
+                                                <Insets left="3.0" right="3.0" />
+                                             </FlowPane.margin>
+                                          </Label>
+                                          <DatePicker fx:id="taxpayerWorkStatusDeadlineDatePickerTo" prefWidth="150.0" />
+                                          <Button fx:id="taxpayerWorkStatusSearchButton" mnemonicParsing="false" styleClass="peony-primary-small-button" text="Search">
+                                             <FlowPane.margin>
+                                                <Insets left="1.0" right="1.0" />
+                                             </FlowPane.margin>
+                                          </Button>
+                                       </children>
+                                    </FlowPane>
+                                 </children>
+                              </AnchorPane>
+                           </content>
+                           <VBox.margin>
+                              <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                           </VBox.margin>
+                        </TitledPane>
+                        <Label styleClass="peony-regular-title-label" text="Taxcorp Search Criteria">
+                           <font>
+                              <Font name="System Bold" size="16.0" />
+                           </font>
+                           <VBox.margin>
+                              <Insets bottom="5.0" left="2.0" right="2.0" top="5.0" />
+                           </VBox.margin>
+                        </Label>
+                        <TitledPane animated="false" collapsible="false" prefHeight="100.0" styleClass="peony-titled-pane" text="Search Tax Filing of Taxcorp">
+                          <content>
+                            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                                 <children>
+                                    <FlowPane fx:id="searchTaxFilingFlowPane" alignment="CENTER_LEFT" prefHeight="54.0" prefWidth="798.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                       <children>
+                                          <ComboBox fx:id="taxFilingTypeComboBox" prefWidth="100.0">
+                                             <FlowPane.margin>
+                                                <Insets left="1.0" right="1.0" />
+                                             </FlowPane.margin>
+                                          </ComboBox>
+                                          <Label text="From:">
+                                             <FlowPane.margin>
+                                                <Insets left="3.0" right="1.0" />
+                                             </FlowPane.margin>
+                                          </Label>
+                                          <DatePicker fx:id="deadlineFromDatePicker" prefWidth="150.0">
+                                             <FlowPane.margin>
+                                                <Insets left="1.0" right="1.0" />
+                                             </FlowPane.margin>
+                                          </DatePicker>
+                                          <Label text="To:">
+                                             <FlowPane.margin>
+                                                <Insets left="3.0" right="1.0" />
+                                             </FlowPane.margin>
+                                          </Label>
+                                          <DatePicker fx:id="deadlineToDatePicker" prefWidth="150.0">
+                                             <FlowPane.margin>
+                                                <Insets left="1.0" right="1.0" />
+                                             </FlowPane.margin>
+                                          </DatePicker>
+                                          <Button fx:id="searchTaxcorpTaxFilingsButton" mnemonicParsing="false" styleClass="peony-primary-small-button" text="Search">
+                                             <FlowPane.margin>
+                                                <Insets left="1.0" right="1.0" />
+                                             </FlowPane.margin>
+                                          </Button>
+                                          <Button fx:id="searchFinalizedTaxcorpTaxFilingsButton" mnemonicParsing="false" styleClass="peony-primary-small-button" text="Search Finalized">
+                                             <FlowPane.margin>
+                                                <Insets left="1.0" right="1.0" />
+                                             </FlowPane.margin>
+                                          </Button>
+                                       </children>
+                                    </FlowPane>
+                                 </children>
+                              </AnchorPane>
+                          </content>
+                           <VBox.margin>
+                              <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                           </VBox.margin>
+                        </TitledPane>
+                        <TitledPane animated="false" collapsible="false" prefHeight="100.0" styleClass="peony-titled-pane" text="Search Taxcorp by Basic Information">
+                          <content>
+                            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                                 <children>
+                                    <FlowPane alignment="CENTER_LEFT" layoutX="174.0" layoutY="-73.0" prefHeight="54.0" prefWidth="798.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                       <children>
+                                          <ComboBox fx:id="taxcorpFeatureComboBox" prefWidth="200.0">
+                                             <FlowPane.margin>
+                                                <Insets left="1.0" right="1.0" />
+                                             </FlowPane.margin>
+                                          </ComboBox>
+                                          <TextField fx:id="taxcorpFeatureValueField" prefWidth="250.0">
+                                             <FlowPane.margin>
+                                                <Insets left="1.0" right="1.0" />
+                                             </FlowPane.margin>
+                                          </TextField>
+                                          <CheckBox fx:id="taxcorpFeatureExactMatchCheckBox" mnemonicParsing="false" prefWidth="100.0" text="Exact Match">
+                                             <FlowPane.margin>
+                                                <Insets left="10.0" right="10.0" />
+                                             </FlowPane.margin>
+                                          </CheckBox>
+                                          <Button fx:id="taxcorpFeatureSearchButton" mnemonicParsing="false" styleClass="peony-primary-small-button" text="Search">
+                                             <FlowPane.margin>
+                                                <Insets left="1.0" right="1.0" />
+                                             </FlowPane.margin>
+                                          </Button>
+                                       </children>
+                                    </FlowPane>
+                                 </children>
+                              </AnchorPane>
+                          </content>
+                           <VBox.margin>
+                              <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                           </VBox.margin>
+                        </TitledPane>
+                        <TitledPane animated="false" collapsible="false" prefHeight="100.0" styleClass="peony-titled-pane" text="Search Taxcorp by Date Range">
+                           <content>
+                              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                                 <children>
+                                    <FlowPane alignment="CENTER_LEFT" prefHeight="54.0" prefWidth="798.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                       <children>
+                                          <ComboBox fx:id="taxcorpDateTypeComboBox" prefWidth="200.0">
+                                             <FlowPane.margin>
+                                                <Insets left="1.0" right="1.0" />
+                                             </FlowPane.margin>
+                                          </ComboBox>
+                                          <Label text="From:">
+                                             <FlowPane.margin>
+                                                <Insets left="3.0" right="1.0" />
+                                             </FlowPane.margin>
+                                          </Label>
+                                          <DatePicker fx:id="taxcorpFromDatePicker" prefWidth="150.0">
+                                             <FlowPane.margin>
+                                                <Insets left="1.0" right="1.0" />
+                                             </FlowPane.margin>
+                                          </DatePicker>
+                                          <Label text="To:">
+                                             <FlowPane.margin>
+                                                <Insets left="3.0" right="1.0" />
+                                             </FlowPane.margin>
+                                          </Label>
+                                          <DatePicker fx:id="taxcorpToDatePicker" prefWidth="150.0">
+                                             <FlowPane.margin>
+                                                <Insets left="1.0" right="1.0" />
+                                             </FlowPane.margin>
+                                          </DatePicker>
+                                          <Button fx:id="taxcorpDateRangeSearchButton" mnemonicParsing="false" styleClass="peony-primary-small-button" text="Search">
+                                             <FlowPane.margin>
+                                                <Insets left="1.0" right="1.0" />
+                                             </FlowPane.margin>
+                                          </Button>
+                                       </children>
+                                    </FlowPane>
+                                 </children>
+                              </AnchorPane>
+                           </content>
+                           <VBox.margin>
+                              <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                           </VBox.margin>
+                        </TitledPane>
+                        <Label styleClass="peony-regular-title-label" text="Customer Search Criteria">
+                           <font>
+                              <Font name="System Bold" size="16.0" />
+                           </font>
+                           <VBox.margin>
+                              <Insets bottom="5.0" left="2.0" right="2.0" top="5.0" />
+                           </VBox.margin>
+                        </Label>
+                        <TitledPane animated="false" collapsible="false" prefHeight="100.0" styleClass="peony-titled-pane" text="Search Customer by Basic Information">
+                           <content>
+                              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                                 <children>
+                                    <FlowPane alignment="CENTER_LEFT" layoutX="174.0" layoutY="-73.0" prefHeight="54.0" prefWidth="798.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                       <children>
+                                          <ComboBox fx:id="customerFeatureComboBox" prefWidth="200.0">
+                                             <FlowPane.margin>
+                                                <Insets left="1.0" right="1.0" />
+                                             </FlowPane.margin>
+                                          </ComboBox>
+                                          <TextField fx:id="customerFeatureValueField" prefWidth="250.0">
+                                             <FlowPane.margin>
+                                                <Insets left="1.0" right="1.0" />
+                                             </FlowPane.margin>
+                                          </TextField>
+                                          <CheckBox fx:id="customerFeatureExactMatchCheckBox" mnemonicParsing="false" prefWidth="100.0" text="Exact Match">
+                                             <FlowPane.margin>
+                                                <Insets left="10.0" right="10.0" />
+                                             </FlowPane.margin>
+                                          </CheckBox>
+                                          <Button fx:id="customerFeatureSearchButton" mnemonicParsing="false" styleClass="peony-primary-small-button" text="Search">
+                                             <FlowPane.margin>
+                                                <Insets left="1.0" right="1.0" />
+                                             </FlowPane.margin>
+                                          </Button>
+                                       </children>
+                                    </FlowPane>
+                                 </children>
+                              </AnchorPane>
+                           </content>
+                           <VBox.margin>
+                              <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                           </VBox.margin>
+                        </TitledPane>
+                     </children>
+                  </VBox>
+               </center>
+            </BorderPane>
+         </content>
+         <padding>
+            <Insets left="10.0" top="10.0" />
+         </padding>
+      </ScrollPane>
+   </children>
+</AnchorPane>

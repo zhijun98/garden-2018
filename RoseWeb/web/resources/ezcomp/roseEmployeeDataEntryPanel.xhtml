@@ -1,0 +1,146 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:cc="http://xmlns.jcp.org/jsf/composite"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:b="http://bootsfaces.net/ui"
+      xmlns:p="http://primefaces.org/ui">
+
+    <!-- INTERFACE -->
+    <cc:interface>
+        <!--Target entity record for this panel-->
+        <cc:attribute name="employeeProfile" type="com.zcomapproach.garden.rose.data.profile.EmployeeAccountProfile" required="true"/>
+        <!--Only view data-->
+        <cc:attribute name="viewOnly" type="java.lang.Boolean" required="true"/>
+    </cc:interface>
+
+    <!-- IMPLEMENTATION -->
+    <cc:implementation>
+        <p:panel style="font-size: 12px" header="#{roseText.EmployeeProfile}">
+            <b:row>
+                <b:column col-md="4">
+                    <p:panelGrid style="width: 100%;" styleClass="roseNoBorder">
+                        <p:row styleClass="roseNoBorder">
+                            <p:column style="width:100px" styleClass="roseNoBorder">
+                                <p:outputLabel for="employeePosition" value="#{roseText.WorkPosition}" />
+                            </p:column>
+                            <p:column styleClass="roseNoBorder">
+                                <h:outputText value="#{cc.attrs.employeeProfile.employeeEntity.workTitle}" 
+                                              rendered="#{cc.attrs.viewOnly}"/>
+                                <h:selectOneMenu id="employeePosition" class="form-control" rendered="#{!cc.attrs.viewOnly}" 
+                                                 required="true" requiredMessage="#{roseText.WorkPosition} - #{roseText.FieldRequired_T}"
+                                                 value = "#{cc.attrs.employeeProfile.employeeEntity.workTitle}">
+                                    <f:selectItem itemLabel = "#{roseText.Select}..." itemValue = "" /> 
+                                    <f:selectItems value="#{roseSettings.gardenWorkTitleValueList}" var="positionValue" 
+                                                   itemValue = "#{positionValue}" itemLabel = "#{positionValue}" />
+                                    <p:ajax event="change" process="@this"/>
+                                </h:selectOneMenu>
+                            </p:column>
+                        </p:row>
+                    </p:panelGrid>
+                </b:column>
+                <b:column col-md="4">
+                    <p:panelGrid style="width: 100%;" styleClass="roseNoBorder">
+                        <p:row styleClass="roseNoBorder">
+                            <p:column style="width:100px" styleClass="roseNoBorder">
+                                <p:outputLabel for="employedDate" value="#{roseText.EmployedDate}" />
+                            </p:column>
+                            <p:column styleClass="roseNoBorder">
+                                <h:outputText value="#{cc.attrs.employeeProfile.employeeEntity.employedDate}" 
+                                              rendered="#{cc.attrs.viewOnly}">
+                                    <f:convertDateTime pattern="MM-dd-yyyy" />
+                                </h:outputText>
+                                <p:calendar id="employedDate" rendered="#{!cc.attrs.viewOnly}"
+                                            value="#{cc.attrs.employeeProfile.employeeEntity.employedDate}"
+                                            locale="#{roseUserSession.localeCode}" pattern="MM-dd-yyyy" navigator="true"
+                                            required="true" requiredMessage="#{roseText.EmployedDate} - #{roseText.FieldRequired_T}">
+                                    <p:ajax event="dateSelect" process="@this"/>
+                                </p:calendar>
+                            </p:column>
+                        </p:row>
+                    </p:panelGrid>
+                </b:column>
+                <b:column col-md="4">
+                    <p:panelGrid style="width: 100%;" styleClass="roseNoBorder">
+                        <p:row styleClass="roseNoBorder">
+                            <p:column style="width:100px" styleClass="roseNoBorder">
+                                <p:outputLabel for="employmentStatus" value="#{roseText.EmploymentStatus}" />
+                            </p:column>
+                            <p:column styleClass="roseNoBorder">
+                                <h:outputText value="#{cc.attrs.employeeProfile.employeeEntity.employmentStatus}" 
+                                              rendered="#{cc.attrs.viewOnly}"/>
+                                <h:selectOneMenu id="employmentStatus" class="form-control" rendered="#{!cc.attrs.viewOnly}" 
+                                                 required="true" requiredMessage="#{roseText.EmploymentStatus} - #{roseText.FieldRequired_T}"
+                                                 value = "#{cc.attrs.employeeProfile.employeeEntity.employmentStatus}">
+                                    <f:selectItem itemLabel = "#{roseText.Select}..." itemValue = "" /> 
+                                    <f:selectItems value="#{roseSettings.gardenEmploymentStatusValueList}" var="statusValue" 
+                                                   itemValue = "#{statusValue}" itemLabel = "#{statusValue}" />
+                                    <p:ajax event="change" process="@this"/>
+                                </h:selectOneMenu>
+                            </p:column>
+                        </p:row>
+                    </p:panelGrid>
+                </b:column>
+            </b:row>
+            <b:row>
+                <b:column col-md="4">
+                    <p:panelGrid style="width: 100%;" styleClass="roseNoBorder">
+                        <p:row styleClass="roseNoBorder">
+                            <p:column style="width:100px" styleClass="roseNoBorder">
+                                <p:outputLabel for="workEmail" value="#{roseText.Email}"/>
+                            </p:column>
+                            <p:column styleClass="roseNoBorder">
+                                <h:outputText value="#{cc.attrs.employeeProfile.employeeEntity.workEmail}" rendered="#{cc.attrs.viewOnly}"/>
+                                <p:inputText id="workEmail" placeholder="#{roseText.Email}" rendered="#{!cc.attrs.viewOnly}"
+                                             value="#{cc.attrs.employeeProfile.employeeEntity.workEmail}"
+                                             required="true" requiredMessage="#{roseText.Email} - #{roseText.FieldRequired_T}"
+                                             validator="#{roseEmailValidator.validate}" 
+                                             validatorMessage="#{roseText.Email} - (1) #{roseText.BadEmailPattern_T} (2) #{roseText.MaxLengthRequired_T}: 100">
+                                    <f:validateLength maximum="100"/>
+                                    <p:ajax/>
+                                </p:inputText>
+                            </p:column>
+                        </p:row>
+                    </p:panelGrid>
+                </b:column>
+                <b:column col-md="4">
+                    <p:panelGrid style="width: 100%;" styleClass="roseNoBorder">
+                        <p:row styleClass="roseNoBorder">
+                            <p:column style="width:100px" styleClass="roseNoBorder">
+                                <p:outputLabel for="workPhone" value="#{roseText.Phone}"/>
+                            </p:column>
+                            <p:column styleClass="roseNoBorder">
+                                <h:outputText value="#{cc.attrs.employeeProfile.employeeEntity.workPhone}" rendered="#{cc.attrs.viewOnly}"/>
+                                <p:inputMask id="workPhone" placeholder="#{roseText.Phone}" rendered="#{!cc.attrs.viewOnly}"
+                                             value="#{cc.attrs.employeeProfile.employeeEntity.workPhone}" mask="(1)-999-999-9999"
+                                             validatorMessage="#{roseText.Phone} - #{roseText.MaxLengthRequired_T}: 16">
+                                    <f:validateLength maximum="16"/>
+                                    <p:ajax/>
+                                </p:inputMask>
+                            </p:column>
+                        </p:row>
+                    </p:panelGrid>
+                </b:column>
+                <b:column col-md="4">
+                    <p:panelGrid style="width: 100%;" styleClass="roseNoBorder">
+                        <p:row styleClass="roseNoBorder">
+                            <p:column style="width:100px" styleClass="roseNoBorder">
+                                <p:outputLabel for="memo" value="#{roseText.Memo}" />
+                            </p:column>
+                            <p:column styleClass="roseNoBorder">
+                                <h:outputText value="#{cc.attrs.employeeProfile.employeeEntity.memo}" rendered="#{cc.attrs.viewOnly}"/>
+                                <p:inputText id="memo" placeholder="#{roseText.Memo}" rendered="#{!cc.attrs.viewOnly}"
+                                                 value="#{cc.attrs.employeeProfile.employeeEntity.memo}"
+                                                 validatorMessage="#{roseText.Memo} - #{roseText.MaxLengthRequired_T}: 450">
+                                    <f:validateLength maximum="450"/>
+                                    <p:ajax/>
+                                </p:inputText>
+                            </p:column>
+                        </p:row>
+                    </p:panelGrid>
+                </b:column>
+            </b:row>
+        </p:panel>
+    </cc:implementation>
+</html>

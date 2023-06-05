@@ -1,0 +1,67 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:cc="http://xmlns.jcp.org/jsf/composite"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+
+    <!-- INTERFACE -->
+    <cc:interface>
+        <cc:attribute name="roseAccountProfileBean" type="com.zcomapproach.garden.rose.bean.RoseAccountProfileBean" required="true"/>
+        <cc:attribute name="displayMenuOnly" type="java.lang.Boolean" required="true"/>
+    </cc:interface>
+
+    <!-- IMPLEMENTATION -->
+    <cc:implementation>
+        <h:panelGrid columns="3" styleClass="rosePanelGridCellAlignTop">
+            <h:graphicImage class="img-rounded" library="images" name="taxpayer.jpg" 
+                            alt="#{roseText.PersonalFamilyTaxFiling}" title="#{roseText.PersonalFamilyTaxFiling}" 
+                            style="height: 150px; width: 150px; display: block;" />
+            <p:spacer width="10"/>
+            <h:panelGrid columns="1" >
+                <h:link style="font-size: 12px; margin-bottom: 5px;"
+                        outcome="#{rosePages.taxpayerCasePageName}">
+                    <i class="fa fa-edit"/> #{roseText.NewTaxpayer}
+                    <f:param name="#{roseParamKeys.viewPurposeParamKey}" 
+                             value="#{roseParamValues.createNewEntityParamValue}" />
+                    <f:param name="#{roseParamKeys.customerUuidParamKey}" 
+                             value="#{cc.attrs.roseAccountProfileBean.targetAccountProfile.accountEntity.accountUuid}" />
+                </h:link>
+                <h:link style="font-size: 12px; margin-bottom: 5px"
+                        outcome="#{rosePages.historicalTaxpayerCasesPageName}">
+                    <i class="fa fa-tasks"/> #{roseText.YourHistoricalTaxFilingRecords}
+                </h:link>
+                <p:outputPanel rendered="#{!cc.attrs.displayMenuOnly}">
+                    <hr/>
+                    <h:panelGrid columns="1">
+                        <h:outputText class="roseHint" value="#{roseText.YourIndividualTax}: #{roseText.NoRecord}" 
+                                      rendered="#{cc.attrs.roseAccountProfileBean.customerLatestYearTaxpayerCaseProfileList.size() == 0}"/>
+
+                        <h:link style="font-size: 12px; margin-bottom: 5px;" rendered="#{cc.attrs.roseAccountProfileBean.customerLatestYearTaxpayerCaseProfileList.size()==0}"
+                                outcome="#{rosePages.taxpayerCasePageName}">
+                            <i class="fa fa-caret-square-o-right"/> #{roseText.FirstTimeTaxpayer_T}
+                            <f:param name="#{roseParamKeys.viewPurposeParamKey}" 
+                                     value="#{roseParamValues.createNewEntityParamValue}" />
+                            <f:param name="#{roseParamKeys.customerUuidParamKey}" 
+                                     value="#{cc.attrs.roseAccountProfileBean.targetAccountProfile.accountEntity.accountUuid}" />
+                        </h:link>
+                        <ui:repeat value="#{cc.attrs.roseAccountProfileBean.customerLatestYearTaxpayerCaseProfileList}" var="taxpayerCase" >
+                            <h:link style="font-size: 12px;" outcome="#{rosePages.taxpayerCaseViewPageName}">
+                                <i class="fa fa-caret-square-o-right"/> #{taxpayerCase.profileDescriptiveName}
+                                <f:param name="#{roseParamKeys.taxpayerCaseUuidParamKey}" 
+                                         value="#{taxpayerCase.taxpayerCaseEntity.taxpayerCaseUuid}" />
+                            </h:link><br/>
+                        </ui:repeat>
+                        <hr/>
+                        <h:link style="font-size: 12px; margin-bottom: 5px"
+                                outcome="#{rosePages.historicalTaxpayerCasesPageName}">
+                            <i class="fa fa-chevron-circle-right"/> #{roseText.MoreDetails}
+                        </h:link>
+                    </h:panelGrid>
+                </p:outputPanel>
+            </h:panelGrid>
+        </h:panelGrid>
+    </cc:implementation>
+</html>

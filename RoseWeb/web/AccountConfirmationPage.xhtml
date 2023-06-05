@@ -1,0 +1,93 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:b="http://bootsfaces.net/ui"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+
+    <body>
+
+        <ui:composition template="./templates/templateTopCenterBottomNotForValidAuth.xhtml">
+            
+            <ui:remove><!--Title--></ui:remove>
+            <ui:param name="rosePageTopic" value="#{roseText.ConfirmYourAccount}"/>
+            <ui:param name="topicIconAwesome" value="lock"/>
+
+            <ui:define name="rosePageContent">
+                <ui:remove><!--Account Confirmation Page--></ui:remove>
+                <h:form id='accountConfirmationForm'>
+
+                    <ui:remove><!--Account Confirmation Code--></ui:remove>
+                    <p:outputPanel style="margin-bottom: 5px">
+                        <p:panel id="accountConfirmationPanel" style="margin-bottom:5px;"
+                                 header="#{roseText.ConfirmRegistration}: " >
+                            <h:panelGrid columns="1" style="width: 100%">
+                                <b:alert severity="info">#{roseText.ConfirmationCode_T}</b:alert>
+                                <h:panelGrid columns="2">
+                                    <h:panelGrid columns="6" style="font-size: 12px">
+                                        <!--row-->
+                                        <h:outputText value="#{roseText.LoginName}: " style="font-weight: bolder"/>
+                                        <p:spacer width="3"/>
+                                        <p:inputText id="loginName" value="#{roseUserSession.targetLoginName}"
+                                                     required="true" requiredMessage="#{roseText.FieldRequired_T}">
+                                            <p:ajax/>
+                                        </p:inputText>
+                                        <p:spacer width="5"/>
+                                        <p:spacer width="3"/>
+                                        <!--row-->
+                                        <p:spacer width="3"/>
+                                        <p:spacer width="3"/>
+                                        <p:message for="loginName"/>
+                                        <p:spacer width="3"/>
+                                        <p:spacer width="3"/>
+                                        <!--row-->
+                                        <h:outputText value="#{roseText.Password}: " style="font-weight: bolder"/>
+                                        <p:spacer width="3"/>
+                                        <p:password id="loginPassword" value="#{roseUserSession.targetLoginPassword}" 
+                                                    required="true" requiredMessage="#{roseText.FieldRequired_T}">
+                                            <p:ajax/>
+                                        </p:password>
+                                        <p:spacer width="3"/>
+                                        <p:spacer width="3"/>
+                                        <!--row-->
+                                        <p:spacer width="3"/>
+                                        <p:spacer width="3"/>
+                                        <p:message for="loginPassword"/>
+                                        <p:spacer width="3"/>
+                                        <p:spacer width="3"/>
+                                        <!--row-->
+                                        <h:outputText value="#{roseText.ConfirmationCode}: " style="font-weight: bolder"/>
+                                        <p:spacer width="3"/>
+                                        <p:inputText id="confirmationCode" value="#{roseUserSession.targetAccountConfirmationCode}" 
+                                                     required="true" requiredMessage="#{roseText.ConfirmationCode} - #{roseText.FieldRequired_T}">
+                                            <p:ajax/>
+                                        </p:inputText>
+                                        <p:spacer width="3"/>
+                                        <p:spacer width="3"/>
+                                        <!--row-->
+                                        <p:spacer width="3"/>
+                                        <p:spacer width="3"/>
+                                        <p:message for="confirmationCode"/>
+                                        <p:spacer width="3"/>
+                                        <p:spacer width="3"/>
+                                    </h:panelGrid>
+                                </h:panelGrid>
+                                <p:messages globalOnly="true"/>
+                            </h:panelGrid>
+                        </p:panel>
+                        <p:outputPanel style="font-size: 12px">
+                            <h:commandButton class="btn btn-success" value="#{roseText.ConfirmRegistration}" action="#{roseUserSession.confirmAccountRegistration}" />
+                            <p:spacer width="1"/>
+                            <h:link class="btn btn-default" style="font-size: 12px" value="#{roseText.Cancel}" outcome="#{rosePages.registerPageName}" />
+                            <p:spacer width="50"/>
+                            <h:commandLink value="#{roseText.ResendConfirmationCode}" style="text-decoration: underline; color: blue"
+                                           action="#{roseUserSession.resendConfirmationCode}" immediate="true" />
+                        </p:outputPanel>
+                    </p:outputPanel>
+                </h:form>
+            </ui:define>
+        </ui:composition>
+
+    </body>
+</html>

@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.media.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.geometry.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane maxWidth="1280.0" prefHeight="450.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <VBox prefHeight="400.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <VBox fx:id="billPaymentMasterVBox" prefHeight="200.0" prefWidth="100.0">
+               <children>
+                  <FlowPane alignment="CENTER_LEFT" prefHeight="30.0" prefWidth="200.0">
+                     <children>
+                        <Label text="Bill Content:">
+                           <font>
+                              <Font name="System Bold" size="12.0" />
+                           </font>
+                           <FlowPane.margin>
+                              <Insets left="10.0" />
+                           </FlowPane.margin>
+                        </Label>
+                     </children>
+                     <VBox.margin>
+                        <Insets top="10.0" />
+                     </VBox.margin>
+                  </FlowPane>
+                  <TextArea fx:id="billContentTextArea" prefHeight="120.0">
+                     <VBox.margin>
+                        <Insets bottom="2.0" left="10.0" right="10.0" top="2.0" />
+                     </VBox.margin>
+                  </TextArea>
+                  <FlowPane alignment="CENTER" prefHeight="30.0" prefWidth="800.0">
+                     <children>
+                        <HBox alignment="CENTER_LEFT" maxHeight="25.0" maxWidth="175.0" minHeight="25.0" minWidth="175.0" prefHeight="25.0" prefWidth="175.0">
+                           <children>
+                              <Label alignment="CENTER_RIGHT" maxWidth="60.0" minWidth="60.0" prefWidth="60.0" text="Bill Price: $">
+                                 <HBox.margin>
+                                    <Insets right="5.0" />
+                                 </HBox.margin>
+                              </Label>
+                              <TextField fx:id="billPriceTextField" maxWidth="100.0" minWidth="100.0" prefWidth="100.0">
+                                 <HBox.margin>
+                                    <Insets />
+                                 </HBox.margin>
+                              </TextField>
+                           </children>
+                        </HBox>
+                        <HBox alignment="CENTER_LEFT" maxHeight="25.0" maxWidth="250.0" minHeight="25.0" minWidth="250.0" prefHeight="25.0" prefWidth="250.0">
+                           <children>
+                              <Label alignment="CENTER_RIGHT" maxWidth="60.0" minWidth="60.0" prefWidth="60.0" text="Discount:">
+                                 <HBox.margin>
+                                    <Insets left="10.0" right="5.0" />
+                                 </HBox.margin>
+                              </Label>
+                              <TextField fx:id="billDiscountTextField" maxWidth="100.0" minWidth="100.0" prefWidth="100.0">
+                                 <HBox.margin>
+                                    <Insets />
+                                 </HBox.margin>
+                              </TextField>
+                              <ComboBox fx:id="billDiscountTypeComboBox" prefWidth="75.0" />
+                           </children>
+                        </HBox>
+                        <HBox alignment="CENTER_LEFT" maxHeight="25.0" maxWidth="200.0" minHeight="25.0" minWidth="200.0" prefHeight="25.0" prefWidth="200.0">
+                           <children>
+                              <Label alignment="CENTER_RIGHT" maxWidth="60.0" minWidth="60.0" prefWidth="60.0" text="Due Date:">
+                                 <HBox.margin>
+                                    <Insets left="10.0" right="5.0" />
+                                 </HBox.margin>
+                              </Label>
+                              <DatePicker fx:id="billDueDatePicker" />
+                           </children>
+                        </HBox>
+                        <HBox alignment="CENTER" maxWidth="150.0" minWidth="150.0" prefWidth="150.0">
+                           <children>
+                              <Button fx:id="saveBillButton" maxWidth="75.0" minWidth="75.0" mnemonicParsing="false" prefWidth="75.0" text="Save Bill">
+                                 <HBox.margin>
+                                    <Insets left="2.0" right="2.0" />
+                                 </HBox.margin></Button>
+                              <Button fx:id="deleteBillButton" maxWidth="75.0" minWidth="75.0" mnemonicParsing="false" prefWidth="75.0" text="Delete Bill">
+                                 <HBox.margin>
+                                    <Insets left="2.0" right="2.0" />
+                                 </HBox.margin>
+                              </Button>
+                           </children>
+                           <FlowPane.margin>
+                              <Insets left="10.0" />
+                           </FlowPane.margin></HBox>
+                     </children>
+                  </FlowPane>
+               </children>
+            </VBox>
+            <Separator prefWidth="200.0">
+               <VBox.margin>
+                  <Insets bottom="5.0" top="5.0" />
+               </VBox.margin>
+            </Separator>
+            <FlowPane alignment="CENTER_LEFT" prefHeight="30.0" prefWidth="200.0">
+               <children>
+                  <Label text="Payments:">
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font>
+                     <FlowPane.margin>
+                        <Insets left="10.0" />
+                     </FlowPane.margin>
+                  </Label>
+               </children>
+            </FlowPane>
+            <TableView fx:id="paymentsTableView" prefHeight="150.0">
+               <columns>
+                  <TableColumn prefWidth="75.0" text="C1" />
+                  <TableColumn prefWidth="75.0" text="C2" />
+               </columns>
+               <VBox.margin>
+                  <Insets bottom="5.0" left="10.0" right="10.0" top="5.0" />
+               </VBox.margin>
+            </TableView>
+            <GridPane alignment="CENTER_RIGHT">
+               <children>
+                  <HBox alignment="CENTER_LEFT">
+                     <children>
+                        <Label text="Bill Balance:">
+                           <font>
+                              <Font name="System Bold" size="12.0" />
+                           </font>
+                           <HBox.margin>
+                              <Insets left="10.0" />
+                           </HBox.margin>
+                        </Label>
+                        <Label fx:id="billBalanceLabel" text="billBalanceLabel" textFill="RED">
+                           <HBox.margin>
+                              <Insets left="10.0" right="10.0" />
+                           </HBox.margin>
+                        </Label>
+                     </children>
+                  </HBox>
+                  <HBox alignment="CENTER_RIGHT" prefHeight="25.0" GridPane.columnIndex="1">
+                     <children>
+                        <Button fx:id="addPaymentButton" maxWidth="100.0" minWidth="100.0" mnemonicParsing="false" prefWidth="100.0" text="Add Payment">
+                           <HBox.margin>
+                              <Insets left="2.0" right="10.0" />
+                           </HBox.margin>
+                        </Button>
+                     </children>
+                  </HBox>
+               </children>
+               <columnConstraints>
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
+               </columnConstraints>
+               <rowConstraints>
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+               </rowConstraints>
+               <VBox.margin>
+                  <Insets />
+               </VBox.margin>
+            </GridPane>
+         </children>
+      </VBox>
+   </children>
+</AnchorPane>

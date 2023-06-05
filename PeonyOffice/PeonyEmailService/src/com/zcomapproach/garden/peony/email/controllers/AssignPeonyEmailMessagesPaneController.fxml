@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.media.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.geometry.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <BorderPane prefHeight="452.0" prefWidth="602.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <center>
+            <ScrollPane prefViewportHeight="450.0" prefViewportWidth="600.0" BorderPane.alignment="CENTER">
+               <content>
+                  <AnchorPane prefHeight="450.0" prefWidth="600.0">
+                     <children>
+                        <VBox AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                           <padding>
+                              <Insets bottom="5.0" left="10.0" right="10.0" top="5.0" />
+                           </padding>
+                           <children>
+                              <FlowPane alignment="CENTER_LEFT" prefHeight="30.0">
+                                 <children>
+                                    <Label text="Selected Emails">
+                                       <font>
+                                          <Font name="System Bold" size="12.0" />
+                                       </font>
+                                    </Label>
+                                 </children>
+                              </FlowPane>
+                              <FlowPane alignment="CENTER_LEFT" prefHeight="2.0" style="-fx-background-color: e8e8ff;">
+                                 <opaqueInsets>
+                                    <Insets />
+                                 </opaqueInsets>
+                              </FlowPane>
+                              <FlowPane alignment="CENTER_LEFT" prefHeight="30.0">
+                                 <children>
+                                    <Label fx:id="selectedEmailsLabel" text="Label" wrapText="true" />
+                                 </children>
+                              </FlowPane>
+                              <FlowPane alignment="CENTER_LEFT" prefHeight="2.0" style="-fx-background-color: e8e8ff;">
+                                 <opaqueInsets>
+                                    <Insets />
+                                 </opaqueInsets>
+                                 <VBox.margin>
+                                    <Insets bottom="2.0" top="2.0" />
+                                 </VBox.margin>
+                              </FlowPane>
+                              <GridPane prefHeight="100.0">
+                                <columnConstraints>
+                                  <ColumnConstraints hgrow="SOMETIMES" />
+                                    <ColumnConstraints hgrow="SOMETIMES" />
+                                </columnConstraints>
+                                <rowConstraints>
+                                    <RowConstraints minHeight="10.0" prefHeight="25.0" vgrow="SOMETIMES" />
+                                  <RowConstraints minHeight="10.0" prefHeight="70.0" vgrow="SOMETIMES" />
+                                </rowConstraints>
+                                 <children>
+                                    <HBox alignment="CENTER_LEFT">
+                                       <children>
+                                          <Label text="Hook to Taxcorp(s)">
+                                             <HBox.margin>
+                                                <Insets bottom="2.0" left="5.0" right="5.0" top="2.0" />
+                                             </HBox.margin>
+                                             <font>
+                                                <Font size="11.0" />
+                                             </font>
+                                          </Label>
+                                       </children>
+                                    </HBox>
+                                    <HBox alignment="CENTER_LEFT" GridPane.columnIndex="1">
+                                       <opaqueInsets>
+                                          <Insets left="2.0" />
+                                       </opaqueInsets>
+                                       <children>
+                                          <Label text="Hook to Taxpayer(s)">
+                                             <HBox.margin>
+                                                <Insets bottom="2.0" left="5.0" right="5.0" top="2.0" />
+                                             </HBox.margin>
+                                             <font>
+                                                <Font size="11.0" />
+                                             </font>
+                                          </Label>
+                                       </children>
+                                    </HBox>
+                                    <TextArea fx:id="taxcorpEinTextArea" prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="1">
+                                       <GridPane.margin>
+                                          <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
+                                       </GridPane.margin>
+                                    </TextArea>
+                                    <TextArea fx:id="taxpayerSsnTextArea" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                                       <GridPane.margin>
+                                          <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
+                                       </GridPane.margin>
+                                    </TextArea>
+                                 </children>
+                                 <VBox.margin>
+                                    <Insets left="5.0" top="5.0" />
+                                 </VBox.margin>
+                              </GridPane>
+                              <FlowPane alignment="CENTER_LEFT" prefHeight="2.0" style="-fx-background-color: e8e8ff;">
+                                 <opaqueInsets>
+                                    <Insets />
+                                 </opaqueInsets>
+                                 <VBox.margin>
+                                    <Insets bottom="5.0" top="5.0" />
+                                 </VBox.margin>
+                              </FlowPane>
+                              <FlowPane alignment="CENTER_LEFT" prefHeight="30.0">
+                                 <children>
+                                    <Label text="Assign to Employees">
+                                       <font>
+                                          <Font name="System Bold" size="11.0" />
+                                       </font>
+                                    </Label>
+                                 </children>
+                              </FlowPane>
+                              <FlowPane fx:id="employeeCheckBoxFlowPane" prefHeight="50.0">
+                                 <VBox.margin>
+                                    <Insets bottom="5.0" top="5.0" />
+                                 </VBox.margin>
+                              </FlowPane>
+                              <TextArea fx:id="assignMessageTextArea" prefHeight="100.0" promptText="Comments on this assignment (max 450 characters).">
+                                 <VBox.margin>
+                                    <Insets bottom="5.0" left="2.0" right="2.0" top="5.0" />
+                                 </VBox.margin>
+                              </TextArea>
+                              <HBox alignment="CENTER" prefHeight="25.0">
+                                 <children>
+                                    <Button fx:id="assignButton" maxWidth="100.0" minWidth="100.0" mnemonicParsing="false" prefWidth="100.0" text="Assign">
+                                       <HBox.margin>
+                                          <Insets right="5.0" />
+                                       </HBox.margin>
+                                    </Button>
+                                 </children>
+                                 <padding>
+                                    <Insets bottom="2.0" top="2.0" />
+                                 </padding>
+                              </HBox>
+                           </children>
+                        </VBox>
+                     </children>
+                  </AnchorPane>
+               </content>
+            </ScrollPane>
+         </center>
+      </BorderPane>
+   </children>
+</AnchorPane>

@@ -1,0 +1,360 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:cc="http://xmlns.jcp.org/jsf/composite"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:b="http://bootsfaces.net/ui"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ez="http://xmlns.jcp.org/jsf/composite/ezcomp"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+
+    <!-- INTERFACE -->
+    <cc:interface>
+        <cc:attribute name="userProfileBean" type="com.zcomapproach.garden.rose.bean.IRosePersonalProfileBean" required="true"/>
+        <!--Only view data-->
+        <cc:attribute name="forDataEntry" type="java.lang.Boolean" required="true"/>
+        <!--Panel toggleable-->
+        <cc:attribute name="toggleable" type="java.lang.Boolean" required="true"/>
+    </cc:interface>
+
+    <!-- IMPLEMENTATION -->
+    <cc:implementation>
+        <p:outputPanel styleClass="userProfileOutputPanel" style="margin-top: 5px; margin-bottom: 5px">
+            
+            <ui:remove><!--User Profile View--></ui:remove>
+            <p:outputPanel rendered="#{!cc.attrs.userProfileBean.userProfileUpdateDemanded}">
+                <h:form>
+                    <p:panel style="font-size: 11px; margin-top: 5px; margin-bottom: 5px" 
+                             header="#{roseText.UserProfile}" toggleable="#{!cc.attrs.forDataEntry}">
+                        <ui:remove><!--User Basic Information View--></ui:remove>
+                        <p:panelGrid style="width: 100%" styleClass="roseNoBorder">
+                            <p:row styleClass="roseNoBorder">
+                                <p:column styleClass="roseNoBorder">
+                                    <p:outputLabel value="#{roseText.FirstName}"/>
+                                </p:column>
+                                <p:column styleClass="roseNoBorder">
+                                    <p:outputLabel value="#{roseText.MiddleName}"/>
+                                </p:column>
+                                <p:column styleClass="roseNoBorder">
+                                    <p:outputLabel value="#{roseText.LastName}"/>
+                                </p:column>
+                                <p:column styleClass="roseNoBorder">
+                                    <p:outputLabel value="#{roseText.SSN}"/>
+                                </p:column>
+                                <p:column styleClass="roseNoBorder">
+                                    <p:outputLabel value="#{roseText.Birthday}"/>
+                                </p:column>
+                                <p:column styleClass="roseNoBorder">
+                                    <p:outputLabel value="#{roseText.Gender}"/>
+                                </p:column>
+                                <p:column styleClass="roseNoBorder">
+                                    <p:outputLabel value="#{roseText.Citizenship}"/>
+                                </p:column>
+                                <p:column styleClass="roseNoBorder">
+                                    <p:outputLabel value="#{roseText.Occupation}"/>
+                                </p:column>
+                            </p:row>
+                            <p:row styleClass="roseNoBorder">
+                                <p:column styleClass="roseNoBorder">
+                                    <h:outputText value="#{cc.attrs.userProfileBean.targetUserProfile.userEntity.firstName}"/>
+                                </p:column>
+                                <p:column styleClass="roseNoBorder">
+                                    <h:outputText value="#{cc.attrs.userProfileBean.targetUserProfile.userEntity.middleName}"/>
+                                </p:column>
+                                <p:column styleClass="roseNoBorder">
+                                    <h:outputText value="#{cc.attrs.userProfileBean.targetUserProfile.userEntity.lastName}"/>
+                                </p:column>
+                                <p:column styleClass="roseNoBorder">
+                                    <h:outputText value="#{cc.attrs.userProfileBean.targetUserProfile.userEntity.ssn}"/>
+                                </p:column>
+                                <p:column styleClass="roseNoBorder">
+                                    <h:outputText value="#{cc.attrs.userProfileBean.targetUserProfile.userEntity.birthday}">
+                                        <f:convertDateTime pattern="MM-dd-yyyy" />
+                                    </h:outputText>
+                                </p:column>
+                                <p:column styleClass="roseNoBorder">
+                                    <h:outputText value="#{cc.attrs.userProfileBean.targetUserProfile.userEntity.gender}"/>
+                                </p:column>
+                                <p:column styleClass="roseNoBorder">
+                                    <h:outputText value="#{cc.attrs.userProfileBean.targetUserProfile.userEntity.citizenship}"/>
+                                </p:column>
+                                <p:column styleClass="roseNoBorder">
+                                    <h:outputText value="#{cc.attrs.userProfileBean.targetUserProfile.userEntity.occupation}"/>
+                                </p:column>
+                            </p:row>
+                        </p:panelGrid>
+                        
+                        <ui:remove><!--User Contact View--></ui:remove>
+                        <p:outputPanel rendered="#{cc.attrs.userProfileBean.targetUserProfile.userContactInfoProfileList.size() == 0}">
+                            <p:panelGrid style="width: 100%; margin-top: 5px; margin-bottom: 5px;">
+                                <p:row>
+                                    <p:column>
+                                        <h:panelGrid columns="3">
+                                            <h:outputText style="font-weight: bolder;" value="#{roseText.ContactInfoData}:"/>
+                                            <p:spacer width="5"/>
+                                            <h:outputText styleClass="roseHelpComment" value="#{roseText.NoRecord}"/>
+                                        </h:panelGrid>
+                                    </p:column>
+                                </p:row>
+                            </p:panelGrid>
+                        </p:outputPanel>
+                        <p:outputPanel rendered="#{cc.attrs.userProfileBean.targetUserProfile.userContactInfoProfileList.size() > 0}">
+                            <p:dataList value="#{cc.attrs.userProfileBean.targetUserProfile.userContactInfoProfileList}" 
+                                        style="width: 100%; margin-top: 5px; margin-bottom: 5px;"
+                                        var="contactInfoProfile" type="unordered" itemStyleClass="roseDataListItemStyle">
+                                #{contactInfoProfile.contactInfoEntity.contactType}: #{contactInfoProfile.contactInfoEntity.contactInfo} (#{contactInfoProfile.memoForWebFace})
+                            </p:dataList>
+                        </p:outputPanel>
+                        
+                        <ui:remove><!--User Location View--></ui:remove>
+                        <p:outputPanel rendered="#{cc.attrs.userProfileBean.targetUserProfile.userLocationProfileList.size() == 0}">
+                            <p:panelGrid style="width: 100%; margin-top: 5px; margin-bottom: 5px;">
+                                <p:row>
+                                    <p:column>
+                                        <h:panelGrid columns="3">
+                                            <h:outputText style="font-weight: bolder;" value="#{roseText.Address}:"/>
+                                            <p:spacer width="5"/>
+                                            <h:outputText styleClass="roseHelpComment" value="#{roseText.NoRecord}"/>
+                                        </h:panelGrid>
+                                    </p:column>
+                                </p:row>
+                            </p:panelGrid>
+                        </p:outputPanel>
+                        <p:outputPanel rendered="#{cc.attrs.userProfileBean.targetUserProfile.userLocationProfileList.size() > 0}">
+                            <p:dataList value="#{cc.attrs.userProfileBean.targetUserProfile.userLocationProfileList}" 
+                                        style="width: 100%; margin-top: 5px; margin-bottom: 5px;"
+                                        var="locationProfile" type="unordered" itemStyleClass="roseDataListItemStyle">
+                                #{locationProfile.addressForWebFace} (#{locationProfile.memoForWebFace})
+                            </p:dataList>
+                        </p:outputPanel>
+                        
+                        <p:commandButton value="#{roseText.Edit}" icon="fa fa-edit" rendered="#{!cc.attrs.forDataEntry}">
+                            <p:ajax listener="#{cc.attrs.userProfileBean.openUserProfileDataEntry}" 
+                                    update="@(.userProfileOutputPanel)"/>
+                        </p:commandButton>
+                    </p:panel>
+                </h:form>
+            </p:outputPanel>
+            
+            <ui:remove><!--User Profile DataEntry--></ui:remove>
+            <p:outputPanel rendered="#{cc.attrs.userProfileBean.userProfileUpdateDemanded}">
+                <h:form>
+                    <p:panel id="roseUserEntityPanel" style="font-size: 12px" header="#{roseText.UserProfile}" toggleable="#{cc.attrs.toggleable}">
+                        <p:panelGrid style="width: 100%;" styleClass="roseNoBorder">
+                            <p:row styleClass="roseNoBorder">
+                                <p:column style="width:100px" styleClass="roseNoBorder">
+                                    <p:outputLabel for="firstName" value="#{roseText.FirstName}"/>
+                                </p:column>
+                                <p:column styleClass="roseNoBorder">
+                                    <p:inputText id="firstName" placeholder="#{roseText.FirstName}"
+                                                 value="#{cc.attrs.userProfileBean.targetUserProfile.userEntity.firstName}"
+                                                 required="true" requiredMessage="#{roseText.FirstName} - #{roseText.FieldRequired_T}"
+                                                 validatorMessage="#{roseText.FirstName} - #{roseText.MaxLengthRequired_T}: 45">
+                                        <f:validateLength maximum="45"/>
+                                        <p:ajax/>
+                                    </p:inputText>
+                                </p:column>
+                                <p:column style="width:100px" styleClass="roseNoBorder">
+                                    <p:outputLabel for="middleName" value="#{roseText.MiddleName}"/>
+                                </p:column>
+                                <p:column styleClass="roseNoBorder">
+                                    <p:inputText id="middleName" placeholder="#{roseText.MiddleName}"
+                                                 value="#{cc.attrs.userProfileBean.targetUserProfile.userEntity.middleName}"
+                                                 validatorMessage="#{roseText.MiddleName} - #{roseText.MaxLengthRequired_T}: 45">
+                                        <f:validateLength maximum="45"/>
+                                        <p:ajax/>
+                                    </p:inputText>
+                                </p:column>
+                                <p:column style="width:100px" styleClass="roseNoBorder">
+                                    <p:outputLabel for="lastName" value="#{roseText.LastName}"/>
+                                </p:column>
+                                <p:column styleClass="roseNoBorder">
+                                    <p:inputText id="lastName" placeholder="#{roseText.LastName}"
+                                                 value="#{cc.attrs.userProfileBean.targetUserProfile.userEntity.lastName}"
+                                                 required="true" requiredMessage="#{roseText.LastName} - #{roseText.FieldRequired_T}"
+                                                 validatorMessage="#{roseText.LastName} - #{roseText.MaxLengthRequired_T}: 45">
+                                        <f:validateLength maximum="45"/>
+                                        <p:ajax/>
+                                    </p:inputText>
+                                </p:column>
+                                <p:column style="width:100px" styleClass="roseNoBorder">
+                                    <p:outputLabel for="ssn" value="#{roseText.SSN}"/>
+                                </p:column>
+                                <p:column styleClass="roseNoBorder">
+                                    <h:panelGrid columns="1">
+                                        <p:inputMask id="ssn" placeholder="#{roseText.SSN}" 
+                                                     value="#{cc.attrs.userProfileBean.targetUserProfile.userEntity.ssn}" mask="999-99-9999"
+                                                     validatorMessage="#{roseText.SSN} - #{roseText.MaxLengthRequired_T}: 11">
+                                            <f:validateLength maximum="11"/>
+                                            <p:ajax/>
+                                        </p:inputMask>
+                                    </h:panelGrid>
+                                </p:column>
+                            </p:row>
+                            <p:row styleClass="roseNoBorder">
+                                <p:column style="width:100px" styleClass="roseNoBorder">
+                                    <p:outputLabel for="Birthday" value="#{roseText.Birthday}"/>
+                                </p:column>
+                                <p:column styleClass="roseNoBorder">
+                                    <p:calendar id="Birthday" yearRange="c-120:c+0" pattern="MM-dd-yyyy" navigator="true" placeholder="MM-dd-yyyy"
+                                                locale="#{roseUserSession.localeCode}" value="#{cc.attrs.userProfileBean.targetUserProfile.userEntity.birthday}">
+                                        <p:ajax event="dateSelect" process="@this"/>
+                                    </p:calendar>
+                                </p:column>
+                                <p:column style="width:100px" styleClass="roseNoBorder">
+                                    <p:outputLabel for="gender" value="#{roseText.Gender}"/>
+                                </p:column>
+                                <p:column styleClass="roseNoBorder">
+                                    <h:selectOneMenu id="gender" class="form-control" style="width: 155px" 
+                                                     value="#{cc.attrs.userProfileBean.targetUserProfile.userEntity.gender}"> 
+                                        <f:selectItem itemLabel="#{roseText.Gender}......" itemValue=""/>
+                                        <f:selectItems value="#{roseSettings.humanGenderValueList}"/>
+                                        <p:ajax event="change" process="@this"/>
+                                    </h:selectOneMenu>
+                                </p:column>
+                                <p:column style="width:100px" styleClass="roseNoBorder">
+                                    <p:outputLabel for="citizenship" value="#{roseText.Citizenship}"/>
+                                </p:column>
+                                <p:column styleClass="roseNoBorder">
+                                    <p:inputText id="citizenship" placeholder="#{roseText.Citizenship}"
+                                                 value="#{cc.attrs.userProfileBean.targetUserProfile.userEntity.citizenship}"
+                                                 validatorMessage="#{roseText.Citizenship} - #{roseText.MaxLengthRequired_T}: 45">
+                                        <f:validateLength maximum="45"/>
+                                        <p:ajax/>
+                                    </p:inputText>
+                                </p:column>
+                                <p:column style="width:100px" styleClass="roseNoBorder">
+                                    <p:outputLabel for="occupation" value="#{roseText.Occupation}"/>
+                                </p:column>
+                                <p:column styleClass="roseNoBorder">
+                                    <p:inputText id="occupation" placeholder="#{roseText.Occupation}"
+                                                 value="#{cc.attrs.userProfileBean.targetUserProfile.userEntity.occupation}"
+                                                 validatorMessage="#{roseText.Occupation} - #{roseText.MaxLengthRequired_T}: 45">
+                                        <f:validateLength maximum="45"/>
+                                        <p:ajax/>
+                                    </p:inputText>
+                                </p:column>
+                            </p:row>
+                        </p:panelGrid>
+                        
+                        <ui:remove><!--User Contact Data Entry--></ui:remove>
+                        <p:outputPanel styleClass="roseUserContactInfoListPanel">
+                            <p:outputPanel rendered="#{cc.attrs.userProfileBean.targetUserProfile.userContactInfoProfileList.size() == 0}" 
+                                           style="margin-top: 5px; margin-bottom: 5px;">
+                                <p:panelGrid style="width: 100%">
+                                    <p:row>
+                                        <p:column>
+                                            <p:commandButton value="#{roseText.AddContactInfo}" immediate="true" icon="fa fa-plus-square" 
+                                                             update="@(.roseUserContactInfoListPanel)"
+                                                             actionListener="#{cc.attrs.userProfileBean.contactInfoEntityEditor.addNewContactInfoDataEntry()}"/>
+                                        </p:column>
+                                    </p:row>
+                                    <p:row>
+                                        <p:column>
+                                            <h:outputText styleClass="roseHelpComment" value="(#{roseText.MultipleLocationsContacts_T})"/>
+                                        </p:column>
+                                    </p:row>
+                                </p:panelGrid>
+                            </p:outputPanel>
+                            <p:outputPanel rendered="#{cc.attrs.userProfileBean.targetUserProfile.userContactInfoProfileList.size() > 0}" 
+                                           style="margin-top: 5px; margin-bottom: 5px;">
+                                <p:repeat value="#{cc.attrs.userProfileBean.targetUserProfile.userContactInfoProfileList}" var="contactInfoProfile">
+                                    <p:outputPanel style="margin-top: 5px; margin-bottom: 5px; margin-left: auto; margin-right: auto; width: 100%;">
+                                        <p:panelGrid style="width: 100%">
+                                            <p:row>
+                                                <p:column style="background-color: #fafafa">
+                                                    <p:outputPanel rendered="#{cc.attrs.forDataEntry}">
+                                                        <p:commandButton value="#{roseText.AddContactInfo}" immediate="true" icon="fa fa-plus-square" update="@(.roseUserContactInfoListPanel)"
+                                                                         actionListener="#{cc.attrs.userProfileBean.contactInfoEntityEditor.addNewContactInfoDataEntry()}"/>
+                                                        <p:spacer width="2"/>
+                                                        <p:commandButton immediate="true" icon="fa fa-close" update="@(.roseUserContactInfoListPanel)" style="float: right; margin-top: 2px" 
+                                                                         actionListener="#{cc.attrs.userProfileBean.contactInfoEntityEditor.deleteContactInfoDataEntry(contactInfoProfile.contactInfoEntity.contactInfoUuid)}"/>
+                                                    </p:outputPanel>
+                                                </p:column>
+                                            </p:row>
+                                            <p:row>
+                                                <p:column>
+                                                    <ez:roseContactInfoEntityPanel contactInfoProfile="#{contactInfoProfile}" viewOnly="false"/>
+                                                </p:column>
+                                            </p:row>
+                                        </p:panelGrid>
+                                    </p:outputPanel>
+                                </p:repeat>
+                            </p:outputPanel>
+                        </p:outputPanel>
+                        
+                        <ui:remove><!--User Location Data Entry--></ui:remove>
+                        <p:outputPanel styleClass="roseUserLocationListPanel">
+                            <p:outputPanel rendered="#{cc.attrs.userProfileBean.targetUserProfile.userLocationProfileList.size() == 0}" 
+                                           style="margin-top: 5px; margin-bottom: 5px;">
+                                <p:panelGrid style="width: 100%">
+                                    <p:row>
+                                        <p:column>
+                                            <p:commandLink value="#{roseText.AddAddressLocation}" immediate="true" update="@(.roseUserLocationListPanel)"
+                                                           actionListener="#{cc.attrs.userProfileBean.locationEntityEditor.addNewLocationDataEntry()}"/>
+                                        </p:column>
+                                    </p:row>
+                                    <p:row>
+                                        <p:column>
+                                            <h:outputText styleClass="roseHelpComment" value="(#{roseText.MultipleLocationsContacts_T})"/>
+                                        </p:column>
+                                    </p:row>
+                                </p:panelGrid>
+                            </p:outputPanel>
+                            <p:outputPanel rendered="#{cc.attrs.userProfileBean.targetUserProfile.userLocationProfileList.size() > 0}" style="margin-top: 5px; margin-bottom: 5px;">
+                                <p:repeat value="#{cc.attrs.userProfileBean.targetUserProfile.userLocationProfileList}" var="locationProfile">
+                                    <b:row>
+                                        <b:column>
+                                            <p:outputPanel style="margin-top: 5px; margin-bottom: 5px; margin-left: auto; margin-right: auto; width: 100%; ">
+                                                <p:panelGrid style="width: 100%">
+                                                    <p:row>
+                                                        <p:column style="background-color: #fafafa">
+                                                            <p:outputPanel>
+                                                                <p:commandButton value="#{roseText.AddAddressLocation}" immediate="true" icon="fa fa-plus-square" 
+                                                                                 update="@(.roseUserLocationListPanel)"
+                                                                                 actionListener="#{cc.attrs.userProfileBean.locationEntityEditor.addNewLocationDataEntry()}"/>
+                                                                <p:spacer width="2"/>
+                                                                <p:commandButton immediate="true" icon="fa fa-close"  update="@(.roseUserLocationListPanel)" style="float: right; margin-top: 2px" 
+                                                                                 actionListener="#{cc.attrs.userProfileBean.locationEntityEditor.deleteLocationDataEntry(locationProfile.locationEntity.locationUuid)}"/>
+                                                            </p:outputPanel>
+                                                        </p:column>
+                                                    </p:row>
+                                                    <p:row>
+                                                        <p:column>
+                                                            <ez:roseLocationEntityPanel locationProfile="#{locationProfile}" viewOnly="false" />
+                                                        </p:column>
+                                                    </p:row>
+                                                </p:panelGrid>
+                                            </p:outputPanel>
+                                        </b:column>
+                                    </b:row>
+                                </p:repeat>
+                            </p:outputPanel>
+                        </p:outputPanel>
+                        <p:outputPanel style="margin-top: 5px; margin-bottom: 5px; margin-left: auto; margin-right: auto; width: 100%;">
+                            <h:panelGrid columns="1" style="width: 100%;">
+                                <h:outputLabel value="#{roseText.Memo}"/>
+                                <h:panelGrid columns="1" style="width: 100%">
+                                    <p:inputTextarea id="memo" placeholder="#{roseText.Memo}" rendered="#{cc.attrs.forDataEntry}"
+                                                     value="#{cc.attrs.userProfileBean.targetUserProfile.userEntity.memo}" rows="5" style="width: 100%"
+                                                     validatorMessage="#{roseText.Memo} - #{roseText.MaxLengthRequired_T}: 450">
+                                        <f:validateLength maximum="450"/>
+                                        <p:ajax/>
+                                    </p:inputTextarea>
+                                </h:panelGrid>
+                            </h:panelGrid>
+                        </p:outputPanel>
+
+                        <p:commandButton value="#{roseText.Save}" icon="fa fa-close" rendered="#{cc.attrs.forDataEntry}"
+                                         action="#{cc.attrs.userProfileBean.storeTargetPersonalProfile()}" ajax="false"/>
+                        <p:commandButton value="#{roseText.Close}" icon="fa fa-close" rendered="#{cc.attrs.forDataEntry}">
+                            <p:ajax listener="#{cc.attrs.userProfileBean.closeUserProfileDataEntry}" 
+                                    update="@(.userProfileOutputPanel)"/>
+                        </p:commandButton>
+                    </p:panel>
+                </h:form>
+            </p:outputPanel>
+        </p:outputPanel>
+    </cc:implementation>
+</html>

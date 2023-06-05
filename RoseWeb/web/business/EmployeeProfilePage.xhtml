@@ -1,0 +1,93 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ez="http://xmlns.jcp.org/jsf/composite/ezcomp"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:rose="http://xmlns.jcp.org/jsf/composite/rose">
+
+    <body>
+        <ui:composition template="./../templates/templateTopLeftCenterBottom.xhtml">
+            
+            <ui:remove><!--Title--></ui:remove>
+            <ui:param name="rosePageTopic" value="#{roseText.EmployeeProfile}"/>
+            <ui:param name="topicIconAwesome" value="user"/>
+            
+            <ui:define name="f-metadata">
+                <f:metadata>
+                    <f:event listener="#{roseUserSession.handlePreRenderViewEvent()}" type="preRenderView" />
+                    <f:viewParam name="#{roseParamKeys.viewPurposeParamKey}" value="#{employeeProfileBean.requestedViewPurpose}"/>
+                    <f:viewParam name="#{roseParamKeys.employeeAccountUuidParamKey}" value="#{employeeProfileBean.requestedEmployeeAccountUuid}"/>
+                </f:metadata>
+            </ui:define>
+            
+            <ui:remove><!--This page displays public web post for any web users to read--></ui:remove>
+            <ui:define name="rosePageContent">
+                <h:form>
+                    <ui:remove><!--Functional Buttons--></ui:remove>
+                    <p:outputPanel style="margin-bottom: 20px;">
+                        <ez:employeeProfileMenuPanelGrid personalProfileBean="#{employeeProfileBean}" viewOnly="false"/>
+                    </p:outputPanel>
+                    
+                    <ui:remove><!--Employee Profile--></ui:remove>
+                    <p:outputPanel style="margin-bottom: 5px">
+                        <ez:roseEmployeeDataEntryPanel employeeProfile="#{employeeProfileBean.targetEmployeeAccountProfile}" viewOnly="false"/>
+                    </p:outputPanel>
+
+                    <ui:remove><!--Redundancy--></ui:remove>
+                    <rose:redundantUserProfilePanel currentBean="#{employeeProfileBean}"/>
+                    
+                    <ui:remove><!--Account Profile--></ui:remove>
+                    <p:outputPanel style="margin-bottom: 5px">
+                        <ez:roseAccountEntityPanel id="ezRoseAccountEntityPanel" 
+                                                   accountProfile="#{employeeProfileBean.targetAccountProfile}"
+                                                   forNewAccount="#{employeeProfileBean.forCreateNewEntity}"
+                                                   securityQnADemanded="false"
+                                                   viewOnly="false" 
+                                                   toggleable="true"/>
+                    </p:outputPanel>
+                    <ui:remove><!--User Profile--></ui:remove>
+                    <p:outputPanel style="margin-bottom: 5px">
+                        <ez:roseUserEntityPanel id="ezRoseUserEntityPanel" 
+                                                aRoseContactInfoEntityEditor="#{employeeProfileBean.targetAccountProfile.userProfile}" 
+                                                aRoseLocationEntityEditor="#{employeeProfileBean.targetAccountProfile.userProfile}" 
+                                                userProfile="#{employeeProfileBean.targetAccountProfile.userProfile}"
+                                                viewOnly="false"
+                                                toggleable="true"/>
+                    </p:outputPanel>
+
+                    <ui:remove><!--Functional Buttons--></ui:remove>
+                    <p:outputPanel style="margin-bottom: 20px;">
+                        <ez:employeeProfileMenuPanelGrid personalProfileBean="#{employeeProfileBean}" viewOnly="false"/>
+                    </p:outputPanel>
+                </h:form>
+                <ui:remove><!--Employee Profile--></ui:remove>
+                <p:outputPanel style="margin-bottom: 5px" rendered="#{!employeeProfileBean.forCreateNewEntity}">
+                    <ez:roseUserPrivilegeForm accountProfileBean="#{employeeProfileBean}"/>
+                </p:outputPanel>
+                <ui:remove><!--Employee Work List--></ui:remove>
+                <h:form>
+                    <h:panelGrid columns="1" style="margin-bottom: 5px; width: 100%">
+                        <p:panel header="#{roseText.PersonalFamilyTaxFilingTaskList}" style="font-size: 12px; margin-bottom: 5px" 
+                                 toggleable="true" collapsed="#{!employeeProfileBean.forTaxpayerCase}">
+                            <ez:taxpayerCaseEntityListDataTable roseComponentBean="#{employeeProfileBean}" 
+                                                                taxpayerCaseEntityList="#{employeeProfileBean.employeeTaxpayerCaseEntityList}"/>
+                        </p:panel>
+                        <p:panel header="#{roseText.CorporateTaxFilingTaskList}" style="font-size: 12px; margin-bottom: 5px" 
+                                 toggleable="true" collapsed="#{!employeeProfileBean.forTaxcorpCase}">
+                            <ez:taxcorpCaseEntityListDataTable roseComponentBean="#{employeeProfileBean}" 
+                                                               taxcorpCaseEntityList="#{employeeProfileBean.employeeTaxcorpCaseEntityList}"/>
+                        </p:panel>
+                    </h:panelGrid>
+                    <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+                        <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                        <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                    </p:confirmDialog>
+                </h:form>
+            </ui:define>
+        </ui:composition>
+
+    </body>
+</html>

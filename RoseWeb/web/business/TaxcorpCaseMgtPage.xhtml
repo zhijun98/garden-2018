@@ -1,0 +1,105 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ez="http://xmlns.jcp.org/jsf/composite/ezcomp"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:rose="http://xmlns.jcp.org/jsf/composite/rose">
+
+    <body>
+
+        <ui:composition template="./../templates/templateTopLeftCenterBottom.xhtml">
+            
+            <ui:remove><!--Title--></ui:remove>
+            <ui:param name="rosePageTopic" value="#{taxcorpCaseMgtBean.rosePageTopic}: #{taxcorpCaseMgtBean.targetTaxcorpCaseProfile.profileName}"/>
+            <ui:param name="topicIconAwesome" value="#{taxcorpCaseMgtBean.topicIconAwesomeName}"/>
+            
+            <ui:define name="f-metadata">
+                <f:metadata>
+                    <f:event listener="#{roseUserSession.handlePreRenderViewEvent()}" type="preRenderView" />
+                    <f:viewParam name="#{roseParamKeys.viewPurposeParamKey}" value="#{taxcorpCaseMgtBean.requestedViewPurpose}"/>
+                    <f:viewParam name="#{roseParamKeys.taxcorpCaseUuidParamKey}" value="#{taxcorpCaseMgtBean.requestedTaxcorpCaseUuid}"/>
+                    <f:viewParam name="#{roseParamKeys.customerUuidParamKey}" value="#{taxcorpCaseMgtBean.requestedCustomerUuid}"/>
+                </f:metadata>
+            </ui:define>
+
+            <ui:define name="rosePageContent">
+                <ui:remove><!--Customer Profile--></ui:remove>
+                <h:form>
+                    <p:panel id="#{roseWebID.taxcorpCaseCustomerProfilePanelID}" style="font-size: 12px" toggleable="true" 
+                            collapsed="#{roseUserSession.webPageConfig.taxcorpCaseCustomerProfilePanelCollapsed}"
+                            header="#{roseText.CustomerProfile}: #{taxcorpCaseMgtBean.targetTaxcorpCaseProfile.customerProfile.profileDescriptiveName}" >
+                        <p:ajax event="toggle" listener="#{roseUserSession.onRoseToggleEvent}" />
+                        <h:panelGrid style="width: 100%">
+                            <ui:remove><!--Account Profile--></ui:remove>
+                            <p:outputPanel style="margin-bottom: 5px">
+                                <ez:roseAccountEntityPanel id="ezRoseAccountEntityPanel" 
+                                                           accountProfile="#{taxcorpCaseMgtBean.targetTaxcorpCaseProfile.customerProfile}"
+                                                           forNewAccount="false"
+                                                           securityQnADemanded="false"
+                                                           viewOnly="true"
+                                                           toggleable="false"/>
+                            </p:outputPanel>
+                            <ui:remove><!--User Profile--></ui:remove>
+                            <p:outputPanel style="margin-bottom: 5px">
+                                <ez:roseUserEntityPanel id="ezRoseUserEntityPanel" 
+                                                        aRoseContactInfoEntityEditor="#{taxcorpCaseMgtBean.targetTaxcorpCaseProfile.customerProfile.userProfile}" 
+                                                        aRoseLocationEntityEditor="#{taxcorpCaseMgtBean.targetTaxcorpCaseProfile.customerProfile.userProfile}" 
+                                                        userProfile="#{taxcorpCaseMgtBean.targetTaxcorpCaseProfile.customerProfile.userProfile}"
+                                                        viewOnly="true" 
+                                                        toggleable="false"/>
+                            </p:outputPanel>
+                            <p:outputPanel style="margin-bottom: 5px; float: right">
+                                <h:link class="btn btn-default" style="font-size: 12px;" outcome="#{rosePages.clientProfilePageName}">
+                                    <i class="fa fa-chevron-circle-right"/> #{roseText.Details}
+                                    <f:param name="#{roseParamKeys.customerUuidParamKey}" 
+                                             value="#{taxcorpCaseMgtBean.targetTaxcorpCaseProfile.customerProfile.accountEntity.accountUuid}" />
+                                </h:link>
+                            </p:outputPanel>
+                        </h:panelGrid>
+                    </p:panel>
+                    <p:panel id="#{roseWebID.taxcorpCaseTaxationPanelID}" rendered="#{taxcorpCaseMgtBean.targetTaxcorpCaseProfile.readyForTaxFiling}"
+                             collapsed="#{roseUserSession.webPageConfig.taxcorpCaseTaxationPanelCollapsed}"
+                             style="font-size: 12px; margin-top: 5px; margin-bottom: 5px" 
+                             header="#{roseText.TaxFilingServices}" toggleable="true">
+                        <p:ajax event="toggle" listener="#{roseUserSession.onRoseToggleEvent}" />
+                        <ez:taxcorpTaxFilingPanel taxcorpCaseMgtBean="#{taxcorpCaseMgtBean}"/>
+                    </p:panel>
+                </h:form>
+                
+                <ui:remove><!--Command Bar--></ui:remove>
+                <rose:taxcorpCaseCommandsForm taxcorpCaseViewBean="#{taxcorpCaseMgtBean}"/>
+                
+                <ui:remove><!--Taxcorp Basic Profile--></ui:remove>
+                <rose:taxcorpCaseEditor taxcorpCaseDataBean="#{taxcorpCaseMgtBean}" forDataEntry="true"/>
+                
+                <ui:remove><!--Contactor Profiles--></ui:remove>
+                <rose:taxcorpContactorEditor taxcorpCaseDataBean="#{taxcorpCaseMgtBean}" forDataEntry="true"/>
+                
+                <ui:remove><!--Bill & Payment--></ui:remove>
+                <rose:businessCaseBillAndPaymentEditor businessBillPaymentInvoiceBean="#{taxcorpCaseMgtBean}" viewOnly="false"
+                                                       businessCaseProfile="#{taxcorpCaseMgtBean.targetTaxcorpCaseProfile}"
+                                                       businessCaseBillProfile="#{taxcorpCaseMgtBean.targetBusinessCaseBillProfile}"
+                                                       businessCasePaymentProfile="#{taxcorpCaseMgtBean.targetBusinessCasePaymentProfile}"/>
+                <h:form>
+                    <ui:remove><!--Upload/Download Documents--></ui:remove>
+                    <p:panel style="font-size: 12px; margin-top: 5px; margin-bottom: 5px" header="#{roseText.ArchivedDocuments}" toggleable="true">
+                        <ez:uploadedArchivedDocumentDataList currentBean="#{taxcorpCaseMgtBean}" printableOnly="false"/>
+                        <h:link class="btn btn-success" style="color:white; font-size: 12px; margin-right: 1px" 
+                                outcome="#{rosePages.uploadDocumentPageName}" rendered="#{!taxcorpCaseMgtBean.forCreateNewEntity}">
+                            <i class="fa fa-upload"/> #{roseText.UploadFiles}
+                            <f:param name="#{roseParamKeys.entityTypeParamKey}" 
+                                     value="#{roseParamValues.taxcorpCaseEntityTypeParamValue}" />
+                            <f:param name="#{roseParamKeys.entityUuidParamKey}" 
+                                     value="#{taxcorpCaseMgtBean.targetTaxcorpCaseProfile.taxcorpCaseEntity.taxcorpCaseUuid}" />
+                        </h:link>
+                    </p:panel>
+                </h:form>
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>

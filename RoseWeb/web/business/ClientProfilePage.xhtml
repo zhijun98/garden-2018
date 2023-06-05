@@ -1,0 +1,118 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ez="http://xmlns.jcp.org/jsf/composite/ezcomp"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:rose="http://xmlns.jcp.org/jsf/composite/rose">
+
+    <body>
+        <ui:composition template="./../templates/templateTopLeftCenterBottom.xhtml">
+            
+            <ui:remove><!--Title--></ui:remove>
+            <ui:param name="rosePageTopic" value="#{roseText.CustomerProfile}: #{accountProfileBean.targetAccountProfile.profileDescriptiveName}"/>
+            <ui:param name="topicIconAwesome" value="user"/>
+            
+            <ui:define name="f-metadata">
+                <f:metadata>
+                    <f:event listener="#{roseUserSession.handlePreRenderViewEvent()}" type="preRenderView" />
+                    <f:viewParam name="#{roseParamKeys.viewPurposeParamKey}" value="#{accountProfileBean.requestedViewPurpose}"/>
+                    <f:viewParam name="#{roseParamKeys.customerUuidParamKey}" value="#{accountProfileBean.requestAccountUuid}"/>
+                    <f:viewParam name="#{roseParamKeys.userUuidParamKey}" value="#{accountProfileBean.requestUsersUuid}"/>
+                </f:metadata>
+            </ui:define>
+            
+            <ui:remove><!--This page displays public web post for any web users to read--></ui:remove>
+            <ui:define name="rosePageContent">
+                <h:form>
+                    <ui:remove><!--Functional Buttons--></ui:remove>
+                    <p:outputPanel style="margin-bottom: 20px;">
+                        <ez:personalProfileFunctionalPanelGrid personalProfileBean="#{accountProfileBean}" viewOnly="false"/>
+                    </p:outputPanel>
+                    
+                    <ui:remove><!--Functional Buttons--></ui:remove>
+                    <p:outputPanel style="margin-bottom: 20px;" rendered="#{!accountProfileBean.forCreateNewEntity}">
+                        <p:panel style="font-size: 12px; margin-bottom: 5px" header="#{roseText.IndividualTaxFiling}" toggleable="true">
+                            <h:panelGrid columns="1">
+                                <p:spacer width="1" rendered="#{accountProfileBean.historicalTaxpayerCaseProfileList.size() == 0}"/>
+                                <h:outputText class="roseHint" value="#{roseText.IndividualTaxFiling}: #{roseText.NoRecord}" 
+                                              rendered="#{accountProfileBean.historicalTaxpayerCaseProfileList.size() == 0}"/>
+                                <p:spacer width="1"/>
+                                
+                                <p:commandLink style="font-size: 12px; margin-left: 0px; margin-right: 0px" 
+                                               rendered="#{accountProfileBean.customerLatestYearTaxpayerCaseProfileList.size()==0}"
+                                               action="#{accountProfileBean.requestNewIndividualTaxFiling()}">
+                                    <h:outputText value=" #{roseText.FirstTimeTaxpayer_T}" class="fa fa-caret-square-o-right"/>
+                                </p:commandLink>
+                                
+                                <ui:repeat value="#{accountProfileBean.historicalTaxpayerCaseProfileList}" var="taxpayerCase" >
+                                    <h:link style="font-size: 12px;" outcome="#{rosePages.taxpayerCaseMgtPageName}">
+                                        <i class="fa fa-caret-square-o-right"/> #{taxpayerCase.profileDescriptiveName}
+                                        <f:param name="#{roseParamKeys.taxpayerCaseUuidParamKey}" 
+                                                 value="#{taxpayerCase.taxpayerCaseEntity.taxpayerCaseUuid}" />
+                                    </h:link>
+                                    <br/>
+                                </ui:repeat>
+                                <p:spacer width="1"/>
+                            </h:panelGrid>
+                        </p:panel>
+                        <p:panel style="font-size: 12px; margin-bottom: 5px" header="#{roseText.CorporateTaxFiling}" toggleable="true">
+                            <h:panelGrid columns="1">
+                                <p:spacer width="1" rendered="#{accountProfileBean.historicalTaxcorpCaseProfileList.size() == 0}"/>
+                                <h:outputText class="roseHint" value="#{roseText.CorporateTaxFiling}: #{roseText.NoRecord}" 
+                                              rendered="#{accountProfileBean.historicalTaxcorpCaseProfileList.size() == 0}"/>
+                                <p:spacer width="1"/>
+
+                                <p:commandLink style="font-size: 12px; margin-left: 0px; margin-right: 0px" 
+                                               rendered="#{accountProfileBean.historicalTaxcorpCaseProfileList.size()==0}"
+                                               action="#{accountProfileBean.requestNewCorporateTaxFiling()}">
+                                    <h:outputText value=" #{roseText.FirstTimeTaxcorp_T}" class="fa fa-caret-square-o-right"/>
+                                </p:commandLink>
+                                <ui:repeat value="#{accountProfileBean.historicalTaxcorpCaseProfileList}" var="taxcorpCase" >
+                                    <h:link style="font-size: 12px;" outcome="#{rosePages.taxcorpCaseMgtPageName}">
+                                        <i class="fa fa-caret-square-o-right"/> #{taxcorpCase.profileDescriptiveName}
+                                        <f:param name="#{roseParamKeys.taxcorpCaseUuidParamKey}" 
+                                                 value="#{taxcorpCase.taxcorpCaseEntity.taxcorpCaseUuid}" />
+                                    </h:link><br/>
+                                </ui:repeat>
+                                <p:spacer width="1"/>
+                            </h:panelGrid>
+                        </p:panel>
+                    </p:outputPanel>
+
+                    <ui:remove><!--Redundancy--></ui:remove>
+                    <rose:redundantUserProfilePanel currentBean="#{accountProfileBean}"/>
+                    
+                    <ui:remove><!--Account Profile--></ui:remove>
+                    <p:outputPanel style="margin-bottom: 5px">
+                        <h:outputText class="label label-danger" style="font-size: 12px"
+                                      value="#{accountProfileBean.webMessage}" rendered="#{accountProfileBean.webMessagePresented}"/>
+                        <ez:roseAccountEntityPanel id="ezRoseAccountEntityPanel" 
+                                                   accountProfile="#{accountProfileBean.targetAccountProfile}"
+                                                   forNewAccount="#{accountProfileBean.forCreateNewEntity}"
+                                                   securityQnADemanded="false"
+                                                   viewOnly="false"
+                                                   toggleable="true"/>
+                    </p:outputPanel>
+                    <ui:remove><!--User Profile--></ui:remove>
+                    <p:outputPanel style="margin-bottom: 5px">
+                        <ez:roseUserEntityPanel id="ezRoseUserEntityPanel" 
+                                                aRoseContactInfoEntityEditor="#{accountProfileBean.targetAccountProfile.userProfile}" 
+                                                aRoseLocationEntityEditor="#{accountProfileBean.targetAccountProfile.userProfile}" 
+                                                userProfile="#{accountProfileBean.targetAccountProfile.userProfile}"
+                                                viewOnly="false" 
+                                                toggleable="true"/>
+                    </p:outputPanel>
+                    
+                    <ui:remove><!--Functional Buttons--></ui:remove>
+                    <p:outputPanel style="margin-bottom: 20px;">
+                        <ez:personalProfileFunctionalPanelGrid personalProfileBean="#{accountProfileBean}" viewOnly="false"/>
+                    </p:outputPanel>
+                </h:form>
+            </ui:define>
+        </ui:composition>
+
+    </body>
+</html>

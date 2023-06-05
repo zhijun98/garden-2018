@@ -1,0 +1,36 @@
+<?xml version='1.0' encoding='UTF-8' ?> 
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:b="http://bootsfaces.net/ui">
+
+    <!-- One of the following INSERTS has to be overridden-->
+    <ui:insert name="f-metadata">
+        <f:metadata>
+            <f:event listener="#{roseUserSession.handlePreRenderViewEvent()}" type="preRenderView" />
+        </f:metadata>
+    </ui:insert>
+
+    <h:head>
+        <ui:remove><!--HTML head-meta and title for web pages--></ui:remove>
+        <ui:include src="includes/roseHtmlHead.xhtml"/>
+    </h:head>
+    
+    <h:body id="roseBody">
+        <ui:insert name="rosePageTop">
+            rosePageTop
+        </ui:insert>
+        <ui:insert name="rosePageContent">
+            <p:outputPanel>
+                <b:container fluid="true">
+                    rosePageContent
+                </b:container>
+            </p:outputPanel>
+            
+        </ui:insert>
+    </h:body>
+
+</html>

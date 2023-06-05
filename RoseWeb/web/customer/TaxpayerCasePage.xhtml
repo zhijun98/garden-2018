@@ -1,0 +1,346 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:b="http://bootsfaces.net/ui"
+      xmlns:ez="http://xmlns.jcp.org/jsf/composite/ezcomp"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <body>
+
+        <ui:composition template="./../templates/templateTopCenterBottom.xhtml">
+            
+            <ui:remove><!--Title--></ui:remove>
+            <ui:param name="rosePageTopic" value="#{taxpayerCaseBean.rosePageTopic }"/>
+            <ui:param name="topicIconAwesome" value="#{taxpayerCaseBean.topicIconAwesomeName}"/>
+            
+            <ui:define name="f-metadata">
+                <f:metadata>
+                    <f:event listener="#{roseUserSession.handlePreRenderViewEvent()}" type="preRenderView" />
+                    <f:viewParam name="#{roseParamKeys.taxpayerCaseUuidParamKey}" value="#{taxpayerCaseBean.requestedTaxpayerCaseUuid}"/>
+                    <f:viewParam name="#{roseParamKeys.viewPurposeParamKey}" value="#{taxpayerCaseBean.requestedViewPurpose}"/>
+                    <f:viewParam name="#{roseParamKeys.customerUuidParamKey}" value="#{taxpayerCaseBean.requestedCustomerUuid}"/>
+                </f:metadata>
+            </ui:define>
+
+            <ui:define name="rosePageContent">                
+                <h:form>
+                    <p:panel id="taxpayerCaseInstructionPanel" style="font-size: 12px; margin-top: 5px; margin-bottom: 5px" 
+                             header="#{roseText.Instruction}" toggleable="true" rendered="#{taxpayerCaseBean.forCreateNewEntity}">
+                        <ez:customerTaxpayerCaseInstruction/>
+                    </p:panel>
+
+                    <p:panel style="font-size: 12px; margin-top: 5px; margin-bottom: 5px">
+                        <ez:taxpayerCaseCommandButtonsPanelGrid aTaxpayerCaseViewBean="#{taxpayerCaseBean}" viewOnly="false"
+                                                                historicalTaxpayerCaseProfileList="#{roseUserSession.historicalTaxpayerCaseProfileList}"/>
+                    </p:panel>
+
+                    <p:panel id="basicInformationPanel" style="font-size: 12px; margin-top: 5px; margin-bottom: 5px" 
+                             header="#{roseText.BasicInformation}" toggleable="true">
+                        <ez:taxpayerCaseBasicInformation aTaxpayerCaseViewBean="#{taxpayerCaseBean}" viewOnly="false"/>
+                    </p:panel>
+                    <p:panel id="personalInformationPanel" style="font-size: 12px; margin-bottom: 5px" 
+                             header="#{roseText.PersonalInformation}" toggleable="true">
+                        <b:row>
+                            <b:column col-md="6">
+                                <p:panelGrid style="margin-top: 5px; margin-bottom: 5px; width: 100%">
+                                    <p:row>
+                                        <p:column style="background: #fafafa">
+                                            <h:outputText value="#{roseText.PrimaryTaxpayer}" style="font-size: 12px; font-weight: bolder;"/>
+                                        </p:column>
+                                    </p:row>
+                                    <p:row>
+                                        <p:column>
+                                            <ez:taxpayerInformation aTaxpayerCaseViewBean="#{taxpayerCaseBean}" 
+                                                                    taxpayerInfoProfile="#{taxpayerCaseBean.targetTaxpayerCaseProfile.primaryTaxpayerProfile}" 
+                                                                    viewOnly="false"/>
+                                        </p:column>
+                                    </p:row>
+                                </p:panelGrid>
+                            </b:column>
+                            <b:column col-md="6">
+                                <p:panelGrid style="margin-top: 5px; margin-bottom: 5px; width: 100%">
+                                    <p:row>
+                                        <p:column style="background: #fafafa">
+                                            <h:panelGrid columns="3">
+                                                <h:outputText value="#{roseText.Spouse}" style="font-size: 12px; font-weight: bolder;"/>
+                                                <p:spacer width="2"/>
+                                                <p:selectBooleanCheckbox value="#{taxpayerCaseBean.spouseRequired}" onchange="PF('warningSpouseCheck').show();">
+                                                    <p:ajax update="@(.roseSpouseProfilePanel)" />
+                                                </p:selectBooleanCheckbox>
+                                            </h:panelGrid>
+                                        </p:column>
+                                    </p:row>
+                                    <p:row>
+                                        <p:column>
+                                            <p:outputPanel styleClass="roseSpouseProfilePanel">
+                                                <ez:taxpayerInformation aTaxpayerCaseViewBean="#{taxpayerCaseBean}" 
+                                                                        taxpayerInfoProfile="#{taxpayerCaseBean.targetTaxpayerCaseProfile.spouseProfile}" 
+                                                                        viewOnly="#{!taxpayerCaseBean.spouseRequired}"/>
+                                            </p:outputPanel>
+                                        </p:column>
+                                    </p:row>
+                                </p:panelGrid>
+                            </b:column>
+                        </b:row>
+                        <b:row>
+                            <b:column>
+                                <p:outputPanel style="margin-top: 5px; margin-bottom: 5px; margin-left: auto; margin-right: auto; width: 100%; ">
+                                    <p:panelGrid style="width: 100%">
+                                        <p:row>
+                                            <p:column style="background: #fafafa">
+                                                <h:outputText value="#{roseText.PrimaryAddress}" style="font-size: 12px; font-weight: bolder;"/>
+                                            </p:column>
+                                        </p:row>
+                                        <p:row>
+                                            <p:column>
+                                                <ez:roseLocationEntityPanel locationProfile="#{taxpayerCaseBean.targetTaxpayerCaseProfile.primaryLocationProfile}" viewOnly="false" />
+                                            </p:column>
+                                        </p:row>
+                                    </p:panelGrid>
+                                </p:outputPanel>
+                            </b:column>
+                        </b:row>
+                    </p:panel>
+
+
+                    <p:panel style="font-size: 12px; margin-top: 5px; margin-bottom: 5px">
+                        <ez:taxpayerCaseCommandButtonsPanelGrid aTaxpayerCaseViewBean="#{taxpayerCaseBean}" viewOnly="false"
+                                                                historicalTaxpayerCaseProfileList="#{roseUserSession.historicalTaxpayerCaseProfileList}"/>
+                    </p:panel>
+
+                    <p:panel id="otherInformation" style="font-size: 12px; margin-top: 5px; margin-bottom: 5px" 
+                             header="#{roseText.OtherInformation}" toggleable="true">
+                        <p:outputPanel style="margin-top: 5px; margin-bottom: 5px; margin-left: auto; margin-right: auto; width: 100%;"
+                                       styleClass="roseTaxpayerOtherInformationPanel" >
+
+                            <ui:remove><!--Dependant Information--></ui:remove>
+
+                            <p:outputPanel rendered="#{taxpayerCaseBean.targetTaxpayerCaseProfile.dependantProfileList.size() == 0}">
+                                <b:row>
+                                    <b:column>
+                                        <p:panelGrid style="width: 100%">
+                                            <ui:remove><!--Commands Row--></ui:remove>
+                                            <p:row>
+                                                <p:column>
+                                                    <p:commandButton value="#{roseText.AddDependants}" immediate="true" icon="fa fa-plus-square" 
+                                                                     update="@(.roseTaxpayerOtherInformationPanel)"
+                                                                     actionListener="#{taxpayerCaseBean.targetTaxpayerCaseProfile.addNewDependantDataEntry()}"/>
+                                                </p:column>
+                                            </p:row>
+                                            <p:row>
+                                                <p:column>
+                                                    <h:outputText styleClass="roseHelpComment" value="(#{roseText.AddMultipleRecords_T})"/>
+                                                </p:column>
+                                            </p:row>
+                                        </p:panelGrid>
+                                    </b:column>
+                                </b:row>
+                            </p:outputPanel>
+                            <p:outputPanel rendered="#{taxpayerCaseBean.targetTaxpayerCaseProfile.dependantProfileList.size() > 0}">
+                                <p:repeat value="#{taxpayerCaseBean.targetTaxpayerCaseProfile.dependantProfileList}" var="dependantProfile">
+                                    <b:row>
+                                        <b:column>
+                                            <p:panelGrid style="width: 100%">
+                                                <p:row>
+                                                    <p:column>
+                                                        <p:commandButton value="#{roseText.AddDependants}" immediate="true" icon="fa fa-plus-square" 
+                                                                         update="@(.roseTaxpayerOtherInformationPanel)"
+                                                                         actionListener="#{taxpayerCaseBean.targetTaxpayerCaseProfile.addNewDependantDataEntry()}"/>
+                                                        <p:spacer width="2"/>
+                                                        <p:commandButton immediate="true" icon="fa fa-close"  update="@(.roseTaxpayerOtherInformationPanel)" style="float: right; margin-top: 2px" 
+                                                                         actionListener="#{taxpayerCaseBean.targetTaxpayerCaseProfile.deleteDependant(dependantProfile.taxpayerInfoEntity.taxpayerUserUuid)}">
+                                                        </p:commandButton>
+                                                    </p:column>
+                                                </p:row>
+                                                <p:row>
+                                                    <p:column>
+                                                        <ez:dependantInformation dependantInfoProfile="#{dependantProfile}" viewOnly="false"/>
+                                                    </p:column>
+                                                </p:row>
+                                            </p:panelGrid>
+
+                                        </b:column>
+                                    </b:row>
+                                </p:repeat>
+                            </p:outputPanel>
+
+                            <ui:remove><!--Personal Business Property Information--></ui:remove>
+                            <p:outputPanel rendered="#{taxpayerCaseBean.targetTaxpayerCaseProfile.personalBusinessPropertyProfileList.size() == 0}">
+                                <b:row>
+                                    <b:column>
+                                        <p:panelGrid style="width: 100%">
+                                            <ui:remove><!--Commands Row--></ui:remove>
+                                            <p:row>
+                                                <p:column>
+                                                    <p:commandButton value="#{roseText.AddBusinessIncomeAndLoss}" 
+                                                                     immediate="true" icon="fa fa-plus-square" 
+                                                                     update="@(.roseTaxpayerOtherInformationPanel)"
+                                                                     actionListener="#{taxpayerCaseBean.targetTaxpayerCaseProfile.addNewPersonalBusinessPropertyDataEntry()}"/>
+                                                </p:column>
+                                            </p:row>
+                                            <p:row>
+                                                <p:column>
+                                                    <h:outputText styleClass="roseHelpComment" value="(#{roseText.AddMultipleRecords_T})"/>
+                                                </p:column>
+                                            </p:row>
+                                        </p:panelGrid>
+                                    </b:column>
+                                </b:row>
+                            </p:outputPanel>
+                            <p:outputPanel rendered="#{taxpayerCaseBean.targetTaxpayerCaseProfile.personalBusinessPropertyProfileList.size() > 0}">
+                                <p:repeat value="#{taxpayerCaseBean.targetTaxpayerCaseProfile.personalBusinessPropertyProfileList}" var="personalBusinessProperty">
+                                    <b:row>
+                                        <b:column>
+                                            <p:panelGrid style="width: 100%">
+                                                <p:row>
+                                                    <p:column>
+                                                        <p:commandButton value="#{roseText.AddBusinessIncomeAndLoss}" immediate="true" icon="fa fa-plus-square" 
+                                                                         update="@(.roseTaxpayerOtherInformationPanel)"
+                                                                         actionListener="#{taxpayerCaseBean.targetTaxpayerCaseProfile.addNewPersonalBusinessPropertyDataEntry()}"/>
+                                                        <p:spacer width="2"/>
+                                                        <p:commandButton immediate="true" icon="fa fa-close"  update="@(.roseTaxpayerOtherInformationPanel)" style="float: right; margin-top: 2px" 
+                                                                         actionListener="#{taxpayerCaseBean.targetTaxpayerCaseProfile.deletePersonalBusinessProperty(personalBusinessProperty.personalBusinessPropertyEntity.personalBusinessPropertyUuid)}">
+                                                        </p:commandButton>
+                                                    </p:column>
+                                                </p:row>
+                                                <p:row>
+                                                    <p:column>
+                                                        <ez:personalBusinessPropertyInformation personalBusinessPropertyProfile="#{personalBusinessProperty}" viewOnly="false"/>
+                                                    </p:column>
+                                                </p:row>
+                                            </p:panelGrid>
+
+                                        </b:column>
+                                    </b:row>
+                                </p:repeat>
+                            </p:outputPanel>
+
+                            <ui:remove><!--Personal Property Information--></ui:remove>
+                            <p:outputPanel rendered="#{taxpayerCaseBean.targetTaxpayerCaseProfile.personalPropertyProfileList.size() == 0}">
+                                <b:row>
+                                    <b:column>
+                                        <p:panelGrid style="width: 100%">
+                                            <ui:remove><!--Commands Row--></ui:remove>
+                                            <p:row>
+                                                <p:column>
+                                                    <p:commandButton value="#{roseText.AddSupplementalIncomeAndLoss}" 
+                                                                     immediate="true" icon="fa fa-plus-square" 
+                                                                     update="@(.roseTaxpayerOtherInformationPanel)"
+                                                                     actionListener="#{taxpayerCaseBean.targetTaxpayerCaseProfile.addNewPersonalPropertyDataEntry()}"/>
+                                                </p:column>
+                                            </p:row>
+                                            <p:row>
+                                                <p:column>
+                                                    <h:outputText styleClass="roseHelpComment" value="(#{roseText.AddMultipleRecords_T})"/>
+                                                </p:column>
+                                            </p:row>
+                                        </p:panelGrid>
+                                    </b:column>
+                                </b:row>
+                            </p:outputPanel>
+                            <p:outputPanel rendered="#{taxpayerCaseBean.targetTaxpayerCaseProfile.personalPropertyProfileList.size() > 0}">
+                                <p:repeat value="#{taxpayerCaseBean.targetTaxpayerCaseProfile.personalPropertyProfileList}" var="personalProperty">
+                                    <b:row>
+                                        <b:column>
+                                            <p:panelGrid style="width: 100%">
+                                                <p:row>
+                                                    <p:column>
+                                                        <p:commandButton value="#{roseText.AddSupplementalIncomeAndLoss}" immediate="true" icon="fa fa-plus-square" 
+                                                                         update="@(.roseTaxpayerOtherInformationPanel)" 
+                                                                         actionListener="#{taxpayerCaseBean.targetTaxpayerCaseProfile.addNewPersonalPropertyDataEntry()}"/>
+                                                        <p:spacer width="2"/>
+                                                        <p:commandButton immediate="true" icon="fa fa-close"  update="@(.roseTaxpayerOtherInformationPanel)" style="float: right; margin-top: 2px" 
+                                                                         actionListener="#{taxpayerCaseBean.targetTaxpayerCaseProfile.deletePersonalProperty(personalProperty.personalPropertyEntity.personalPropertyUuid)}">
+                                                        </p:commandButton>
+                                                    </p:column>
+                                                </p:row>
+                                                <p:row>
+                                                    <p:column>
+                                                        <ez:personalPropertyInformation personalPropertyProfile="#{personalProperty}" viewOnly="false"/>
+                                                    </p:column>
+                                                </p:row>
+                                            </p:panelGrid>
+                                        </b:column>
+                                    </b:row>
+                                </p:repeat>
+                            </p:outputPanel>
+
+
+                            <ui:remove><!--TLC License--></ui:remove>
+                            <p:outputPanel rendered="#{taxpayerCaseBean.targetTaxpayerCaseProfile.tlcLicenseProfileList.size() == 0}">
+                                <b:row>
+                                    <b:column>
+                                        <p:panelGrid style="width: 100%">
+                                            <ui:remove><!--Commands Row--></ui:remove>
+                                            <p:row>
+                                                <p:column>
+                                                    <p:commandButton value="#{roseText.AddTLCLicense}" 
+                                                                     immediate="true" icon="fa fa-plus-square" 
+                                                                     update="@(.roseTaxpayerOtherInformationPanel)"
+                                                                     actionListener="#{taxpayerCaseBean.targetTaxpayerCaseProfile.addNewTLCLicenseDataEntry()}"/>
+                                                </p:column>
+                                            </p:row>
+                                            <p:row>
+                                                <p:column>
+                                                    <h:outputText styleClass="roseHelpComment" value="(#{roseText.AddMultipleRecords_T})"/>
+                                                </p:column>
+                                            </p:row>
+                                        </p:panelGrid>
+                                    </b:column>
+                                </b:row>
+                            </p:outputPanel>
+                            <p:outputPanel rendered="#{taxpayerCaseBean.targetTaxpayerCaseProfile.tlcLicenseProfileList.size() > 0}">
+                                <p:repeat value="#{taxpayerCaseBean.targetTaxpayerCaseProfile.tlcLicenseProfileList}" var="tlcLicense">
+                                    <b:row>
+                                        <b:column>
+                                            <p:panelGrid style="width: 100%">
+                                                <p:row>
+                                                    <p:column>
+                                                        <p:commandButton value="#{roseText.AddTLCLicense}" immediate="true" icon="fa fa-plus-square" 
+                                                                         update="@(.roseTaxpayerOtherInformationPanel)"
+                                                                         actionListener="#{taxpayerCaseBean.targetTaxpayerCaseProfile.addNewTLCLicenseDataEntry()}"/>
+                                                        <p:spacer width="2"/>
+                                                        <p:commandButton immediate="true" icon="fa fa-close"  update="@(.roseTaxpayerOtherInformationPanel)" 
+                                                                         style="float: right; margin-top: 2px" 
+                                                                         actionListener="#{taxpayerCaseBean.targetTaxpayerCaseProfile.deleteTLCLicense(tlcLicense.tlcLicenseEntity.driverUuid)}">
+                                                        </p:commandButton>
+                                                    </p:column>
+                                                </p:row>
+                                                <p:row>
+                                                    <p:column>
+                                                        <ez:tlcLicenseInformation tlcLicenseProfile="#{tlcLicense}" viewOnly="false"/>
+                                                    </p:column>
+                                                </p:row>
+                                            </p:panelGrid>
+                                        </b:column>
+                                    </b:row>
+                                </p:repeat>
+                            </p:outputPanel>
+                        </p:outputPanel>
+                    </p:panel>
+
+                    <ui:remove><!--Upload/Download Documents--></ui:remove>
+                    <p:panel style="font-size: 12px; margin-top: 5px; margin-bottom: 5px" header="#{roseText.ArchivedDocuments}">
+                        <ez:uploadedArchivedDocumentDataList currentBean="#{taxpayerCaseBean}" printableOnly="false"/>
+                    </p:panel>
+
+                    <p:panel style="font-size: 12px; margin-top: 5px; margin-bottom: 5px">
+                        <h:panelGrid columns="1" style="width: 100%">
+                            <ez:taxpayerCaseCommandButtonsPanelGrid aTaxpayerCaseViewBean="#{taxpayerCaseBean}" viewOnly="false"
+                                                                    historicalTaxpayerCaseProfileList="#{roseUserSession.historicalTaxpayerCaseProfileList}"/>
+                        </h:panelGrid>
+                    </p:panel>
+
+                    <p:dialog header="#{roseText.Warning}" widgetVar="warningSpouseCheck" minHeight="100">
+                        <h:outputText value="If checked, spouse data is required. If unchecked, spouse data is deleted." />
+                    </p:dialog>
+                </h:form>
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>

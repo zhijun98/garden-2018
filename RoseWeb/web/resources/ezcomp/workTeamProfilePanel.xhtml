@@ -1,0 +1,63 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:cc="http://xmlns.jcp.org/jsf/composite"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+
+    <!-- INTERFACE -->
+    <cc:interface>
+        <cc:attribute name="roseWorkTeamBean" type="com.zcomapproach.garden.rose.bean.RoseWorkTeamBean" required="true"/>
+    </cc:interface>
+
+    <!-- IMPLEMENTATION -->
+    <cc:implementation>
+        <p:panel id="garden_team_panel" header="#{roseText.WorkTeamProfile}" style="margin-bottom:5px; font-size: 12px" toggleable="true">
+            <h:panelGrid columns="11">
+                <!--Row-->
+                <h:outputText value="#{roseText.TeamName}:" />
+                <p:spacer width="5"/>
+                <p:inputText id="teamName" value="#{cc.attrs.roseWorkTeamBean.targetWorkTeamProfile.workTeamEntity.teamName}"
+                             required="true" requiredMessage="#{roseText.TeamName} - #{roseText.FieldRequired_T}"
+                             validatorMessage="#{roseText.TeamName} - #{roseText.MaxLengthRequired_T}: 100">
+                    <f:validateLength maximum="100"/>
+                    <p:ajax/>
+                </p:inputText>
+                <p:spacer width="5"/>
+                <h:outputText value="#{roseText.Description}:" />
+                <p:spacer width="5"/>
+                <p:inputText id="description" value="#{cc.attrs.roseWorkTeamBean.targetWorkTeamProfile.workTeamEntity.description}" style="width: 400px"
+                             required="true" requiredMessage="#{roseText.Description} - #{roseText.FieldRequired_T}"
+                             validatorMessage="#{roseText.Description} - #{roseText.MaxLengthRequired_T}: 450">
+                    <f:validateLength maximum="450"/>
+                    <p:ajax/>
+                </p:inputText>
+                <!--Row-->
+                <p:spacer width="5"/>
+                <p:spacer width="5"/>
+                <p:message for="teamName"/>
+                <p:spacer width="5"/>
+                <p:spacer width="5"/>
+                <p:spacer width="5"/>
+                <p:message for="description"/>
+            </h:panelGrid>
+            <h:panelGrid columns="1">
+                <h:outputText value="#{roseText.SelectTeamMembers}:" style="font-weight: bold"/>
+                <p:spacer width="1"/>
+                <p:selectManyCheckbox id="employee_check_list" value="#{cc.attrs.roseWorkTeamBean.selectedEmployeeAccountProfileList}" 
+                                      layout="grid" columns="8" converter="employeeAccountProfileConverter" style="font-size: 12px"
+                                      required="true" requiredMessage="#{roseText.SelectTeamMembers} - #{roseText.FieldRequired_T}">
+                    <f:selectItems value="#{cc.attrs.roseWorkTeamBean.employeeAccountProfileList}" var="employee" 
+                                   itemLabel="#{employee.profileName}" itemValue="#{employee}" />
+                    <p:ajax event="change" process="@this"/>
+                </p:selectManyCheckbox>
+                <p:message for="employee_check_list"/>
+            </h:panelGrid>
+            <p:spacer width="1"/>
+            <h:panelGrid columns="1" >
+                <h:outputText value="Privilege role selection here..." style="font-weight: bold" />
+            </h:panelGrid>
+        </p:panel>
+    </cc:implementation>
+</html>

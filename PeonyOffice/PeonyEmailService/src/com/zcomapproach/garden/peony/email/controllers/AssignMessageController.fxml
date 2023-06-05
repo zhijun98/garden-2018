@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.effect.*?>
+<?import java.net.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <GridPane fx:id="assignSelectedEmailsGridPane" prefHeight="160.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <columnConstraints>
+          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+        </columnConstraints>
+        <rowConstraints>
+          <RowConstraints maxHeight="80.0" minHeight="80.0" percentHeight="80.0" prefHeight="80.0" valignment="CENTER" vgrow="NEVER" />
+          <RowConstraints maxHeight="80.0" minHeight="80.0" percentHeight="80.0" prefHeight="80.0" vgrow="NEVER" />
+        </rowConstraints>
+         <children>
+            <HBox alignment="CENTER" styleClass="peony-primary-header">
+               <children>
+                  <Label styleClass="peony-primary-title-label" text="Assign Selected Emails" />
+               </children>
+            </HBox>
+            <VBox prefHeight="200.0" prefWidth="100.0" spacing="5.0" GridPane.rowIndex="1">
+               <children>
+                  <Label ellipsisString="......" styleClass="peony-secondary-title-label" text="Selected Email(s):" wrapText="true" />
+                  <Label fx:id="selectedEmailsLabel" ellipsisString="......" styleClass="peony-note-control" text="Selected Email(s):" wrapText="true" />
+               </children>
+               <padding>
+                  <Insets bottom="5.0" left="10.0" right="10.0" top="5.0" />
+               </padding>
+            </VBox>
+         </children>
+      </GridPane>
+      <GridPane layoutX="300.0" layoutY="246.0" AnchorPane.bottomAnchor="80.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="160.0">
+        <columnConstraints>
+          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+        </columnConstraints>
+        <rowConstraints>
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+        </rowConstraints>
+         <children>
+            <AnchorPane prefHeight="200.0" prefWidth="200.0">
+               <children>
+                  <Label layoutX="48.0" layoutY="35.0" styleClass="peony-regular-title-label" text="Attention To:" wrapText="true" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="10.0" />
+                  <ListView fx:id="attentionListView" layoutX="-1.0" layoutY="68.0" prefHeight="180.0" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="40.0" />
+               </children>
+            </AnchorPane>
+            <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1">
+               <children>
+                  <Label layoutX="62.0" layoutY="92.0" styleClass="peony-regular-title-label" text="Related Tax Case(s):" wrapText="true" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="10.0">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Label>
+                  <ListView fx:id="selectedTaxCaseListView" layoutX="-61.0" layoutY="-36.0" prefHeight="180.0" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="40.0" />
+               </children>
+            </AnchorPane>
+            <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="2">
+               <children>
+                  <Label layoutX="24.0" layoutY="24.0" styleClass="peony-regular-title-label" text="Notes:" wrapText="true" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="10.0">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Label>
+                  <TextArea fx:id="notesTextArea" layoutX="-2.0" layoutY="38.0" prefHeight="180.0" promptText="Write notes here..." wrapText="true" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="40.0" />
+               </children>
+            </AnchorPane>
+         </children>
+      </GridPane>
+      <HBox alignment="CENTER" prefHeight="80.0" styleClass="peony-footer-hbox" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+         <children>
+            <Button fx:id="attentionButton" mnemonicParsing="false" prefWidth="100.0" styleClass="peony-primary-big-button" text="Attention">
+               <HBox.margin>
+                  <Insets left="2.0" right="2.0" />
+               </HBox.margin>
+            </Button>
+            <Button fx:id="taxCaseButton" mnemonicParsing="false" prefWidth="100.0" styleClass="peony-primary-big-button" text="Tax Case">
+               <HBox.margin>
+                  <Insets left="2.0" right="2.0" />
+               </HBox.margin>
+            </Button>
+            <Button fx:id="assignButton" mnemonicParsing="false" prefWidth="100.0" styleClass="peony-primary-big-button" text="Assign">
+               <HBox.margin>
+                  <Insets left="2.0" right="2.0" />
+               </HBox.margin>
+            </Button>
+            <Button fx:id="closeButton" mnemonicParsing="false" prefWidth="100.0" styleClass="peony-plain-big-button" text="Close">
+               <HBox.margin>
+                  <Insets left="2.0" right="2.0" />
+               </HBox.margin>
+            </Button>
+         </children>
+      </HBox>
+   </children>
+   <stylesheets>
+      <URL value="@../../../../../../../../PeonyResources/src/com/zcomapproach/garden/peony/resources/css/PeonyCss.css" />
+   </stylesheets>
+</AnchorPane>

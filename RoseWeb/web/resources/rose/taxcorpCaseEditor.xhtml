@@ -1,0 +1,407 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:cc="http://xmlns.jcp.org/jsf/composite"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+
+    <!-- INTERFACE -->
+    <cc:interface>
+        <cc:attribute name="taxcorpCaseDataBean" type="com.zcomapproach.garden.rose.bean.ITaxcorpCaseDataBean" required="true"/>
+        <cc:attribute name="forDataEntry" type="java.lang.Boolean" required="true"/>
+    </cc:interface>
+
+    <!-- IMPLEMENTATION -->
+    <cc:implementation>
+        <p:outputPanel styleClass="taxcorpCaseBasicInformationOutputPanel">
+            <ui:remove><!--Read-Only TaxcorpCase--></ui:remove>
+            <p:outputPanel rendered="#{!cc.attrs.taxcorpCaseDataBean.taxcorpCaseBasicInformationUpdateDemanded}">
+                <h:form>
+                    <p:panel style="font-size: 11px; margin-top: 5px; margin-bottom: 5px" 
+                             header="#{roseText.TaxcorpBasicInformation}" toggleable="#{cc.attrs.forDataEntry}">
+                        <p:panelGrid style="width: 100%" styleClass="roseNoBorder">
+                            <p:row styleClass="roseNoBorder">
+                                <p:column styleClass="roseNoBorder">
+                                    <p:outputLabel value="#{roseText.Customer}:"/>
+                                </p:column>
+                                <p:column styleClass="roseNoBorder">
+                                    <h:outputText value="#{cc.attrs.taxcorpCaseDataBean.targetTaxcorpCaseProfile.customerProfile.userProfile.profileName}"
+                                                  style="font-style: italic"/>
+                                </p:column>
+                                <p:column styleClass="roseNoBorder">
+                                    <p:outputLabel value="#{roseText.CompanyName}:"/>
+                                </p:column>
+                                <p:column styleClass="roseNoBorder">
+                                    <h:outputText value="#{cc.attrs.taxcorpCaseDataBean.targetTaxcorpCaseProfile.taxcorpCaseEntity.corporateName}" 
+                                                  style="font-style: italic"/>
+                                </p:column>
+                                <p:column styleClass="roseNoBorder">
+                                    <p:outputLabel value="#{roseText.EinNumber}"/>
+                                </p:column>
+                                <p:column styleClass="roseNoBorder">
+                                    <h:outputText value="#{cc.attrs.taxcorpCaseDataBean.targetTaxcorpCaseProfile.taxcorpCaseEntity.einNumber}" 
+                                                  style="font-style: italic"/>
+                                </p:column>
+                                <p:column styleClass="roseNoBorder">
+                                    <p:outputLabel value="#{roseText.BusinessType}:"/>
+                                </p:column>
+                                <p:column styleClass="roseNoBorder">
+                                    <h:outputText value="#{cc.attrs.taxcorpCaseDataBean.targetTaxcorpCaseProfile.taxcorpCaseEntity.businessType}" 
+                                                  style="font-style: italic"/>
+                                </p:column>
+                                <p:column styleClass="roseNoBorder">
+                                    <p:outputLabel value="#{roseText.BusinessPurpose}:"/>
+                                </p:column>
+                                <p:column styleClass="roseNoBorder">
+                                    <h:outputText value="#{cc.attrs.taxcorpCaseDataBean.targetTaxcorpCaseProfile.taxcorpCaseEntity.businessPurpose}" 
+                                                  style="font-style: italic"/>
+                                </p:column>
+                            </p:row>
+                            <p:row styleClass="roseNoBorder">
+                                <p:column styleClass="roseNoBorder">
+                                    <p:outputLabel value="#{roseText.DosDate}"/>
+                                </p:column>
+                                <p:column styleClass="roseNoBorder">
+                                    <h:outputText value="#{cc.attrs.taxcorpCaseDataBean.targetTaxcorpCaseProfile.taxcorpCaseEntity.dosDate}" 
+                                                  style="font-style: italic">
+                                        <f:convertDateTime pattern="MM-dd-yyyy" />
+                                    </h:outputText>
+                                </p:column>
+                                <p:column styleClass="roseNoBorder">
+                                    <p:outputLabel value="#{roseText.Email}:"/>
+                                </p:column>
+                                <p:column styleClass="roseNoBorder">
+                                    <h:outputText value="#{cc.attrs.taxcorpCaseDataBean.targetTaxcorpCaseProfile.taxcorpCaseEntity.corporateEmail}" 
+                                                  style="font-style: italic"/>
+                                </p:column>
+                                <p:column styleClass="roseNoBorder">
+                                    <p:outputLabel value="#{roseText.Phone}"/>
+                                </p:column>
+                                <p:column styleClass="roseNoBorder">
+                                    <h:outputText value="#{cc.attrs.taxcorpCaseDataBean.targetTaxcorpCaseProfile.taxcorpCaseEntity.corporatePhone}"
+                                                  style="font-style: italic"/>
+                                </p:column>
+                                <p:column styleClass="roseNoBorder">
+                                    <p:outputLabel value="#{roseText.Fax}"/>
+                                </p:column>
+                                <p:column styleClass="roseNoBorder">
+                                    <h:outputText value="#{cc.attrs.taxcorpCaseDataBean.targetTaxcorpCaseProfile.taxcorpCaseEntity.corporateFax}" 
+                                                  style="font-style: italic"/>
+                                </p:column>
+                                <p:column styleClass="roseNoBorder">
+                                    <p:outputLabel value="#{roseText.WebPresence}"/>
+                                </p:column>
+                                <p:column styleClass="roseNoBorder">
+                                    <h:outputText value="#{cc.attrs.taxcorpCaseDataBean.targetTaxcorpCaseProfile.taxcorpCaseEntity.corporateWebPresence}" 
+                                                  style="font-style: italic"/>
+                                </p:column>
+                            </p:row>
+                            <p:row styleClass="roseNoBorder">
+                                <p:column styleClass="roseNoBorder">
+                                    <p:outputLabel value="#{roseText.Address}"/>
+                                </p:column>
+                                <p:column styleClass="roseNoBorder">
+                                    <h:outputText value="#{cc.attrs.taxcorpCaseDataBean.targetTaxcorpCaseProfile.taxcorpCaseEntity.taxcorpAddress}" 
+                                                  style="font-style: italic"/>
+                                </p:column>
+                                <p:column styleClass="roseNoBorder">
+                                    <p:outputLabel value="#{roseText.City}"/>
+                                </p:column>
+                                <p:column styleClass="roseNoBorder">
+                                    <h:outputText value="#{cc.attrs.taxcorpCaseDataBean.targetTaxcorpCaseProfile.taxcorpCaseEntity.taxcorpCity}" 
+                                                  style="font-style: italic"/>
+                                </p:column>
+                                <p:column styleClass="roseNoBorder">
+                                    <p:outputLabel value="#{roseText.County}"/>
+                                </p:column>
+                                <p:column styleClass="roseNoBorder">
+                                    <h:outputText value="#{cc.attrs.taxcorpCaseDataBean.targetTaxcorpCaseProfile.taxcorpCaseEntity.taxcorpStateCounty}" 
+                                                  style="font-style: italic"/>
+                                </p:column>
+                                <p:column styleClass="roseNoBorder">
+                                    <p:outputLabel value="#{roseText.Zip}"/>
+                                </p:column>
+                                <p:column styleClass="roseNoBorder">
+                                    <h:outputText value="#{cc.attrs.taxcorpCaseDataBean.targetTaxcorpCaseProfile.taxcorpCaseEntity.taxcorpZip}" 
+                                                  style="font-style: italic"/>
+                                </p:column>
+                                <p:column styleClass="roseNoBorder">
+                                    <p:outputLabel value="#{roseText.State}"/>
+                                </p:column>
+                                <p:column styleClass="roseNoBorder">
+                                    <h:outputText value="#{cc.attrs.taxcorpCaseDataBean.targetTaxcorpCaseProfile.taxcorpCaseEntity.taxcorpState}" 
+                                                  style="font-style: italic"/>
+                                </p:column>
+                            </p:row>
+                            <p:row>
+                                <p:column styleClass="roseNoBorder">
+                                    <p:outputLabel value="#{roseText.BankRoutingNumber}"/>
+                                </p:column>
+                                <p:column styleClass="roseNoBorder">
+                                    <h:outputText value="#{cc.attrs.taxcorpCaseDataBean.targetTaxcorpCaseProfile.taxcorpCaseEntity.bankRoutingNumber}" 
+                                                  style="font-style: italic"/>
+                                </p:column>
+                                <p:column styleClass="roseNoBorder">
+                                    <p:outputLabel value="#{roseText.BankAccountNumber}"/>
+                                </p:column>
+                                <p:column styleClass="roseNoBorder">
+                                    <h:outputText value="#{cc.attrs.taxcorpCaseDataBean.targetTaxcorpCaseProfile.taxcorpCaseEntity.bankAccountNumber}" 
+                                                  style="font-style: italic"/>
+                                </p:column>
+                                <p:column styleClass="roseNoBorder">
+                                    <p:outputLabel value="#{roseText.Memo}"/>
+                                </p:column>
+                                <p:column styleClass="roseNoBorder" colspan="5">
+                                    <h:outputText value="#{cc.attrs.taxcorpCaseDataBean.targetTaxcorpCaseProfile.taxcorpCaseEntity.memo}" 
+                                                  style="font-style: italic"/>
+                                </p:column>
+                            </p:row>
+                        </p:panelGrid>
+                        <p:spacer width="10"/>
+                        <p:commandButton value="#{roseText.Edit}" icon="fa fa-edit" rendered="#{cc.attrs.forDataEntry}">
+                            <p:ajax listener="#{cc.attrs.taxcorpCaseDataBean.openTaxcorpCaseBasicInformationDataEntry}" 
+                                    update="@(.taxcorpCaseBasicInformationOutputPanel)"/>
+                        </p:commandButton>
+                    </p:panel>
+                </h:form>
+            </p:outputPanel>
+
+            <ui:remove><!--TaxcorpCase Data Entry--></ui:remove>
+            <p:outputPanel rendered="#{cc.attrs.taxcorpCaseDataBean.taxcorpCaseBasicInformationUpdateDemanded}">
+                <h:form>
+                    <p:panel id="#{roseWebID.taxcorpCaseBasicInformationPanelID}" 
+                             collapsed="#{roseUserSession.webPageConfig.taxcorpCaseBasicInformationPanelCollapsed}"
+                             style="font-size: 11px; margin-top: 5px; margin-bottom: 5px"
+                             header="#{roseText.TaxcorpBasicInformation}" toggleable="true">
+                        <p:ajax event="toggle" listener="#{roseUserSession.onRoseToggleEvent}" />
+                        <p:panelGrid style="width: 100%" styleClass="roseNoBorder">
+                            <p:row styleClass="roseNoBorder">
+                                <p:column styleClass="roseNoBorder">
+                                    <p:outputLabel value="#{roseText.Customer}:"/>
+                                </p:column>
+                                <p:column styleClass="roseNoBorder">
+                                    <h:outputText value="#{cc.attrs.taxcorpCaseDataBean.targetTaxcorpCaseProfile.customerProfile.userProfile.profileName}"
+                                                  style="font-style: italic"/>
+                                </p:column>
+                                <p:column styleClass="roseNoBorder">
+                                    <p:outputLabel for="corporateName" value="#{roseText.CompanyName}:"/>
+                                </p:column>
+                                <p:column styleClass="roseNoBorder">
+                                    <p:inputText id="corporateName" placeholder="#{roseText.CompanyName}"
+                                                 value="#{cc.attrs.taxcorpCaseDataBean.targetTaxcorpCaseProfile.taxcorpCaseEntity.corporateName}" 
+                                                 required="true" requiredMessage="#{roseText.CompanyName} - #{roseText.FieldRequired_T}"
+                                                 validatorMessage="#{roseText.CompanyName} - #{roseText.MaxLengthRequired_T}: 150">
+                                        <f:validateLength maximum="150"/>
+                                        <p:ajax/>
+                                    </p:inputText>
+                                </p:column>
+                                <p:column style="width:100px" styleClass="roseNoBorder">
+                                    <p:outputLabel for="einNumber" value="#{roseText.EinNumber}"/>
+                                </p:column>
+                                <p:column styleClass="roseNoBorder">
+                                    <h:panelGrid columns="1">
+                                        <p:inputMask id="einNumber" placeholder="#{roseText.EinNumber}" mask="99-9999999"
+                                                     value="#{cc.attrs.taxcorpCaseDataBean.targetTaxcorpCaseProfile.taxcorpCaseEntity.einNumber}"
+                                                     required="true" requiredMessage="#{roseText.EinNumber} - #{roseText.FieldRequired_T}"
+                                                     validatorMessage="#{roseText.EinNumber} - #{roseText.MaxLengthRequired_T}: 10">
+                                            <f:validateLength maximum="10"/>
+                                            <p:ajax/>
+                                        </p:inputMask>
+                                    </h:panelGrid>
+                                </p:column>
+                                <p:column styleClass="roseNoBorder">
+                                    <p:outputLabel for="businessType" value="#{roseText.BusinessType}:"/>
+                                </p:column>
+                                <p:column styleClass="roseNoBorder">
+                                    <h:selectOneMenu id="businessType" class="form-control" style="width: 160px;"
+                                                     required="true" requiredMessage="#{roseText.BusinessType} - #{roseText.FieldRequired_T}"
+                                                     value="#{cc.attrs.taxcorpCaseDataBean.targetTaxcorpCaseProfile.taxcorpCaseEntity.businessType}">
+                                        <f:selectItem itemLabel = "#{roseText.Select} #{roseText.BusinessType}..." itemValue = "" />
+                                        <f:selectItems value="#{roseSettings.businessTypeList}" var="businessType" 
+                                                       itemValue="#{businessType}" itemLabel="#{businessType}"/>
+                                        <p:ajax event="change" process="@this"/>
+                                    </h:selectOneMenu>
+                                </p:column>
+                                <p:column styleClass="roseNoBorder">
+                                    <p:outputLabel for="businessPurpose" value="#{roseText.BusinessPurpose}:"/>
+                                </p:column>
+                                <p:column styleClass="roseNoBorder">
+                                    <p:inputText id="businessPurpose" placeholder="#{roseText.BusinessPurpose}"
+                                                 value="#{cc.attrs.taxcorpCaseDataBean.targetTaxcorpCaseProfile.taxcorpCaseEntity.businessPurpose}" 
+                                                 validatorMessage="#{roseText.BusinessPurpose} - #{roseText.MaxLengthRequired_T}: 100">
+                                        <f:validateLength maximum="100"/>
+                                        <p:ajax/>
+                                    </p:inputText>
+                                </p:column>
+                            </p:row>
+                            <p:row styleClass="roseNoBorder">
+                                <p:column style="width:100px" styleClass="roseNoBorder">
+                                    <p:outputLabel for="dosDate" value="#{roseText.DosDate}"/>
+                                </p:column>
+                                <p:column styleClass="roseNoBorder">
+                                    <p:calendar id="dosDate" pattern="MM-dd-yyyy" locale="#{roseUserSession.localeCode}" placeholder="MM-dd-yyyy"
+                                                required="true" requiredMessage="#{roseText.DosDate} - #{roseText.FieldRequired_T}" navigator="true"
+                                                value="#{cc.attrs.taxcorpCaseDataBean.targetTaxcorpCaseProfile.taxcorpCaseEntity.dosDate}">
+                                        <p:ajax event="dateSelect" process="@this"/>
+                                    </p:calendar>
+                                </p:column>
+                                <p:column styleClass="roseNoBorder">
+                                    <p:outputLabel for="corporateEmail" value="#{roseText.Email}:"/>
+                                </p:column>
+                                <p:column styleClass="roseNoBorder">
+                                    <p:inputText id="corporateEmail" placeholder="#{roseText.Email}" validator="#{roseEmailValidator.validate}"
+                                                 validatorMessage="#{roseText.Email} - #{roseText.BadEmailPattern_T}: 100"
+                                                 value="#{cc.attrs.taxcorpCaseDataBean.targetTaxcorpCaseProfile.taxcorpCaseEntity.corporateEmail}">
+                                        <f:validateLength maximum="100"/>
+                                        <p:ajax/>
+                                    </p:inputText>
+                                </p:column>
+                                <p:column style="width:100px" styleClass="roseNoBorder">
+                                    <p:outputLabel for="corporatePhone" value="#{roseText.Phone}"/>
+                                </p:column>
+                                <p:column styleClass="roseNoBorder">
+                                    <h:panelGrid columns="1">
+                                        <p:inputMask id="corporatePhone" placeholder="#{roseText.Mobile}" mask="(1)-999-999-9999"
+                                                     value="#{cc.attrs.taxcorpCaseDataBean.targetTaxcorpCaseProfile.taxcorpCaseEntity.corporatePhone}"
+                                                     validatorMessage="#{roseText.Phone} - #{roseText.MaxLengthRequired_T}: 16">
+                                            <f:validateLength maximum="16"/>
+                                            <p:ajax/>
+                                        </p:inputMask>
+                                    </h:panelGrid>
+                                </p:column>
+                                <p:column style="width:100px" styleClass="roseNoBorder">
+                                    <p:outputLabel for="corporateFax" value="#{roseText.Fax}"/>
+                                </p:column>
+                                <p:column styleClass="roseNoBorder">
+                                    <h:panelGrid columns="1">
+                                        <p:inputMask id="corporateFax" placeholder="#{roseText.Fax}" mask="(1)-999-999-9999"
+                                                     value="#{cc.attrs.taxcorpCaseDataBean.targetTaxcorpCaseProfile.taxcorpCaseEntity.corporateFax}"
+                                                     validatorMessage="#{roseText.Fax} - #{roseText.MaxLengthRequired_T}: 16">
+                                            <f:validateLength maximum="16"/>
+                                            <p:ajax/>
+                                        </p:inputMask>
+                                    </h:panelGrid>
+                                </p:column>
+                                <p:column style="width:100px" styleClass="roseNoBorder">
+                                    <p:outputLabel for="corporateWebPresence" value="#{roseText.WebPresence}"/>
+                                </p:column>
+                                <p:column styleClass="roseNoBorder">
+                                    <p:inputText id="corporateWebPresence" placeholder="#{roseText.WebPresence}" 
+                                                 value="#{cc.attrs.taxcorpCaseDataBean.targetTaxcorpCaseProfile.taxcorpCaseEntity.corporateWebPresence}" 
+                                                 validatorMessage="#{roseText.WebPresence} - #{roseText.MaxLengthRequired_T}: 100">
+                                        <f:validateLength maximum="100"/>
+                                        <p:ajax/>
+                                    </p:inputText>
+                                </p:column>
+                            </p:row>
+                            <p:row styleClass="roseNoBorder">
+                                <p:column style="width:100px" styleClass="roseNoBorder">
+                                    <p:outputLabel for="taxcorpAddress" value="#{roseText.Address}"/>
+                                </p:column>
+                                <p:column styleClass="roseNoBorder">
+                                    <p:inputText id="taxcorpAddress" placeholder="#{roseText.Address}"
+                                                 value="#{cc.attrs.taxcorpCaseDataBean.targetTaxcorpCaseProfile.taxcorpCaseEntity.taxcorpAddress}" 
+                                                 validatorMessage="#{roseText.Address} - #{roseText.MaxLengthRequired_T}: 150">
+                                        <f:validateLength maximum="150"/>
+                                        <p:ajax/>
+                                    </p:inputText>
+                                </p:column>
+                                <p:column style="width:100px" styleClass="roseNoBorder">
+                                    <p:outputLabel for="taxcorpCity" value="#{roseText.City}"/>
+                                </p:column>
+                                <p:column styleClass="roseNoBorder">
+                                    <p:inputText id="taxcorpCity" placeholder="#{roseText.City}" 
+                                                 value="#{cc.attrs.taxcorpCaseDataBean.targetTaxcorpCaseProfile.taxcorpCaseEntity.taxcorpCity}" 
+                                                 validatorMessage="#{roseText.City} - #{roseText.MaxLengthRequired_T}: 45">
+                                        <f:validateLength maximum="45"/>
+                                        <p:ajax/>
+                                    </p:inputText>
+                                </p:column>
+                                <p:column style="width:100px" styleClass="roseNoBorder">
+                                    <p:outputLabel for="taxcorpStateCounty" value="#{roseText.County}"/>
+                                </p:column>
+                                <p:column styleClass="roseNoBorder">
+                                    <p:inputText id="taxcorpStateCounty" placeholder="#{roseText.County}" 
+                                                 value="#{cc.attrs.taxcorpCaseDataBean.targetTaxcorpCaseProfile.taxcorpCaseEntity.taxcorpStateCounty}" 
+                                                 validatorMessage="#{roseText.County} - #{roseText.MaxLengthRequired_T}: 45">
+                                        <f:validateLength maximum="45"/>
+                                        <p:ajax/>
+                                    </p:inputText>
+                                </p:column>
+                                <p:column style="width:100px" styleClass="roseNoBorder">
+                                    <p:outputLabel for="taxcorpZip" value="#{roseText.Zip}"/>
+                                </p:column>
+                                <p:column styleClass="roseNoBorder">
+                                    <p:inputMask id="taxcorpZip" value="#{cc.attrs.taxcorpCaseDataBean.targetTaxcorpCaseProfile.taxcorpCaseEntity.taxcorpZip}" 
+                                                 placeholder="#{roseText.Zip}" mask="99999" slotChar="99999">
+                                        <p:ajax/>
+                                    </p:inputMask>
+                                </p:column>
+                                <p:column style="width:100px" styleClass="roseNoBorder">
+                                    <p:outputLabel for="taxcorpState" value="#{roseText.State}"/>
+                                </p:column>
+                                <p:column styleClass="roseNoBorder">
+                                    <h:selectOneMenu id="taxcorpState" class="form-control" style="width: 160px;"
+                                                     required="true" requiredMessage="#{roseText.State} - #{roseText.FieldRequired_T}"
+                                                     value = "#{cc.attrs.taxcorpCaseDataBean.targetTaxcorpCaseProfile.taxcorpCaseEntity.taxcorpState}">
+                                        <f:selectItem itemLabel = "#{roseText.Select} #{roseText.State}..." itemValue = "" /> 
+                                        <f:selectItems value="#{roseSettings.stateNameValueList}" var="stateName" 
+                                                       itemValue = "#{stateName}" itemLabel = "#{stateName}" />
+                                        <p:ajax event="change" process="@this"/>
+                                    </h:selectOneMenu>
+                                </p:column>
+                            </p:row>
+                            <p:row styleClass="roseNoBorder">
+                                <p:column style="width:100px" styleClass="roseNoBorder">
+                                    <p:outputLabel for="bankRoutingNumber" value="#{roseText.BankRoutingNumber}"/>
+                                </p:column>
+                                <p:column styleClass="roseNoBorder">
+                                    <p:inputText id="bankRoutingNumber" placeholder="#{roseText.BankRoutingNumber}"
+                                                 value="#{cc.attrs.taxcorpCaseDataBean.targetTaxcorpCaseProfile.taxcorpCaseEntity.bankRoutingNumber}" 
+                                                 validatorMessage="#{roseText.BankRoutingNumber} - #{roseText.MaxLengthRequired_T}: 100">
+                                        <f:validateLength maximum="45"/>
+                                        <p:ajax/>
+                                    </p:inputText>
+                                </p:column>
+                                <p:column style="width:100px" styleClass="roseNoBorder">
+                                    <p:outputLabel for="bankAccountNumber" value="#{roseText.BankAccountNumber}"/>
+                                </p:column>
+                                <p:column styleClass="roseNoBorder">
+                                    <p:inputText id="bankAccountNumber" placeholder="#{roseText.BankAccountNumber}"
+                                                 value="#{cc.attrs.taxcorpCaseDataBean.targetTaxcorpCaseProfile.taxcorpCaseEntity.bankAccountNumber}" 
+                                                 validatorMessage="#{roseText.BankAccountNumber} - #{roseText.MaxLengthRequired_T}: 100">
+                                        <f:validateLength maximum="45"/>
+                                        <p:ajax/>
+                                    </p:inputText>
+                                </p:column>
+                                <p:column style="width:100px" styleClass="roseNoBorder">
+                                    <p:outputLabel for="memo" value="#{roseText.Memo}"/>
+                                </p:column>
+                                <p:column styleClass="roseNoBorder" colspan="5">
+                                    <p:inputText id="memo" placeholder="#{roseText.Memo}" style="width: 600px"
+                                                 value="#{cc.attrs.taxcorpCaseDataBean.targetTaxcorpCaseProfile.taxcorpCaseEntity.memo}" 
+                                                 validatorMessage="#{roseText.Memo} - #{roseText.MaxLengthRequired_T}: 450">
+                                        <f:validateLength maximum="450"/>
+                                        <p:ajax/>
+                                    </p:inputText>
+                                </p:column>
+                            </p:row>
+                        </p:panelGrid>
+                        <p:spacer width="10"/>
+                        <p:commandButton value="#{roseText.Save}" icon="fa fa-save">
+                            <p:ajax listener="#{cc.attrs.taxcorpCaseDataBean.saveTargetTaxcorpCaseBasicProfile}" 
+                                    update="@(.taxcorpCaseBasicInformationOutputPanel)"/>
+                        </p:commandButton>
+                        <p:commandButton value="#{roseText.Close}" icon="fa fa-close">
+                            <p:ajax listener="#{cc.attrs.taxcorpCaseDataBean.closeTaxcorpCaseBasicInformationDataEntry}" 
+                                    update="@(.taxcorpCaseBasicInformationOutputPanel)"/>
+                        </p:commandButton>
+                        <p:messages/>
+                    </p:panel>
+                </h:form>
+            </p:outputPanel>
+        </p:outputPanel>
+    </cc:implementation>
+</html>

@@ -1,0 +1,118 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:cc="http://xmlns.jcp.org/jsf/composite"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:b="http://bootsfaces.net/ui">
+
+    <!-- INTERFACE: todo zzj - reserved for the future -->
+    <cc:interface>
+        <!--Target entity record for this panel-->
+        <cc:attribute name="g01BusinessVehicle" type="com.zcomapproach.garden.persistence.entity.G01BusinessVehicle" required="true"/>
+        <!--Only view data-->
+        <cc:attribute name="viewOnly" type="java.lang.Boolean" required="true"/>
+    </cc:interface>
+
+    <!-- IMPLEMENTATION -->
+    <cc:implementation>
+        <b:row>
+            <b:column>
+                <h:outputText value="#{roseText.PropertyBasicInformationAndIncome}" style="font-size: 12px; color: darkgreen; font-weight: bolder; text-decoration: underline" />
+            </b:column>
+        </b:row>
+        <b:row>
+            <b:column col-md="3">
+                <p:panelGrid style="width: 100%;" styleClass="roseNoBorder">
+                    <p:row styleClass="roseNoBorder">
+                        <p:column style="width:100px" styleClass="roseNoBorder">
+                            <p:outputLabel for="dateOnService" value="#{roseText.DateInService}"/>
+                        </p:column>
+                        <p:column styleClass="roseNoBorder">
+                            <h:outputText value="#{cc.attrs.g01BusinessVehicle.dateOnService}" rendered="#{cc.attrs.viewOnly}">
+                                <f:convertDateTime pattern="MM-dd-yyyy" />
+                            </h:outputText>
+                            <p:calendar id="dateOnService" locale="#{roseUserSession.localeCode}" pattern="MM-dd-yyyy" navigator="true"
+                                        value="#{cc.attrs.g01BusinessVehicle.dateOnService}" rendered="#{!cc.attrs.viewOnly}">
+                                <p:ajax event="dateSelect" process="@this"/>
+                            </p:calendar>
+                        </p:column>
+                    </p:row>
+                </p:panelGrid>
+            </b:column>
+            <b:column col-md="3">
+                <p:panelGrid style="width: 100%;" styleClass="roseNoBorder">
+                    <p:row styleClass="roseNoBorder">
+                        <p:column style="width:100px" styleClass="roseNoBorder">
+                            <p:outputLabel for="vehicleExpenses" value="#{roseText.VehicleExpenses}"/>
+                        </p:column>
+                        <p:column styleClass="roseNoBorder">
+                            <h:outputText value="#{cc.attrs.g01BusinessVehicle.vehicleExpenses}" rendered="#{cc.attrs.viewOnly}"/>
+                            <p:inputText id="vehicleExpenses" value="#{cc.attrs.g01BusinessVehicle.vehicleExpenses}"
+                                         placeholder="$1,234.56" validator="#{roseUsCurrencyValidator.validate}" 
+                                         converter="roseUsCurrencyConverter" rendered="#{!cc.attrs.viewOnly}">
+                                <p:ajax/>
+                            </p:inputText>
+                        </p:column>
+                    </p:row>
+                </p:panelGrid>
+            </b:column>
+            <b:column col-md="3">
+                <p:panelGrid style="width: 100%;" styleClass="roseNoBorder">
+                    <p:row styleClass="roseNoBorder">
+                        <p:column style="width:100px" styleClass="roseNoBorder">
+                            <p:outputLabel for="totalMiles" value="#{roseText.TotalMiles}"/>
+                        </p:column>
+                        <p:column styleClass="roseNoBorder">
+                            <h:outputText value="#{cc.attrs.g01BusinessVehicle.totalMiles}" rendered="#{cc.attrs.viewOnly}"/>
+                            <p:inputText id="totalMiles" value="#{cc.attrs.g01BusinessVehicle.totalMiles}" rendered="#{!cc.attrs.viewOnly}"
+                                         validatorMessage="#{roseText.TotalMiles} - #{roseText.FieldLengthRequired_T}: 45">
+                                <f:validateLength maximum="45"/>
+                                <p:ajax/>
+                            </p:inputText>
+                        </p:column>
+                    </p:row>
+                </p:panelGrid>
+            </b:column>
+            <b:column col-md="3">
+                <p:panelGrid style="width: 100%;" styleClass="roseNoBorder">
+                    <p:row styleClass="roseNoBorder">
+                        <p:column style="width:100px" styleClass="roseNoBorder">
+                            <p:outputLabel for="businessMiles" value="#{roseText.BusinessMiles}"/>
+                        </p:column>
+                        <p:column styleClass="roseNoBorder">
+                            <h:outputText value="#{cc.attrs.g01BusinessVehicle.businessMiles}" rendered="#{cc.attrs.viewOnly}"/>
+                            <p:inputText id="businessMiles" value="#{cc.attrs.g01BusinessVehicle.businessMiles}"
+                                         validatorMessage="#{roseText.BusinessMiles} - #{roseText.FieldLengthRequired_T}: 45" rendered="#{!cc.attrs.viewOnly}">
+                                <f:validateLength maximum="45"/>
+                                <p:ajax/>
+                            </p:inputText>
+                        </p:column>
+                    </p:row>
+                </p:panelGrid>
+            </b:column>
+        </b:row>
+        <b:row>
+            <b:column col-md="6">
+                <p:panelGrid style="width: 100%;" styleClass="roseNoBorder">
+                    <p:row styleClass="roseNoBorder">
+                        <p:column style="width:100px" styleClass="roseNoBorder">
+                            <p:outputLabel for="memo" value="#{roseText.Memo}"/>
+                        </p:column>
+                        <p:column styleClass="roseNoBorder">
+                            <h:outputText value="#{cc.attrs.g01BusinessVehicle.memo}" rendered="#{cc.attrs.viewOnly}"/>
+                            <p:inputText id="memo" value="#{cc.attrs.g01BusinessVehicle.memo}"
+                                         validatorMessage="#{roseText.Memo} - #{roseText.FieldLengthRequired_T}: 450" rendered="#{!cc.attrs.viewOnly}">
+                                <f:validateLength maximum="450"/>
+                                <p:ajax/>
+                            </p:inputText>
+                        </p:column>
+                    </p:row>
+                </p:panelGrid>
+            </b:column>
+            <b:column col-md="6">
+            </b:column>
+        </b:row>
+    </cc:implementation>
+</html>

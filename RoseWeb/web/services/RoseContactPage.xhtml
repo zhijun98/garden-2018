@@ -1,0 +1,101 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:ez="http://xmlns.jcp.org/jsf/composite/ezcomp">
+
+    <body>
+
+        <ui:composition template="./../templates/templateTopCenterBottom.xhtml">
+            
+            <ui:remove><!--Title--></ui:remove>
+            <ui:param name="rosePageTopic" value="#{roseContactBean.rosePageTopic}"/>
+            <ui:param name="topicIconAwesome" value="#{roseContactBean.topicIconAwesomeName}"/>
+            
+            <ui:define name="f-metadata">
+                <f:metadata>
+                    <f:event listener="#{roseUserSession.handlePreRenderViewEvent()}" type="preRenderView" />
+                    <f:viewParam name="#{roseParamKeys.entityTypeParamKey}" value="#{roseContactBean.requestedEntityType}"/>
+                    <f:viewParam name="#{roseParamKeys.entityUuidParamKey}" value="#{roseContactBean.requestedEntityUuid}"/>
+                    <f:viewParam name="#{roseParamKeys.roseBillUuidParamKey}" value="#{roseContactBean.requestedBillUuid}"/>
+                </f:metadata>
+            </ui:define>
+            
+            <ui:remove><!--This page displays public web post for any web users to read--></ui:remove>
+            <ui:define name="rosePageContent">
+                <h:form enctype="multipart/form-data">
+                    <h:panelGroup class="container-fluid" layout="block">
+                        <p:panel header="#{roseText.Contact}: #{roseContactBean.targetBusinessCaseProfile.profileName}" style="margin-bottom:5px; font-size: 12px" toggleable="true">
+                            <p:outputPanel style="margin: 15px" rendered="#{roseContactBean.availableContactorProfileList.size() == 0}">
+                                <h:panelGrid columns="1">
+                                    <h:outputText class="label label-danger" value="#{roseText.NoUserContact_T}" style="font-size: 12px; color: yellow"/>
+                                    <p:spacer width="1"/>
+                                    <h:commandButton class="btn btn-default" value="#{roseText.Cancel}" immediate="true" action="#{roseContactBean.cancelWebPage()}"/>
+                                </h:panelGrid>
+                            </p:outputPanel>
+                            <p:outputPanel rendered="#{roseContactBean.availableContactorProfileList.size() > 0}">
+                                <p:outputPanel styleClass="roseTaxcorpContactPanel" >
+                                    <h:panelGrid columns="1" style="margin-bottom:10px; font-size: 12px" cellpadding="5">
+                                        <p:spacer width="1"/>
+                                        <h:panelGrid columns="5">
+                                            <p:outputLabel class="label label-default" for="contactor_check_list" style="font-size: 12px" value="#{roseText.SelectContactors}"/>
+                                            <p:spacer width="10"/>
+                                            <p:commandButton value="#{roseText.CheckAll}" >
+                                                <p:ajax event="click" update="@(.roseTaxcorpContactPanel)" listener="#{roseContactBean.handleCheckAll}"/>
+                                            </p:commandButton>
+                                            <p:spacer width="2"/>
+                                            <p:commandButton value="#{roseText.UncheckAll}" >
+                                                <p:ajax event="click" update="@(.roseTaxcorpContactPanel)" listener="#{roseContactBean.handleUncheckAll}"/>
+                                            </p:commandButton>
+                                        </h:panelGrid>
+                                        <p:spacer width="1"/>
+                                        <p:selectManyCheckbox id="contactor_check_list" value="#{roseContactBean.targetSelectedContactorProfiles}" 
+                                                              layout="grid" columns="1" converter="roseUserProfileConverter" style="font-size: 12px"
+                                                              required="true" requiredMessage="#{roseText.ContactorList} - #{roseText.FieldRequired_T}">
+                                            <f:selectItems value="#{roseContactBean.availableContactorProfileList}" var="contactor" 
+                                                           itemLabel="#{contactor.contactInfoListForWeb}" itemValue="#{contactor}" />
+                                            <p:ajax event="change" process="@this"/>
+                                        </p:selectManyCheckbox>
+                                    </h:panelGrid>    
+                                </p:outputPanel>
+                            </p:outputPanel>
+                            <p:outputPanel style="margin: 15px" rendered="#{roseContactBean.availableContactorProfileList.size() == 0}">
+                                <h:panelGrid columns="1">
+                                    <h:outputText class="label label-danger" value="#{roseText.NoUserContact_T}" style="font-size: 12px; color: yellow"/>
+                                    <p:spacer width="1"/>
+                                    <h:commandButton class="btn btn-default" value="#{roseText.Cancel}" immediate="true" action="#{roseContactBean.cancelWebPage()}"/>
+                                </h:panelGrid>
+                            </p:outputPanel>
+                            <p:messages/>
+                            <p:outputPanel rendered="#{roseContactBean.availableContactorProfileList.size() > 0}">
+                                <p:outputPanel styleClass="roseContactMessagingPanel" >
+                                    <h:panelGrid columns="1" style="margin-bottom:10px; font-size: 12px" cellpadding="5">
+                                        <p:spacer width="1"/>
+                                        <h:outputText class="label label-default" style="font-size: 12px" value="#{roseText.SelectContactMethod}" />
+                                        <p:spacer width="1"/>
+                                        <p:selectOneRadio id="contactMethod" value="#{roseContactBean.targetSelectedContactMethod}"
+                                                          required="true" requiredMessage="#{roseText.ContactMethod} - #{roseText.FieldRequired_T}">
+                                            <p:ajax event="change" update="@(.roseContactMessagingPanel)" listener="#{roseContactBean.handleContactMethodChangeEvent}" />
+                                            <f:selectItems value="#{roseSettings.customerContactMethodValueList}" var="contactMethod" 
+                                                           itemLabel="#{contactMethod}" itemValue="#{contactMethod}" />
+                                        </p:selectOneRadio>
+                                        <p:outputPanel id="contactContentPanel">
+                                            <ez:roseContactEmailSmsDataEntry roseContactBean="#{roseContactBean}"/>
+                                        </p:outputPanel>
+                                    </h:panelGrid>    
+                                </p:outputPanel>
+
+                                <h:commandButton class="btn btn-success" value="#{roseText.Send}" action="#{roseContactBean.sendEmailAndSmsToContactor}"/>
+                                <h:commandButton class="btn btn-default" value="#{roseText.Cancel}" immediate="true" action="#{roseContactBean.cancelWebPage()}"/>
+                            </p:outputPanel>
+                        </p:panel>
+                    </h:panelGroup>
+                </h:form>
+            </ui:define>
+        </ui:composition>
+
+    </body>
+</html>

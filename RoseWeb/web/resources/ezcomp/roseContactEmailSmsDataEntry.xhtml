@@ -1,0 +1,61 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:cc="http://xmlns.jcp.org/jsf/composite"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+
+    <!-- INTERFACE -->
+    <cc:interface>
+        <cc:attribute name="roseContactBean" type="com.zcomapproach.garden.rose.bean.RoseContactBean" required="true"/>
+    </cc:interface>
+
+    <!-- IMPLEMENTATION -->
+    <cc:implementation>
+        <h:panelGrid columns="1">
+            <ui:remove><!--SUBJECT--></ui:remove>
+            <p:spacer width="1"/>
+            <h:outputText class="label label-default" style="font-size: 12px" value="#{roseText.ContactSubject}"/>
+            <p:spacer width="1"/>
+            <p:inputText value="#{cc.attrs.roseContactBean.targetContactSubject}" style="width: 500px"
+                         placeholder="Max length 150 characters"
+                         required="true" requiredMessage="#{roseText.ContactSubject}: #{roseText.FieldRequired_T}"
+                         validatorMessage="#{roseText.MessageForSMS} - #{roseText.FieldLengthRequired_T}: 150">
+                <f:validateLength maximum="150"/>
+                <p:ajax/>
+            </p:inputText>
+            <ui:remove><!--SMS--></ui:remove>
+            <p:spacer width="1" rendered="#{cc.attrs.roseContactBean.displayMessageForSMS}"/>
+            <h:outputText class="label label-default" style="font-size: 12px" value="#{roseText.MessageForSMS}" 
+                          rendered="#{cc.attrs.roseContactBean.displayMessageForSMS}" />
+            <p:spacer width="1" rendered="#{cc.attrs.roseContactBean.displayMessageForSMS}"/>
+            <p:inputTextarea cols="50" maxlength="160" value="#{cc.attrs.roseContactBean.targetMessageForSMS}"
+                             placeholder="Max length 160 characters"
+                             required="true" requiredMessage="#{roseText.MessageForSMS}: #{roseText.FieldRequired_T}"
+                             validatorMessage="#{roseText.MessageForSMS} - #{roseText.FieldLengthRequired_T}: 160"
+                             rendered="#{cc.attrs.roseContactBean.displayMessageForSMS}">
+                <f:validateLength maximum="160"/>
+                <p:ajax/>
+            </p:inputTextarea>
+            
+            <ui:remove><!--EMAIL--></ui:remove>
+            <p:spacer width="1" rendered="#{cc.attrs.roseContactBean.displayMessageForEmail}"/>
+            <ui:remove><!--EMAIL: attachment--></ui:remove>
+            <h:outputText class="label label-default" style="font-size: 12px" value="#{roseText.AttachmentForEmail}"
+                          rendered="#{cc.attrs.roseContactBean.displayMessageForEmail}"/>
+            <p:spacer width="1" rendered="#{cc.attrs.roseContactBean.displayMessageForEmail}"/>
+            <p:fileUpload id="uploadedFile" value="#{cc.attrs.roseContactBean.uploadedFile}" mode="simple"
+                          rendered="#{cc.attrs.roseContactBean.displayMessageForEmail}"/>
+            <p:spacer width="1" rendered="#{cc.attrs.roseContactBean.displayMessageForEmail}"/>
+            <ui:remove><!--EMAIL: message content--></ui:remove>
+            <h:outputText class="label label-default" style="font-size: 12px" value="#{roseText.MessageForEmail}"
+                          rendered="#{cc.attrs.roseContactBean.displayMessageForEmail}"/>
+            <p:spacer width="1" rendered="#{cc.attrs.roseContactBean.displayMessageForEmail}"/>
+            <p:inputTextarea cols="80" rows="10" value="#{cc.attrs.roseContactBean.targetMessageForEmail}" 
+                             required="true" requiredMessage="#{roseText.MessageForEmail}: #{roseText.FieldRequired_T}"
+                             rendered="#{cc.attrs.roseContactBean.displayMessageForEmail}"/>
+        </h:panelGrid>
+    </cc:implementation>
+</html>

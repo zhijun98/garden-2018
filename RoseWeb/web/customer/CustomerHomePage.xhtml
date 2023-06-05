@@ -1,0 +1,56 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:b="http://bootsfaces.net/ui"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ez="http://xmlns.jcp.org/jsf/composite/ezcomp"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <body>
+
+        <ui:composition template="./../templates/templateTopCenterBottom.xhtml">
+            
+            <ui:remove><!--Title--></ui:remove>
+            <ui:param name="rosePageTopic" value="#{roseText.LoginName}: #{roseUserSession.targetLoginName}"/>
+            <ui:param name="topicIconAwesome" value="star"/>
+            
+            <ui:define name="f-metadata">
+                <f:metadata>
+                    <f:event listener="#{roseUserSession.handlePreRenderViewEvent()}" type="preRenderView" />
+                    <f:viewParam name="#{roseParamKeys.roseChatMessageUuidParamKey}" value="#{roseUserSession.requestedTargetReplyMessageUuid}"/>
+                </f:metadata>
+            </ui:define>
+            
+            <ui:remove><!--This page displays public web post for any web users to read--></ui:remove>
+            <ui:define name="rosePageContent">
+                <b:row>
+                    <b:column col-md="6" style="margin-bottom: 20px;">
+                        <h:panelGrid>
+                            <ez:customerTaxpayerMenuBlock roseAccountProfileBean="#{roseUserSession}" displayMenuOnly="false"/>
+                        </h:panelGrid>
+                    </b:column>
+                    <b:column col-md="6" style="margin-bottom: 20px;">
+                        <h:panelGrid>
+                            <ez:customerTaxcorpMenuBlock roseAccountProfileBean="#{roseUserSession}" displayMenuOnly="false"/>
+                        </h:panelGrid>
+                    </b:column>
+                </b:row>
+                <b:row>
+                    <b:column>
+                        <p:outputPanel styleClass="roseChatMessagingPanel">
+                            <h:form>
+                                <p:panel header="#{roseText.MessagingBoard}" style="font-size: 12px; margin-top: 5px; margin-bottom: 5px; width: 100%" toggleable="true">
+                                    <ez:roseMessagingBoard roseChatMessagingBean="#{roseUserSession}"
+                                                           forBusinessPublicBoard="false"/>
+                                </p:panel>
+                            </h:form>
+                        </p:outputPanel>
+                    </b:column>
+                </b:row>
+            </ui:define>
+        </ui:composition>
+
+    </body>
+</html>

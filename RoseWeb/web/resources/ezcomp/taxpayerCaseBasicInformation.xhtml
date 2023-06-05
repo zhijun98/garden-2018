@@ -1,0 +1,185 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:cc="http://xmlns.jcp.org/jsf/composite"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:b="http://bootsfaces.net/ui"
+      xmlns:p="http://primefaces.org/ui">
+    
+    <!--@Deprecated by taxcorpCaseEditor.xhtml-->
+
+    <!-- INTERFACE -->
+    <cc:interface>
+        <!--Taxpayer-managed-bean-->
+        <cc:attribute name="aTaxpayerCaseViewBean" type="com.zcomapproach.garden.rose.bean.TaxpayerCaseViewBean" required="true"/>
+        <!--Only view data-->
+        <cc:attribute name="viewOnly" type="java.lang.Boolean" required="true"/>
+    </cc:interface>
+
+    <!-- IMPLEMENTATION -->
+    <cc:implementation>
+        <b:row>
+            <b:column col-md="3">
+                <p:panelGrid style="width: 100%" styleClass="roseNoBorder">
+                    <p:row styleClass="roseNoBorder">
+                        <p:column styleClass="roseNoBorder">
+                            <h:outputText style="font-weight: bolder; width: 100px" value="#{roseText.Customer}:"/>
+                        </p:column>
+                        <p:column styleClass="roseNoBorder">
+                            <h:link value="#{roseUserSession.targetAccountProfile.profileDescriptiveName}" rendered="#{!roseUserSession.employed}" 
+                                    outcome="#{rosePages.yourAccountPageName}" style="font-style: italic"/>
+                            <h:link value="#{cc.attrs.aTaxpayerCaseViewBean.targetTaxpayerCaseProfile.customerProfile.profileDescriptiveName}" 
+                                    outcome="#{rosePages.clientProfilePageName}" style="font-style: italic" rendered="#{roseUserSession.employed}">
+                                <f:param name="#{roseParamKeys.customerUuidParamKey}" 
+                                         value="#{cc.attrs.aTaxpayerCaseViewBean.targetTaxpayerCaseProfile.customerProfile.accountEntity.accountUuid}"/>
+                            </h:link>
+                        </p:column>
+                    </p:row>
+                    <p:row styleClass="roseNoBorder">
+                        <p:column styleClass="roseNoBorder">
+                            <h:outputText style="font-weight: bolder" value="#{roseText.FederalFilingStatus}:"/>
+                        </p:column>
+                        <p:column styleClass="roseNoBorder">
+                            <h:outputText value="#{cc.attrs.aTaxpayerCaseViewBean.targetTaxpayerCaseProfile.taxpayerCaseEntity.federalFilingStatus}" 
+                                          style="font-style: italic" rendered="#{cc.attrs.viewOnly}"/>
+                            <h:outputText value="N/A" rendered="#{(!cc.attrs.viewOnly) and (!roseUserSession.employed) 
+                                                                  and (cc.attrs.aTaxpayerCaseViewBean.targetTaxpayerCaseProfile.taxpayerCaseEntity.extensionDate == null)}"/>
+                            <h:selectOneMenu id="federalFilingStatus" class="form-control" style="width: 160px" rendered="#{!cc.attrs.viewOnly}" 
+                                             value = "#{cc.attrs.aTaxpayerCaseViewBean.targetTaxpayerCaseProfile.taxpayerCaseEntity.federalFilingStatus}">
+                                <f:selectItem itemLabel = "Select ..." itemValue = "" /> 
+                                <f:selectItems value="#{roseSettings.taxpayerFederalFilingStatusList}" var="status" 
+                                               itemValue = "#{status}" itemLabel = "#{status}" />
+                                <f:ajax event="change" execute="@this"/>
+                            </h:selectOneMenu>
+                            <p:message for="federalFilingStatus"/>
+                        </p:column>
+                    </p:row>
+                </p:panelGrid>
+            </b:column>
+            <b:column col-md="3">
+                <p:panelGrid style="width: 100%" styleClass="roseNoBorder">
+                    <p:row styleClass="roseNoBorder">
+                        <p:column styleClass="roseNoBorder">
+                            <p:outputLabel for="deadline" value="#{roseText.Deadline}:"/>
+                        </p:column>
+                        <p:column styleClass="roseNoBorder">
+                            <h:outputText value="#{cc.attrs.aTaxpayerCaseViewBean.targetTaxpayerCaseProfile.taxpayerCaseEntity.deadline}" 
+                                          style="font-style: italic; font-weight: bolder; color: darkred" 
+                                          rendered="#{cc.attrs.viewOnly or (!roseUserSession.employed)}">
+                                <f:convertDateTime pattern="MM-dd-yyyy" />
+                            </h:outputText>
+                            <p:calendar id="deadline" locale="#{roseUserSession.localeCode}" pattern="MM-dd-yyyy" navigator="true"
+                                        value="#{cc.attrs.aTaxpayerCaseViewBean.targetTaxpayerCaseProfile.taxpayerCaseEntity.deadline}" 
+                                        rendered="#{(!cc.attrs.viewOnly) and (roseUserSession.employed)}">
+                                <p:ajax event="dateSelect" process="@this"/>
+                            </p:calendar>
+                        </p:column>
+                    </p:row>
+                    <p:row styleClass="roseNoBorder">
+                        <p:column styleClass="roseNoBorder">
+                            <p:outputLabel for="extensionDate" value="#{roseText.ExtendedDeadline}:"/>
+                        </p:column>
+                        <p:column styleClass="roseNoBorder">
+                            <h:outputText value="#{cc.attrs.aTaxpayerCaseViewBean.targetTaxpayerCaseProfile.taxpayerCaseEntity.extensionDate}" 
+                                          style="font-style: italic" rendered="#{cc.attrs.viewOnly or (!roseUserSession.employed)}">
+                                <f:convertDateTime pattern="MM-dd-yyyy" />
+                            </h:outputText>
+                            <h:link style="font-size: 12px;" value="#{roseText.ContactUsForExtendedDeadline}" outcome="#{rosePages.contactUsPageName}"
+                                    rendered="#{(!cc.attrs.viewOnly) and (!roseUserSession.employed) 
+                                                and (cc.attrs.aTaxpayerCaseViewBean.targetTaxpayerCaseProfile.taxpayerCaseEntity.extensionDate == null)}"/>
+                            <p:calendar id="extensionDate" locale="#{roseUserSession.localeCode}" pattern="MM-dd-yyyy" navigator="true"
+                                        value="#{cc.attrs.aTaxpayerCaseViewBean.targetTaxpayerCaseProfile.taxpayerCaseEntity.extensionDate}" 
+                                        rendered="#{(!cc.attrs.viewOnly) and (roseUserSession.employed)}">
+                                <p:ajax event="dateSelect" process="@this"/>
+                            </p:calendar>
+                        </p:column>
+                    </p:row>
+                </p:panelGrid>
+            </b:column>
+            <b:column col-md="3">
+                <p:panelGrid style="width: 100%" styleClass="roseNoBorder">
+                    <p:row styleClass="roseNoBorder">
+                        <p:column styleClass="roseNoBorder">
+                            <p:outputLabel for="bankRoutingNumber" value="#{roseText.BankRoutingNumber}:"/>
+                        </p:column>
+                        <p:column styleClass="roseNoBorder">
+                            <h:outputText value="#{cc.attrs.aTaxpayerCaseViewBean.targetTaxpayerCaseProfile.taxpayerCaseEntity.bankRoutingNumber}" 
+                                          style="font-style: italic" rendered="#{cc.attrs.viewOnly}"/>
+                            <p:inputText id="bankRoutingNumber" placeholder="#{roseText.BankRoutingNumber}" rendered="#{!cc.attrs.viewOnly}"
+                                         value="#{cc.attrs.aTaxpayerCaseViewBean.targetTaxpayerCaseProfile.taxpayerCaseEntity.bankRoutingNumber}" 
+                                         validatorMessage="#{roseText.BankRoutingNumber} - #{roseText.MaxLengthRequired_T}: 45">
+                                <f:validateLength maximum="45"/>
+                                <p:ajax/>
+                            </p:inputText>
+                        </p:column>
+                    </p:row>
+                    <p:row styleClass="roseNoBorder">
+                        <p:column styleClass="roseNoBorder">
+                            <p:outputLabel for="extensionMemo" value="#{roseText.ExtensionMemo}:"/>
+                        </p:column>
+                        <p:column styleClass="roseNoBorder">
+                            <h:outputText value="#{cc.attrs.aTaxpayerCaseViewBean.targetTaxpayerCaseProfile.taxpayerCaseEntity.extensionMemo}" 
+                                          style="font-style: italic" rendered="#{cc.attrs.viewOnly or (!roseUserSession.employed)}"/>
+                            <p:inputText id="extensionMemo" placeholder="#{roseText.ExtensionMemo}" rendered="#{(!cc.attrs.viewOnly) and (roseUserSession.employed)}"
+                                         value="#{cc.attrs.aTaxpayerCaseViewBean.targetTaxpayerCaseProfile.taxpayerCaseEntity.extensionMemo}" 
+                                         validatorMessage="#{roseText.Memo} - #{roseText.MaxLengthRequired_T}: 100">
+                                <f:validateLength maximum="100"/>
+                                <p:ajax/>
+                            </p:inputText>
+                        </p:column>
+                    </p:row>
+                </p:panelGrid>
+            </b:column>
+            <b:column col-md="3">
+                <p:panelGrid style="width: 100%" styleClass="roseNoBorder">
+                    <p:row styleClass="roseNoBorder">
+                        <p:column styleClass="roseNoBorder">
+                            <p:outputLabel for="bankAccountNumber" value="#{roseText.BankAccountNumber}:"/>
+                        </p:column>
+                        <p:column styleClass="roseNoBorder">
+                            <h:outputText value="#{cc.attrs.aTaxpayerCaseViewBean.targetTaxpayerCaseProfile.taxpayerCaseEntity.bankAccountNumber}" 
+                                          style="font-style: italic" rendered="#{cc.attrs.viewOnly}"/>
+                            <p:inputText id="bankAccountNumber" placeholder="#{roseText.BankAccountNumber}" rendered="#{!cc.attrs.viewOnly}"
+                                         value="#{cc.attrs.aTaxpayerCaseViewBean.targetTaxpayerCaseProfile.taxpayerCaseEntity.bankAccountNumber}" 
+                                         validatorMessage="#{roseText.BankAccountNumber} - #{roseText.MaxLengthRequired_T}: 45">
+                                <f:validateLength maximum="45"/>
+                                <p:ajax/>
+                            </p:inputText>
+                        </p:column>
+                    </p:row>
+                    <p:row styleClass="roseNoBorder">
+                        <p:column styleClass="roseNoBorder">
+                            
+                        </p:column>
+                        <p:column styleClass="roseNoBorder">
+                        </p:column>
+                    </p:row>
+                </p:panelGrid>
+            </b:column>
+        </b:row>
+        <b:row>
+            <b:column>
+                <p:panelGrid style="width: 100%" styleClass="roseNoBorder">
+                    <p:row styleClass="roseNoBorder">
+                        <p:column styleClass="roseNoBorder">
+                            <p:outputLabel for="memo" value="#{roseText.Memo}:"/>
+                        </p:column>
+                    </p:row>
+                    <p:row styleClass="roseNoBorder">
+                        <p:column styleClass="roseNoBorder">
+                            <h:outputText value="#{cc.attrs.aTaxpayerCaseViewBean.targetTaxpayerCaseProfile.taxpayerCaseEntity.memo}" 
+                                          style="font-style: italic" rendered="#{cc.attrs.viewOnly}"/>
+                            <p:inputTextarea id="memo" placeholder="#{roseText.Memo} (Max 1000 Characters)" rendered="#{!cc.attrs.viewOnly}" style="width: 100%" rows="10"
+                                         value="#{cc.attrs.aTaxpayerCaseViewBean.targetTaxpayerCaseProfile.taxpayerCaseEntity.memo}" 
+                                         validatorMessage="#{roseText.Memo} - #{roseText.MaxLengthRequired_T}: 1000">
+                                <f:validateLength maximum="1000"/>
+                                <p:ajax/>
+                            </p:inputTextarea>
+                        </p:column>
+                    </p:row>
+                </p:panelGrid>
+            </b:column>
+        </b:row>
+    </cc:implementation>
+</html>

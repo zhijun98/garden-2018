@@ -1,0 +1,67 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:b="http://bootsfaces.net/ui">
+
+    <body>
+
+        <ui:composition template="./templates/templateTopFluidCenterBottom.xhtml">
+            
+            <ui:remove><!--Title--></ui:remove>
+            <ui:param name="rosePageTopic" value="#{roseText.WebPost}"/>
+            <ui:param name="topicIconAwesome" value="pencil-square-o"/>
+            
+            <ui:define name="f-metadata">
+                <f:metadata>
+                    <f:event listener="#{roseUserSession.handlePreRenderViewEvent()}" type="preRenderView" />
+                    <f:viewParam name="#{roseParamKeys.webPostUuidParamKey}" value="#{roseWebPostControllerBean.targetWebPostUuid}"/>
+                </f:metadata>
+            </ui:define>
+            
+            <ui:remove><!--This page displays public web post for any web users to read--></ui:remove>
+            <ui:define name="rosePageContent">
+                <b:row>
+                    <b:column col-md="8">
+                        <h:panelGrid columns="1">
+                            <h:outputText value="#{roseWebPostControllerBean.targetWebPostProfile.webPostEntity.postTitle}" style="font-size: 32px; font-weight: bolder"/>
+                            <h:panelGrid columns="3">
+                                <h:outputText value="#{roseText.Author}:" style="font-weight: bolder"/>
+                                <p:spacer width="2"/>
+                                <h:outputText value="#{roseWebPostControllerBean.targetWebPostProfile.authorProfile.userProfile.profileName}"
+                                              style="font-style: italic"/>
+                                <h:outputText value="#{roseText.DateTime}:" style="font-weight: bolder"/>
+                                <p:spacer width="2"/>
+                                <h:outputText value="#{roseWebPostControllerBean.targetWebPostProfile.webPostEntity.updated}" style="font-style: italic">
+                                    <f:convertDateTime pattern="MM-dd-yyyy @ hh:mm:ss" />
+                                </h:outputText>
+                                <p:spacer width="2"/>
+                            </h:panelGrid>
+                            <h:outputText escape="false" value="#{roseWebPostControllerBean.targetWebPostProfile.entirePostContent}"/>
+                        </h:panelGrid>
+
+                    </b:column>
+                    <b:column col-md="4">
+                        <p:dataList value="#{roseWebPostControllerBean.allRoseWebPostProfileList}" var="webPostProfile" 
+                                    paginator="true" rows="25" itemStyleClass="roseDataListItemStyle">
+                            <f:facet name="header">
+                                #{roseText.HistoricalWebPosts}
+                            </f:facet>
+                            <h:link outcome="#{rosePages.publicPostPageName}" >
+                                <f:param name="#{roseParamKeys.webPostUuidParamKey}" value="#{webPostProfile.webPostEntity.webPostUuid}"/>
+                                #{webPostProfile.webPostEntity.postTitle} (#{webPostProfile.authorProfile.profileName}, 
+                                <h:outputText value="#{webPostProfile.webPostEntity.updated}" style="font-style: italic">
+                                    <f:convertDateTime pattern="MM-dd-yyyy @ hh:mm:ss" />
+                                </h:outputText>)
+                            </h:link>
+                        </p:dataList>
+                    </b:column>
+                </b:row>
+            </ui:define>
+        </ui:composition>
+
+    </body>
+</html>

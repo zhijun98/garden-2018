@@ -1,0 +1,57 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:ez="http://xmlns.jcp.org/jsf/composite/ezcomp"
+      xmlns:rose="http://xmlns.jcp.org/jsf/composite/rose">
+
+    <body>
+
+        <ui:composition template="./../templates/templatePrintable.xhtml">
+            <ui:define name="f-metadata">
+                <f:metadata>
+                    <f:event listener="#{roseUserSession.handlePreRenderViewEvent()}" type="preRenderView" />
+                    <f:viewParam name="#{roseParamKeys.taxcorpCaseUuidParamKey}" value="#{taxcorpCaseViewBean.requestedTaxcorpCaseUuid}"/>
+                </f:metadata>
+            </ui:define>
+            
+            <ui:define name="rosePageTop">
+                <p:outputPanel style="margin: 10px">
+                    <h:outputText style="font-weight: bolder; font-size: 18px" 
+                                  value="#{taxcorpCaseViewBean.rosePageTopic}: #{taxcorpCaseViewBean.targetTaxcorpCaseProfile.profileDescriptiveName}"/>
+                </p:outputPanel>
+            </ui:define>
+
+            <ui:define name="rosePageContent">
+                <ui:insert name="custom-css">
+                    <h:outputStylesheet library="css" name="ie10-viewport-bug-workaround.css" />
+                    <h:outputStylesheet library="css" name="rose.css" />
+                </ui:insert>
+                
+                <p:outputPanel style="margin: 10px; ">
+                    <ui:remove><!--Taxcorp Basic Profile--></ui:remove>
+                    <rose:taxcorpCaseEditor taxcorpCaseDataBean="#{taxcorpCaseViewBean}" forDataEntry="false"/>
+
+                    <ui:remove><!--Contactor Profile--></ui:remove>
+                    <rose:taxcorpContactorEditor taxcorpCaseDataBean="#{taxcorpCaseViewBean}" forDataEntry="false"/>
+                        
+                    <ui:remove><!--Bill & Payment--></ui:remove>
+                    <p:outputPanel style="font-size: 11px;" >
+                        <ez:businessCaseBillAndPaymentPanel businessCaseProfile="#{taxcorpCaseViewBean.targetTaxcorpCaseProfile}"
+                                                            businessBillPaymentInvoiceBean="#{taxcorpCaseViewBean}" viewOnly="true"/>
+                    </p:outputPanel>
+
+                    <ui:remove><!--Upload/Download Documents--></ui:remove>
+                    <p:outputPanel style="font-size: 11px;" >
+                        <ez:uploadedArchivedDocumentDataList currentBean="#{taxcorpCaseViewBean}" printableOnly="true"/>
+                    </p:outputPanel>
+                </p:outputPanel>
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>

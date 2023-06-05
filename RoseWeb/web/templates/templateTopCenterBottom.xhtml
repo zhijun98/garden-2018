@@ -1,0 +1,79 @@
+<?xml version='1.0' encoding='UTF-8' ?> 
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:b="http://bootsfaces.net/ui"
+      xmlns:ez="http://xmlns.jcp.org/jsf/composite/ezcomp"
+      xmlns:p="http://primefaces.org/ui">
+
+    <!-- One of the following INSERTS has to be overridden-->
+    <ui:insert name="f-metadata">
+        <f:metadata>
+            <f:event listener="#{roseUserSession.handlePreRenderViewEvent()}" type="preRenderView" />
+        </f:metadata>
+    </ui:insert>
+
+    <h:head>
+        <ui:remove><!--HTML head-meta and title for web pages--></ui:remove>
+        <ui:include src="includes/roseHtmlHead.xhtml"/>
+    </h:head>
+    
+    <h:body id="roseBody">
+        
+        <ui:remove><!--CSS INSERTS: inside the body so as to override PrimeFaces css--></ui:remove>
+        <ui:insert name="custom-css">
+            <h:outputStylesheet library="css" name="ie10-viewport-bug-workaround.css" />
+            <h:outputStylesheet library="css" name="rose.css" />
+        </ui:insert>
+        
+        <ui:insert name="rosePageTop">
+            <ez:rosePageTopNavbar id="ezRosePageTopNavbar"/>
+            <ez:businessWebPageTopMenubar id="ezBusinessWebPageTopMenubar" rendered="#{roseUserSession.validAuthenticatedStatus and roseUserSession.employed}"/>
+            <ez:customerWebPageTopMenubar id="ezCustomerWebPageTopMenubar" rendered="#{roseUserSession.validAuthenticatedStatus and (!roseUserSession.employed)}"/>
+        </ui:insert>
+        
+        <b:container>
+            <b:row>
+                <b:column>
+                    <ez:rosePageTopic rosePageTopic="#{rosePageTopic}" topicIconAwesome="#{topicIconAwesome}"/>
+                </b:column>
+            </b:row>
+            <b:row>
+                <b:column>
+                    <p:outputPanel>
+                        <ui:insert name="rosePageContent">
+                            <p:panel header="Page Content">
+                                This page displays public web post for any web users to read
+                            </p:panel>
+                        </ui:insert>
+                    </p:outputPanel>
+                </b:column>
+            </b:row>
+        </b:container>
+        <ui:insert name="rosePageFooter">
+            <ez:rosePageFooter id="ezRosePageFooter"/>
+        </ui:insert>
+        
+        <ui:remove><!--Javascipt INSERTS--></ui:remove>
+        <ui:insert name="common-javascript">
+            <h:outputScript library="js" name="ie10-viewport-bug-workaround.js" />
+            <h:outputScript library="js" name="rose.js" />
+        </ui:insert>
+        <ui:remove>
+            <!--
+                The following custom function is invoked in the web page-loading 
+                phase (refer to rose.js). JSF temnplate client page can override 
+                this function.
+            -->
+        </ui:remove>
+        <ui:insert name="custom-javascript">
+            <script type="text/javascript">
+                function customReadyFunction() {
+                }
+            </script>
+        </ui:insert>
+    </h:body>
+
+</html>

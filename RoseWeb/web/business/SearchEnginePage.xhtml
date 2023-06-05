@@ -1,0 +1,59 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:b="http://bootsfaces.net/ui"
+      xmlns:ez="http://xmlns.jcp.org/jsf/composite/ezcomp">
+
+    <body>
+        <ui:composition template="./../templates/templateTopLeftCenterBottom.xhtml">
+            
+            <ui:remove><!--Title--></ui:remove>
+            <ui:param name="rosePageTopic" value="#{roseText.Search}"/>
+            <ui:param name="topicIconAwesome" value="search"/>
+            
+            <ui:remove><!--This page displays public web post for any web users to read--></ui:remove>
+            <ui:define name="rosePageContent">
+                <b:container fluid="true" style="font-size: 12px">
+                    <ui:remove><!--Search TaxFiling--></ui:remove>
+                    <b:row>
+                        <b:column>
+                            <p:outputPanel styleClass="searchTaxFilingOutputPanel">
+                                <ez:searchTaxFilingPanel id="ezSearchTaxFilingPanel"/>
+                            </p:outputPanel>
+                        </b:column>
+                    </b:row>
+                    
+                    <ui:remove><!--Search User--></ui:remove>
+                    <b:row>
+                        <b:column>
+                            <p:outputPanel styleClass="searchUserOutputPanel">
+                                <ez:searchUserPanel/>
+                            </p:outputPanel>
+                        </b:column>
+                    </b:row>
+                    
+                    <ui:remove><!--Search Taxpayer--></ui:remove>
+                    <b:row>
+                        <b:column>
+                            <p:outputPanel styleClass="searchTaxcorpOutputPanel">
+                                <ez:searchTaxpayerPanel/>
+                            </p:outputPanel>
+                        </b:column>
+                    </b:row>
+                    
+                    <ui:remove><!--Search Taxcorp--></ui:remove>
+                    <b:row>
+                        <b:column>
+                            <p:outputPanel styleClass="searchTaxcorpOutputPanel">
+                                <ez:searchTaxcorpPanel/>
+                            </p:outputPanel>
+                        </b:column>
+                    </b:row>
+                </b:container>
+            </ui:define>
+        </ui:composition>
+
+    </body>
+</html>

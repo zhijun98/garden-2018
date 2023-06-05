@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.media.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.geometry.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane fx:id="rootPane" prefHeight="306.0" prefWidth="615.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <BorderPane AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <center>
+            <ScrollPane prefViewportHeight="450.0" prefViewportWidth="600.0" BorderPane.alignment="CENTER">
+               <content>
+                  <AnchorPane prefWidth="600.0">
+                     <children>
+                        <VBox AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                           <padding>
+                              <Insets bottom="5.0" left="10.0" right="10.0" top="5.0" />
+                           </padding>
+                           <children>
+                              <FlowPane alignment="CENTER_LEFT" prefHeight="30.0">
+                                 <children>
+                                    <Label text="Selected Emails">
+                                       <font>
+                                          <Font name="System Bold" size="12.0" />
+                                       </font>
+                                    </Label>
+                                 </children>
+                              </FlowPane>
+                              <FlowPane alignment="CENTER_LEFT" prefHeight="2.0" style="-fx-background-color: e8e8ff;">
+                                 <opaqueInsets>
+                                    <Insets />
+                                 </opaqueInsets>
+                                 <VBox.margin>
+                                    <Insets bottom="5.0" top="5.0" />
+                                 </VBox.margin>
+                              </FlowPane>
+                              <FlowPane alignment="CENTER_LEFT" prefHeight="30.0">
+                                 <children>
+                                    <Label fx:id="selectedEmailsLabel" text="Label" wrapText="true" />
+                                 </children>
+                              </FlowPane>
+                              <FlowPane alignment="CENTER_LEFT" prefHeight="2.0" style="-fx-background-color: e8e8ff;">
+                                 <opaqueInsets>
+                                    <Insets />
+                                 </opaqueInsets>
+                                 <VBox.margin>
+                                    <Insets bottom="5.0" top="5.0" />
+                                 </VBox.margin>
+                              </FlowPane>
+                              <TextArea fx:id="writeNotesTextArea" prefHeight="150.0" prefWidth="576.0" promptText="Write notes for selected emails (max 450 characters)">
+                                 <VBox.margin>
+                                    <Insets bottom="5.0" left="2.0" right="2.0" top="5.0" />
+                                 </VBox.margin>
+                              </TextArea>
+                              <HBox alignment="CENTER" prefHeight="25.0">
+                                 <children>
+                                    <Button fx:id="saveButton" maxWidth="75.0" minWidth="75.0" mnemonicParsing="false" prefWidth="75.0" text="Save">
+                                       <HBox.margin>
+                                          <Insets right="5.0" />
+                                       </HBox.margin>
+                                    </Button>
+                                    <Button fx:id="closeButton" maxWidth="75.0" minWidth="75.0" mnemonicParsing="false" prefWidth="75.0" text="Close" />
+                                 </children>
+                                 <padding>
+                                    <Insets bottom="2.0" top="2.0" />
+                                 </padding>
+                              </HBox>
+                           </children>
+                        </VBox>
+                     </children>
+                  </AnchorPane>
+               </content>
+            </ScrollPane>
+         </center>
+      </BorderPane>
+   </children>
+</AnchorPane>

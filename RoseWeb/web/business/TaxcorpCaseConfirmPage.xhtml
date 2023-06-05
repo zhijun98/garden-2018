@@ -1,0 +1,62 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ez="http://xmlns.jcp.org/jsf/composite/ezcomp"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:rose="http://xmlns.jcp.org/jsf/composite/rose">
+
+    <body>
+
+        <ui:composition template="./../templates/templateTopLeftCenterBottom.xhtml">
+            
+            <ui:remove><!--Title--></ui:remove>
+            <ui:param name="rosePageTopic" value="#{taxcorpCaseBean.confirmWarningMessage}"/>
+            <ui:param name="topicIconAwesome" value="#{taxcorpCaseBean.topicIconAwesomeName}"/>
+            
+            <ui:define name="f-metadata">
+                <f:metadata>
+                    <f:event listener="#{roseUserSession.handlePreRenderViewEvent()}" type="preRenderView" />
+                    <f:viewParam name="#{roseParamKeys.taxcorpCaseUuidParamKey}" value="#{taxcorpCaseBean.requestedTaxcorpCaseUuid}"/>
+                    <f:viewParam name="#{roseParamKeys.viewPurposeParamKey}" value="#{taxcorpCaseBean.requestedViewPurpose}"/>
+                </f:metadata>
+            </ui:define>
+
+            <ui:define name="rosePageContent">                
+                <h:form>
+                    <p:panel style="font-size: 12px; margin-top: 5px; margin-bottom: 5px">
+                        <ez:taxcorpCaseConfirmCommandsPanelGrid taxcorpCaseBean="#{taxcorpCaseBean}" viewOnly="true"/>
+                    </p:panel>
+                </h:form>
+                
+                <ui:remove><!--Taxcorp Basic Profile--></ui:remove>
+                <rose:taxcorpCaseEditor taxcorpCaseDataBean="#{taxcorpCaseBean}" forDataEntry="false"/>
+                
+                <ui:remove><!--Contactor Profiles--></ui:remove>
+                <rose:taxcorpContactorEditor taxcorpCaseDataBean="#{taxcorpCaseBean}" forDataEntry="false"/>
+                
+                <h:form>
+                    <ui:remove><!--Upload/Download Documents--></ui:remove>
+                    <p:panel style="font-size: 12px; margin-top: 5px; margin-bottom: 5px" header="#{roseText.ArchivedDocuments}" >
+                        <ez:uploadedArchivedDocumentDataList currentBean="#{taxcorpCaseBean}" printableOnly="true"/>
+                    </p:panel>
+                    
+                    <p:panel style="font-size: 12px; margin-top: 5px; margin-bottom: 5px" styleClass="roseBillAndPayement"
+                             header="#{roseText.BillAndPayment}">
+                        <ez:businessCaseBillAndPaymentPanel businessCaseProfile="#{taxcorpCaseBean.targetTaxcorpCaseProfile}"
+                                                            businessBillPaymentInvoiceBean="#{taxcorpCaseBean}" viewOnly="true"/>
+                    </p:panel>
+
+                    <p:panel style="font-size: 12px; margin-top: 5px; margin-bottom: 5px">
+                        <ez:taxcorpCaseConfirmCommandsPanelGrid taxcorpCaseBean="#{taxcorpCaseBean}" viewOnly="true"/>
+                    </p:panel>
+
+                </h:form>
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>

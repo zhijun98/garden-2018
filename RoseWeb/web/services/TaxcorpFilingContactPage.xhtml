@@ -1,0 +1,241 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:b="http://bootsfaces.net/ui"
+      xmlns:ez="http://xmlns.jcp.org/jsf/composite/ezcomp">
+
+    <body>
+
+        <ui:composition template="./../templates/templateTopCenterBottom.xhtml">
+            
+            <ui:remove><!--Title--></ui:remove>
+            <ui:param name="rosePageTopic" value="#{taxcorpFilingContactBean.rosePageTopic}"/>
+            <ui:param name="topicIconAwesome" value="#{taxcorpFilingContactBean.topicIconAwesomeName}"/>
+            
+            <ui:define name="f-metadata">
+                <f:metadata>
+                    <f:event listener="#{roseUserSession.handlePreRenderViewEvent()}" type="preRenderView" />
+                    <f:viewParam name="#{roseParamKeys.entityTypeParamKey}" value="#{taxcorpFilingContactBean.requestedEntityType}"/>
+                    <f:viewParam name="#{roseParamKeys.entityUuidParamKey}" value="#{taxcorpFilingContactBean.requestedEntityUuid}"/>
+                </f:metadata>
+            </ui:define>
+            
+            <ui:remove><!--This page displays public web post for any web users to read--></ui:remove>
+            <ui:define name="rosePageContent">
+                <h:form enctype="multipart/form-data">
+                    <h:panelGroup class="container-fluid" layout="block">
+                        <p:panel header="#{roseText.Contact}" style="margin-bottom:5px; font-size: 12px">
+                            <p:outputPanel style="margin: 15px" rendered="#{taxcorpFilingContactBean.allTaxcorpContactProfileList.size() == 0}">
+                                <h:panelGrid columns="1">
+                                    <h:outputText class="label label-danger" value="#{roseText.NoUserContact_T}" style="font-size: 12px; color: yellow"/>
+                                    <p:spacer width="1"/>
+                                    <h:commandButton class="btn btn-default" value="#{roseText.Cancel}" immediate="true" action="#{taxcorpFilingContactBean.cancelWebPage()}"/>
+                                </h:panelGrid>
+                            </p:outputPanel>
+                            <p:messages/>
+                            <p:outputPanel rendered="#{taxcorpFilingContactBean.allTaxcorpContactProfileList.size() > 0}">
+                                <p:outputPanel >
+                                    <h:panelGrid columns="3">
+                                        <p:commandButton value="#{roseText.CheckAll}">
+                                            <p:ajax event="click" update="@(.roseTaxcorpContactPanel)" listener="#{taxcorpFilingContactBean.handleCheckAll}"/>
+                                        </p:commandButton>
+                                        <p:spacer width="2"/>
+                                        <p:commandButton value="#{roseText.UncheckAll}">
+                                            <p:ajax event="click" update="@(.roseTaxcorpContactPanel)" listener="#{taxcorpFilingContactBean.handleUncheckAll}"/>
+                                        </p:commandButton>
+                                    </h:panelGrid>
+                                    <p:panel styleClass="roseTaxcorpContactPanel" style="margin-bottom:10px; font-size: 12px; width: 100%" 
+                                             header="#{roseText.SelectContactors}" toggleable="true">
+                                        <b:row>
+                                            <ui:repeat value="#{taxcorpFilingContactBean.allTaxcorpContactProfileList}" var="taxcorpContactProfile" >
+                                                <b:column col-md="6">
+                                                    <ui:remove><!--Taxcorp contactor panel--></ui:remove>
+                            <p:panelGrid style="margin-top: 5px; margin-bottom: 5px; width: 100%">
+                                <p:row>
+                                    <p:column style="background: #fafafa">
+                                        <p:commandLink style="font-size: 12px; font-weight: bolder;"
+                                                       oncomplete="PF('taxcorpView').show()">
+                                            <i class="fa fa-search"/> #{taxcorpContactProfile.profileDescriptiveName}
+                                            <p:ajax event="click" update="@(.targetTaxcorpContactProfileDetailPanel)" 
+                                                    listener="#{taxcorpFilingContactBean.handleTaxcorpDetailClicked(taxcorpContactProfile)}"/>
+                                        </p:commandLink><br/>
+                                    </p:column>
+                                </p:row>
+                                <p:row>
+                                    <p:column>
+                                        <p:panelGrid styleClass="roseNoBorder">
+                                            <p:row styleClass="roseNoBorder">
+                                                <p:column styleClass="roseNoBorder">
+                                                    <h:panelGrid columns="3" style="font-size: 11px"
+                                                                 rendered="#{taxcorpContactProfile.taxcorpRepresentativeProfiles.size() == 0}">
+                                                        <h:outputText value="#{roseText.Contactor}:" style="font-weight: bolder"/>
+                                                        <p:spacer width="10"/>
+                                                        <h:outputText value="#{roseText.NoRecord}"/>
+                                                    </h:panelGrid>
+                                                    <p:selectManyCheckbox id="contactor_check_list" value="#{taxcorpContactProfile.targetSelectedContactorProfiles}" 
+                                                                          layout="grid" columns="1" converter="roseUserProfileConverter" style="font-size: 11px">
+                                                        <f:selectItems value="#{taxcorpContactProfile.taxcorpRepresentativeProfiles}" var="contactor" 
+                                                                       itemLabel="#{contactor.contactInfoListForWeb}" itemValue="#{contactor}" />
+                                                        <p:ajax event="change" process="@this"/>
+                                                    </p:selectManyCheckbox>
+                                                </p:column>
+                                            </p:row>
+                                        </p:panelGrid>
+                                    </p:column>
+                                </p:row>
+                            </p:panelGrid>
+                                                    
+                                                </b:column>
+                                            </ui:repeat>
+                                        </b:row>
+                                    </p:panel>
+                                    <h:panelGrid columns="3">
+                                        <p:commandButton value="#{roseText.CheckAll}">
+                                            <p:ajax event="click" update="@(.roseTaxcorpContactPanel)" listener="#{taxcorpFilingContactBean.handleCheckAll}"/>
+                                        </p:commandButton>
+                                        <p:spacer width="2"/>
+                                        <p:commandButton value="#{roseText.UncheckAll}">
+                                            <p:ajax event="click" update="@(.roseTaxcorpContactPanel)" listener="#{taxcorpFilingContactBean.handleUncheckAll}"/>
+                                        </p:commandButton>
+                                    </h:panelGrid>
+                                </p:outputPanel>
+                            </p:outputPanel>
+                            <p:messages/>
+                            <p:outputPanel rendered="#{taxcorpFilingContactBean.allTaxcorpContactProfileList.size() > 0}">
+                                <p:outputPanel styleClass="roseContactMessagingPanel" >
+                                    <p:panel style="margin-bottom:10px; font-size: 12px; width: 100%" header="#{roseText.SelectContactMethod}" toggleable="true">
+                                        <p:selectOneRadio id="contactMethod" value="#{taxcorpFilingContactBean.targetSelectedContactMethod}"
+                                                          required="true" requiredMessage="#{roseText.ContactMethod} - #{roseText.FieldRequired_T}">
+                                            <p:ajax event="change" update="@(.roseContactMessagingPanel)" listener="#{taxcorpFilingContactBean.handleContactMethodChangeEvent}" />
+                                            <f:selectItems value="#{roseSettings.customerContactMethodValueList}" var="contactMethod" 
+                                                           itemLabel="#{contactMethod}" itemValue="#{contactMethod}" />
+                                        </p:selectOneRadio>
+                                        <p:outputPanel id="contactContentPanel">
+                                            <ez:roseContactEmailSmsDataEntry roseContactBean="#{taxcorpFilingContactBean}"/>
+                                        </p:outputPanel>
+                                    </p:panel>
+                                </p:outputPanel>
+
+                                <h:commandButton class="btn btn-success" value="#{roseText.Send}" action="#{taxcorpFilingContactBean.sendEmailAndSmsToContactor}"/>
+                                <h:commandButton class="btn btn-default" value="#{roseText.Cancel}" immediate="true" action="#{taxcorpFilingContactBean.cancelWebPage()}"/>
+                            </p:outputPanel>
+                        </p:panel>
+                    </h:panelGroup>
+                    
+                    <p:dialog header="#{roseText.TaxcorpBasicInformation}" 
+                              widgetVar="taxcorpView" modal="true" showEffect="fade" hideEffect="fade">
+                        <p:outputPanel styleClass="targetTaxcorpContactProfileDetailPanel">
+                            <p:panelGrid style="margin-top: 5px; margin-bottom: 5px; width: 100%"
+                                         rendered="#{not empty taxcorpFilingContactBean.targetTaxcorpContactProfile}">
+                                <p:row>
+                                    <p:column style="background: #fafafa">
+                                        <h:link style="font-size: 12px; font-weight: bolder;" outcome="#{rosePages.taxcorpCaseMgtPageName}">
+                                            <i class="fa fa-caret-square-o-right"/> #{taxcorpFilingContactBean.targetTaxcorpContactProfile.profileDescriptiveName}
+                                            <f:param name="#{roseParamKeys.taxcorpCaseUuidParamKey}" 
+                                                     value="#{taxcorpFilingContactBean.targetTaxcorpContactProfile.taxcorpCase.taxcorpCaseUuid}" />
+                                        </h:link>
+                                    </p:column>
+                                </p:row>
+                                <p:row>
+                                    <p:column>
+                                        <p:panelGrid styleClass="roseNoBorder">
+                                            <ui:repeat value="#{taxcorpFilingContactBean.targetTaxcorpContactProfile.taxFilingList}" var="taxFiling" >
+                                                <p:row styleClass="roseNoBorder">
+                                                    <p:column styleClass="roseNoBorder">
+                                                        <h:outputText value="#{taxFiling.taxFilingType} (#{taxFiling.taxFilingPeriod}):" 
+                                                                      style="font-weight: bold"/>
+                                                        <p:spacer width="5"/>
+                                                        <h:outputText value="#{taxFiling.deadline}">
+                                                            <f:convertDateTime pattern="MM-dd-yyyy" type="date" />
+                                                        </h:outputText>
+                                                    </p:column>
+                                                </p:row>
+                                                <p:row styleClass="roseNoBorder">
+                                                    <p:column styleClass="roseNoBorder">
+                                                        <h:outputText value="#{roseText.Memo}: " 
+                                                                      style="font-weight: bold"/>
+                                                        <p:spacer width="5"/>
+                                                        <h:outputText value="#{taxFiling.memo}" rendered="#{taxFiling.memo != null}"/>
+                                                        <h:outputText value="#{roseText.NoRecord}" rendered="#{taxFiling.memo == null}"/>
+                                                    </p:column>
+                                                </p:row>
+                                            </ui:repeat>
+                                            <p:row styleClass="roseNoBorder">
+                                                <p:column styleClass="roseNoBorder">
+                                                    <p:spacer width="1"/>
+                                                </p:column>
+                                            </p:row>
+                                            <p:row styleClass="roseNoBorder">
+                                                <p:column styleClass="roseNoBorder">
+                                                    <h:panelGrid columns="3" rendered="#{taxcorpFilingContactBean.targetTaxcorpContactProfile.taxcorpRepresentativeProfiles.size() == 0}">
+                                                        <h:outputText value="#{roseText.Contactor}:" style="font-weight: bolder"/>
+                                                        <p:spacer width="10"/>
+                                                        <h:outputText value="#{roseText.NoRecord}"/>
+                                                    </h:panelGrid>
+                                                    <p:selectManyCheckbox id="contactor_check_list" value="#{taxcorpFilingContactBean.targetTaxcorpContactProfile.targetSelectedContactorProfiles}" 
+                                                                          layout="grid" columns="1" converter="roseUserProfileConverter" style="font-size: 12px">
+                                                        <f:selectItems value="#{taxcorpFilingContactBean.targetTaxcorpContactProfile.taxcorpRepresentativeProfiles}" var="contactor" 
+                                                                       itemLabel="#{contactor.contactInfoListForWeb}" itemValue="#{contactor}" />
+                                                        <p:ajax event="change" process="@this"/>
+                                                    </p:selectManyCheckbox>
+                                                </p:column>
+                                            </p:row>
+                                            <p:row styleClass="roseNoBorder">
+                                                <p:column styleClass="roseNoBorder">
+                                                    <p:spacer width="1"/>
+                                                </p:column>
+                                            </p:row>
+                                            <p:row styleClass="roseNoBorder">
+                                                <p:column styleClass="roseNoBorder">
+                                                    <h:outputLabel value="#{roseText.HistoricalMessages}"/>
+                                                </p:column>
+                                            </p:row>
+                                            <p:row styleClass="roseNoBorder">
+                                                <p:column styleClass="roseNoBorder">
+                                                    <h:outputText value="#{roseText.NoRecord}" 
+                                                                  rendered="#{taxcorpFilingContactBean.targetTaxcorpContactProfile.contactMessageProfileList.size() == 0}"/>
+                                                    <ui:repeat value="#{taxcorpFilingContactBean.targetTaxcorpContactProfile.contactMessageProfileList}" var="msgProfile" >
+                                                        <p:commandLink style="font-size: 12px; font-weight: bolder;"
+                                                                       oncomplete="PF('contactMessageView').show()">
+                                                            <i class="fa fa-search"/> #{msgProfile.profileDescriptiveName}
+                                                            <p:ajax event="click" update="@(.targetContactMessageDetail)" 
+                                                                    listener="#{taxcorpFilingContactBean.handleContactMessageClicked(msgProfile)}"/>
+                                                        </p:commandLink><br/>
+                                                    </ui:repeat>
+                                                </p:column>
+                                            </p:row>
+                                        </p:panelGrid>
+                                    </p:column>
+                                </p:row>
+                            </p:panelGrid>
+                        </p:outputPanel>
+                    </p:dialog>
+                    
+                    <p:dialog header="#{roseText.ContactEmail}" 
+                              widgetVar="contactMessageView" modal="true" showEffect="fade" hideEffect="fade">
+                        <p:outputPanel styleClass="targetContactMessageDetail">
+                            <p:panelGrid columns="1" rendered="#{not empty taxcorpFilingContactBean.targetContactMessage}">
+                                <f:facet name="header">
+                                    <h:outputLabel value="#{taxcorpFilingContactBean.targetContactMessage.contactMessageEntity.contactSubject}"/>
+                                </f:facet>
+                                <h:outputLabel value="#{roseText.MessageForSMS}" />
+                                <h:outputText value="#{taxcorpFilingContactBean.targetContactMessage.contactMessageEntity.smsContent}" />
+                                <h:outputLabel value="#{roseText.MessageForEmail}" />
+                                <h:outputText value="#{taxcorpFilingContactBean.targetContactMessage.contactMessageEntity.emailContent}" />
+                                <h:outputLabel value="#{roseText.Employee}" />
+                                <h:outputText value="#{taxcorpFilingContactBean.targetContactMessage.messageEmployeeName}" />
+                                <h:outputLabel value="#{roseText.DateTime}" />
+                                <h:outputText value="#{taxcorpFilingContactBean.targetContactMessage.messageTimestamp}" />
+                            </p:panelGrid>
+                        </p:outputPanel>
+                    </p:dialog>
+                </h:form>
+            </ui:define>
+        </ui:composition>
+
+    </body>
+</html>

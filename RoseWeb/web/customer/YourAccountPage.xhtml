@@ -1,0 +1,52 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ez="http://xmlns.jcp.org/jsf/composite/ezcomp">
+
+    <body>
+        <ui:composition template="./../templates/templateTopCenterBottom.xhtml">
+            
+            <ui:remove><!--Title--></ui:remove>
+            <ui:param name="rosePageTopic" value="#{roseText.YourAccount}"/>
+            <ui:param name="topicIconAwesome" value="user"/>
+            
+            <ui:define name="rosePageContent">
+                <h:form>
+                    <ui:remove><!--Functional Buttons--></ui:remove>
+                    <p:outputPanel style="margin-bottom: 20px;">
+                        <ez:customerProfileMenuPanelGrid personalProfileBean="#{roseUserSession}" viewOnly="false"/>
+                    </p:outputPanel>
+                    <p:outputPanel style="margin-bottom: 5px">
+                        <ez:roseAccountEntityPanel id="ezRoseAccountEntityPanel" 
+                                                   accountProfile="#{roseUserSession.targetAccountProfile}"
+                                                   forNewAccount="#{roseUserSession.forCreateNewEntity}"
+                                                   securityQnADemanded="true"
+                                                   viewOnly="false" 
+                                                   toggleable="false"/>
+                    </p:outputPanel>
+
+                    <p:messages style="font-size: 11px"/>
+
+                    <ui:remove><!--User Profile--></ui:remove>
+                    <p:outputPanel style="margin-bottom: 5px">
+                        <ez:roseUserEntityPanel id="ezRoseUserEntityPanel" 
+                                                aRoseContactInfoEntityEditor="#{roseUserSession.targetAccountProfile.userProfile}" 
+                                                aRoseLocationEntityEditor="#{roseUserSession.targetAccountProfile.userProfile}" 
+                                                userProfile="#{roseUserSession.targetAccountProfile.userProfile}"
+                                                viewOnly="false"
+                                                toggleable="false"/>
+                    </p:outputPanel>
+
+                    <ui:remove><!--Functional Buttons--></ui:remove>
+                    <p:outputPanel style="margin-bottom: 20px;">
+                        <ez:customerProfileMenuPanelGrid personalProfileBean="#{roseUserSession}" viewOnly="false"/>
+                    </p:outputPanel>
+                </h:form>
+            </ui:define>
+        </ui:composition>
+
+    </body>
+</html>

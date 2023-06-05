@@ -1,0 +1,169 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:cc="http://xmlns.jcp.org/jsf/composite"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:b="http://bootsfaces.net/ui"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ez="http://xmlns.jcp.org/jsf/composite/ezcomp">
+
+    <!-- INTERFACE -->
+    <cc:interface>
+        <!--Target entity record for this panel-->
+        <cc:attribute name="accountProfile" type="com.zcomapproach.garden.rose.data.profile.RoseAccountProfile" required="true"/>
+        <!--Entity record existed in the database. Priority lower than viewOnly-->
+        <cc:attribute name="forNewAccount" type="java.lang.Boolean" required="true"/>
+        <!--Security QnA demanded-->
+        <cc:attribute name="securityQnADemanded" type="java.lang.Boolean" required="true"/>
+        <!--Only view data-->
+        <cc:attribute name="viewOnly" type="java.lang.Boolean" required="true"/>
+        <!--Panel toggleable-->
+        <cc:attribute name="toggleable" type="java.lang.Boolean" required="true"/>
+    </cc:interface>
+
+    <!-- IMPLEMENTATION -->
+    <cc:implementation>
+        <p:panel style="font-size: 12px" header="#{roseText.AccountInformation}" toggleable="#{cc.attrs.toggleable}">
+            <b:row>
+                <b:column col-md="3">
+                    <p:panelGrid style="width: 95%;" styleClass="roseNoBorder">
+                        <p:row styleClass="roseNoBorder">
+                            <p:column style="width:100px" styleClass="roseNoBorder">
+                                <p:outputLabel for="loginName" value="#{roseText.LoginName}"/>
+                            </p:column>
+                            <p:column styleClass="roseNoBorder">
+                                <h:outputText value="#{cc.attrs.accountProfile.accountEntity.loginName}" rendered="#{(!cc.attrs.forNewAccount) || cc.attrs.viewOnly}"/>
+                                <p:inputText id="loginName" placeholder="#{roseText.LoginName}" rendered="#{cc.attrs.forNewAccount and (!cc.attrs.viewOnly)}"
+                                             value="#{cc.attrs.accountProfile.accountEntity.loginName}"
+                                             required="true" requiredMessage="#{roseText.LoginName} - #{roseText.FieldRequired_T}"
+                                             validatorMessage="#{roseText.LoginName} - #{roseText.MaxLengthRequired_T}: 45">
+                                    <f:validateLength maximum="45"/>
+                                    <p:ajax/>
+                                </p:inputText>
+                            </p:column>
+                        </p:row>
+                    </p:panelGrid>
+                </b:column>
+                <b:column col-md="3">
+                    <p:panelGrid style="width: 95%;" styleClass="roseNoBorder">
+                        <p:row styleClass="roseNoBorder">
+                            <p:column style="width:100px" styleClass="roseNoBorder">
+                                <p:outputLabel for="password" value="#{roseText.Password}"/>
+                            </p:column>
+                            <p:column styleClass="roseNoBorder">
+                                <h:outputText value="********" rendered="#{cc.attrs.viewOnly}"/>
+                                <p:password id="password" match="confirmPassword" rendered="#{!cc.attrs.viewOnly}"
+                                            value="#{cc.attrs.accountProfile.accountEntity.password}" redisplay="true" placeholder="#{roseText.Password}"
+                                            required="true" requiredMessage="#{roseText.Password} - #{roseText.FieldRequired_T}"
+                                            validatorMessage="#{roseText.Password}: (1) #{roseText.PasswordMatchRequired_T} (2) #{roseText.MinLengthRequired_T}: 6 (3) #{roseText.MaxLengthRequired_T}: 45">
+                                    <f:validateLength minimum="6" maximum="45"/>
+                                    <p:ajax/>
+                                </p:password>
+                            </p:column>
+                        </p:row>
+                    </p:panelGrid>
+                </b:column>
+                <b:column col-md="3">
+                    <p:panelGrid style="width: 95%;" styleClass="roseNoBorder">
+                        <p:row styleClass="roseNoBorder">
+                            <p:column style="width:100px" styleClass="roseNoBorder">
+                                <p:outputLabel for="confirmPassword" value="#{roseText.ConfirmPassword}"/>
+                            </p:column>
+                            <p:column styleClass="roseNoBorder">
+                                <h:outputText value="********" rendered="#{cc.attrs.viewOnly}"/>
+                                <p:password id="confirmPassword" rendered="#{!cc.attrs.viewOnly}"
+                                            value="#{cc.attrs.accountProfile.accountEntity.password}" redisplay="true" placeholder="#{roseText.ConfirmPassword}"
+                                            required="true" requiredMessage="#{roseText.ConfirmPassword} - #{roseText.FieldRequired_T}"
+                                            validatorMessage="#{roseText.ConfirmPassword} - (1) #{roseText.MinLengthRequired_T}: 6 (2) #{roseText.MaxLengthRequired_T}: 45">
+                                    <f:validateLength minimum="6" maximum="45"/>
+                                    <p:ajax/>
+                                </p:password>
+                            </p:column>
+                        </p:row>
+                    </p:panelGrid>
+                </b:column>
+                <b:column col-md="3">
+                    <p:panelGrid style="width: 95%;" styleClass="roseNoBorder">
+                        <p:row styleClass="roseNoBorder">
+                            <p:column style="width:100px" styleClass="roseNoBorder">
+                                <p:outputLabel for="webLanguage" value="#{roseText.Language}"/>
+                            </p:column>
+                            <p:column styleClass="roseNoBorder">
+                                <h:outputText value="#{cc.attrs.accountProfile.accountEntity.webLanguage}" rendered="#{cc.attrs.viewOnly}"/>
+                                <h:selectOneMenu id="webLanguage" class="form-control" style="width: 160px" rendered="#{!cc.attrs.viewOnly}"
+                                                 value="#{cc.attrs.accountProfile.accountEntity.webLanguage}"> 
+                                    <f:selectItems value="#{roseSettings.localeMap}" />
+                                    <p:ajax event="change" process="@this"/>
+                                </h:selectOneMenu>
+                            </p:column>
+                        </p:row>
+                    </p:panelGrid>
+                </b:column>
+            </b:row>
+            <b:row>
+                <b:column col-md="3">
+                    <p:panelGrid style="width: 95%;" styleClass="roseNoBorder">
+                        <p:row styleClass="roseNoBorder">
+                            <p:column style="width:100px" styleClass="roseNoBorder">
+                                <p:outputLabel for="accountEmail" value="#{roseText.Email}"/>
+                            </p:column>
+                            <p:column styleClass="roseNoBorder">
+                                <h:outputText value="#{cc.attrs.accountProfile.accountEntity.accountEmail}" rendered="#{cc.attrs.viewOnly}"/>
+                                <p:inputText id="accountEmail" placeholder="#{roseText.Email}" rendered="#{!cc.attrs.viewOnly}"
+                                             value="#{cc.attrs.accountProfile.accountEntity.accountEmail}"
+                                             validator="#{roseEmailValidator.validate}" 
+                                             validatorMessage="#{roseText.Email} - (1) #{roseText.BadEmailPattern_T} (2) #{roseText.MaxLengthRequired_T}: 100">
+                                    <f:validateLength maximum="100"/>
+                                    <p:ajax/>
+                                </p:inputText>
+                            </p:column>
+                        </p:row>
+                    </p:panelGrid>
+                </b:column>
+                <b:column col-md="3">
+                    <p:panelGrid style="width: 95%;" styleClass="roseNoBorder">
+                        <p:row styleClass="roseNoBorder">
+                            <p:column style="width:100px" styleClass="roseNoBorder">
+                                <p:outputLabel for="mobilePhone" value="#{roseText.Mobile}"/>
+                            </p:column>
+                            <p:column styleClass="roseNoBorder">
+                                <h:outputText value="#{cc.attrs.accountProfile.accountEntity.mobilePhone}" rendered="#{cc.attrs.viewOnly}"/>
+                                <h:panelGrid columns="1">
+                                    <p:inputMask id="mobilePhone" placeholder="#{roseText.Mobile}" rendered="#{!cc.attrs.viewOnly}"
+                                                 value="#{cc.attrs.accountProfile.accountEntity.mobilePhone}" mask="(1)-999-999-9999"
+                                                 validatorMessage="#{roseText.Mobile} - #{roseText.MaxLengthRequired_T}: 16">
+                                        <f:validateLength maximum="16"/>
+                                        <p:ajax/>
+                                    </p:inputMask>
+                                    <h:outputText styleClass="roseHelpComment" value="(#{roseText.ForSMS_T})"/>
+                                </h:panelGrid>
+                            </p:column>
+                        </p:row>
+                    </p:panelGrid>
+                </b:column>
+                <b:column col-md="3">
+                </b:column>
+                <b:column col-md="3">
+                </b:column>
+            </b:row>
+            <p:outputPanel styleClass="roseSecurityQnaOutputPanel" rendered="#{cc.attrs.securityQnADemanded}">
+                <b:row>
+                    <b:column>
+                        <h:panelGrid columns="1" style="width: 100%">
+                            <h:outputText value="#{roseText.SelectSecurityQnA}"/>
+                            <p:panelGrid>
+                                <p:row>
+                                    <p:column>
+                                        <ez:securityQnA accountProfile="#{cc.attrs.accountProfile}" 
+                                                        viewOnly="#{cc.attrs.viewOnly}" forRedeemCredentials="false"/>
+                                    </p:column>
+                                </p:row>
+                            </p:panelGrid>
+                        </h:panelGrid>
+                    </b:column>
+                </b:row>
+            </p:outputPanel>
+        </p:panel>
+    </cc:implementation>
+</html>

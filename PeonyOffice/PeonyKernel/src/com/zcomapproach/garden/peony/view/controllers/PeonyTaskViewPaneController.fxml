@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <SplitPane dividerPositions="0.5" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <items>
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
+               <children>
+                  <TitledPane animated="false" layoutX="53.0" layoutY="78.0" prefHeight="398.0" prefWidth="296.0" text="Task Assignment" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                    <content>
+                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                           <children>
+                              <VBox layoutX="47.0" layoutY="61.0" prefHeight="372.0" prefWidth="294.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                 <children>
+                                    <FlowPane fx:id="whoAssignFlowPane" alignment="CENTER_LEFT" prefHeight="30.0" prefWidth="200.0">
+                                       <children>
+                                          <Label text="Who assign:">
+                                             <font>
+                                                <Font name="System Bold" size="12.0" />
+                                             </font>
+                                             <padding>
+                                                <Insets right="10.0" />
+                                             </padding>
+                                          </Label>
+                                       </children>
+                                    </FlowPane>
+                                    <FlowPane fx:id="whoWasAssignedFlowPane" alignment="CENTER_LEFT" prefHeight="30.0" prefWidth="200.0">
+                                       <children>
+                                          <Label text="Who was assigned:">
+                                             <font>
+                                                <Font name="System Bold" size="12.0" />
+                                             </font>
+                                             <padding>
+                                                <Insets right="10.0" />
+                                             </padding>
+                                          </Label>
+                                       </children>
+                                    </FlowPane>
+                                    <FlowPane fx:id="descriptionFlowPane" prefHeight="30.0" prefWidth="200.0">
+                                       <children>
+                                          <Label text="Content:">
+                                             <font>
+                                                <Font name="System Bold" size="12.0" />
+                                             </font>
+                                             <padding>
+                                                <Insets right="10.0" />
+                                             </padding>
+                                          </Label>
+                                       </children>
+                                       <VBox.margin>
+                                          <Insets top="5.0" />
+                                       </VBox.margin>
+                                    </FlowPane>
+                                    <FlowPane alignment="CENTER_LEFT" prefHeight="30.0" prefWidth="200.0">
+                                       <children>
+                                          <Label text="Histrotical Memo:">
+                                             <font>
+                                                <Font name="System Bold" size="12.0" />
+                                             </font>
+                                             <padding>
+                                                <Insets right="10.0" />
+                                             </padding>
+                                          </Label>
+                                       </children>
+                                    </FlowPane>
+                                    <ListView fx:id="historicalMemoListView" prefHeight="200.0" prefWidth="200.0" />
+                                    <FlowPane alignment="CENTER_LEFT" prefHeight="30.0" prefWidth="200.0">
+                                       <children>
+                                          <Label text="Your Memo:">
+                                             <font>
+                                                <Font name="System Bold" size="12.0" />
+                                             </font>
+                                             <padding>
+                                                <Insets right="10.0" />
+                                             </padding>
+                                          </Label>
+                                       </children>
+                                    </FlowPane>
+                                    <TextArea fx:id="memoTextArea" prefHeight="200.0" prefWidth="200.0" />
+                                    <FlowPane alignment="CENTER" prefHeight="30.0" prefWidth="200.0">
+                                       <children>
+                                          <Button fx:id="addMemoButton" mnemonicParsing="false" prefWidth="80.0" text="Add Memo">
+                                             <FlowPane.margin>
+                                                <Insets left="2.0" right="2.0" />
+                                             </FlowPane.margin>
+                                          </Button>
+                                       </children>
+                                    </FlowPane>
+                                 </children>
+                              </VBox>
+                           </children>
+                        </AnchorPane>
+                    </content>
+                  </TitledPane>
+               </children>
+            </AnchorPane>
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
+               <children>
+                  <TabPane fx:id="assignedEmailTabPane" layoutX="21.0" layoutY="57.0" prefHeight="398.0" prefWidth="296.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                    <tabs>
+                      <Tab text="Assigned Email 1">
+                        <content>
+                          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                        </content>
+                      </Tab>
+                      <Tab text="Assigned Email 2">
+                        <content>
+                          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                        </content>
+                      </Tab>
+                    </tabs>
+                  </TabPane>
+               </children>
+            </AnchorPane>
+        </items>
+      </SplitPane>
+   </children>
+</AnchorPane>

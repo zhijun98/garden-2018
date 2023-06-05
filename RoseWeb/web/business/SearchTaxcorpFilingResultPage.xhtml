@@ -1,0 +1,240 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <body>
+        <ui:composition template="./../templates/templateTopFluidCenterBottom.xhtml">
+            
+            <ui:remove><!--Title--></ui:remove>
+            <ui:param name="rosePageTopic" value="#{roseText.SearchTaxcorpResult}"/>
+            <ui:param name="topicIconAwesome" value="search"/>
+            
+            <ui:remove><!--This page displays public web post for any web users to read--></ui:remove>
+            <ui:define name="rosePageContent">
+                <h:panelGroup class="container-fluid" layout="block" style="font-size: 11px;">
+                    <p:panel styleClass="searchTaxFilingOutputPanel">
+                        <h:form id="searchTaxFilingResultForm">
+                            <p:growl id="searchTaxFilingResultMessages"/>
+                            <p:dataTable id="searchTaxFilingResultTable" resizableColumns="true" editable="true"
+                                         rowStyleClass="#{tax.taxFilingEntity.pickupDate ne null ? 'roseFaded' : ''}"
+                                     var="tax" value="#{searchTaxcorpBean.searchResultTaxFilingProfileList}" 
+                                     rowKey="#{tax.taxFilingEntity.taxFilingUuid}" 
+                                     paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {Exporters}"
+                                     rows="15" paginator="true" rowsPerPageTemplate="5,10,15">
+                                <f:facet name="{Exporters}">
+                                    <h:commandLink>
+                                        <p:graphicImage library="images" name="printer.png"/>
+                                        <p:dataExporter type="csv" target="searchTaxFilingResultTable" fileName="taxFilings" />
+                                    </h:commandLink>
+                                </f:facet>
+                                <f:facet name="header">
+                                    #{roseText.SearchResult} (Total: #{searchTaxcorpBean.searchResultTaxFilingProfileList.size()})
+                                </f:facet>
+
+                                <p:ajax event="rowEdit" listener="#{searchTaxcorpBean.onRowEdit}" 
+                                        update="searchTaxFilingResultForm:searchTaxFilingResultMessages" />
+                                <p:ajax event="rowEditCancel" listener="#{searchTaxcorpBean.onRowCancel}" 
+                                        update="searchTaxFilingResultForm:searchTaxFilingResultMessages" />
+
+                                <p:column headerText="#{roseText.CompanyName}" sortBy="#{tax.taxcorpCaseEntity.corporateName}" filterStyle="width: 100%;"
+                                          filterBy="#{tax.taxcorpCaseEntity.corporateName}" filterFunction="#{searchTaxcorpBean.filterByContainedText}">
+                                    <h:link outcome="#{rosePages.taxcorpCaseMgtPageName}" 
+                                            value="#{tax.taxcorpCaseEntity.corporateName}" style="color: #009933" >
+                                        <f:param name="#{roseParamKeys.taxcorpCaseUuidParamKey}" value="#{tax.taxcorpCaseEntity.taxcorpCaseUuid}" />
+                                    </h:link>
+                                </p:column>
+
+                                <p:column width="75" headerText="#{roseText.State}" sortBy="#{tax.taxcorpCaseEntity.taxcorpState}">
+                                    <h:outputText value="#{tax.taxcorpCaseEntity.taxcorpState}"/>
+                                </p:column>
+
+                                <p:column headerText="#{roseText.Type}" sortBy="#{tax.taxFilingEntity.taxFilingType}: #{tax.taxFilingEntity.taxFilingPeriod}">
+                                    <h:outputText value="#{tax.taxFilingEntity.taxFilingType}: #{tax.taxFilingEntity.taxFilingPeriod}" />
+                                </p:column>
+
+                                <p:column width="75" headerText="#{roseText.Deadline}" sortBy="#{tax.taxFilingEntity.deadline}">
+                                    <h:outputText value="#{tax.taxFilingEntity.deadline}">
+                                        <f:convertDateTime pattern="MM-dd-yyyy" type="date" />
+                                    </h:outputText>
+                                </p:column>
+
+                                <p:column headerText="#{roseText.Contactor}" sortBy="#{tax.contactorWebNames}">
+                                    <h:outputText value="N/A" style="color: #999" rendered="#{!tax.contactorAvailable}"/>
+                                    <h:link outcome="#{rosePages.taxcorpFilingContactPageName}" style="color: #009933"
+                                            value="#{tax.contactorWebNames}" rendered="#{tax.contactorAvailable}">
+                                        <f:param name="#{roseParamKeys.entityTypeParamKey}" value="#{roseParamValues.taxcorpCaseEntityTypeParamValue}" />
+                                        <f:param name="#{roseParamKeys.entityUuidParamKey}" value="#{tax.taxcorpCaseEntity.taxcorpCaseUuid}" />
+                                    </h:link>
+                                </p:column>
+
+                                <p:column width="100" headerText="#{roseText.Phone}" sortBy="#{tax.taxcorpCaseEntity.corporatePhone}">
+                                    <p:cellEditor>
+                                        <f:facet name="output">
+                                            <h:outputText value="#{tax.taxcorpCaseEntity.corporatePhone}" />
+                                        </f:facet>
+                                        <f:facet name="input">
+                                            <p:inputText value="#{tax.taxcorpCaseEntity.corporatePhone}" 
+                                                         validatorMessage="#{roseText.Phone} - #{roseText.FieldLengthRequired_T}: 45">
+                                                <f:validateLength maximum="45"/>
+                                            </p:inputText>
+                                        </f:facet>
+                                    </p:cellEditor>
+                                </p:column>
+
+                                <p:column headerText="#{roseText.Email}" width="125"  filterStyle="width: 100%;"
+                                          filterBy="#{tax.taxcorpCaseEntity.corporateEmail}" filterFunction="#{searchTaxcorpBean.filterByContainedText}">
+                                    <p:cellEditor>
+                                        <f:facet name="output">
+                                            <h:link value="#{tax.taxcorpCaseEntity.corporateEmail}"
+                                                    outcome="#{rosePages.contactUsPageName}" 
+                                                    rendered="#{tax.taxcorpCaseEntity.corporateEmail != null }">
+                                                <f:param name="#{roseParamKeys.emailToParamKey}" 
+                                                         value="#{tax.taxcorpCaseEntity.corporateEmail}" />
+                                            </h:link>
+                                        </f:facet>
+                                        <f:facet name="input">
+                                            <p:inputText value="#{tax.taxcorpCaseEntity.corporateEmail}" 
+                                                         validatorMessage="#{roseText.Email} - #{roseText.FieldLengthRequired_T}: 100">
+                                                <f:validateLength maximum="100"/>
+                                            </p:inputText>
+                                        </f:facet>
+                                    </p:cellEditor>
+                                </p:column>
+
+                                <p:column headerText="#{roseText.WechatId}">
+                                    <p:cellEditor>
+                                        <f:facet name="output">
+                                            <h:outputText value="#{tax.taxcorpCaseEntity.corporateWebPresence}" />
+                                        </f:facet>
+                                        <f:facet name="input">
+                                            <p:inputText value="#{tax.taxcorpCaseEntity.corporateWebPresence}"
+                                                         validatorMessage="#{roseText.WechatId} - #{roseText.FieldLengthRequired_T}: 45">
+                                                <f:validateLength maximum="45"/>
+                                                <p:ajax/>
+                                            </p:inputText>
+                                        </f:facet>
+                                    </p:cellEditor>
+                                </p:column>
+
+                                <p:column headerText="#{roseText.Memo}" width="200">
+                                    <p:cellEditor>
+                                        <f:facet name="output">
+                                            <h:outputText value="#{tax.taxFilingEntity.memo}"/>
+                                        </f:facet>
+                                        <f:facet name="input">
+                                            <p:inputText value="#{tax.taxFilingEntity.memo}"
+                                                         validatorMessage="#{roseText.Memo} - #{roseText.FieldLengthRequired_T}: 450">
+                                                <f:validateLength maximum="450"/>
+                                                <p:ajax/>
+                                            </p:inputText>
+                                        </f:facet>
+                                    </p:cellEditor>
+                                </p:column>
+
+                                <p:column headerText="#{roseText.ReceivedDate}" sortBy="#{tax.taxFilingEntity.receivedDate}">
+                                    <p:cellEditor>
+                                        <f:facet name="output">
+                                            <h:outputText value="#{tax.taxFilingEntity.receivedDate}">
+                                                <f:convertDateTime pattern="MM-dd-yyyy" type="date" />
+                                            </h:outputText>
+                                        </f:facet>
+                                        <f:facet name="input">
+                                            <p:calendar value="#{tax.taxFilingEntity.receivedDate}" locale="#{roseUserSession.localeCode}" pattern="MM-dd-yyyy" navigator="true"
+                                                        valueChangeListener="#{searchTaxcorpBean.handleTaxFilingReceivedDateChange(tax.taxFilingEntity.taxFilingUuid)}">
+                                                <p:ajax event="dateSelect" process="@this"/>
+                                            </p:calendar>
+                                        </f:facet>
+                                    </p:cellEditor>
+                                </p:column>
+
+                                <p:column headerText="#{roseText.PreparedDate}" sortBy="#{tax.taxFilingEntity.preparedDate}">
+                                    <p:cellEditor>
+                                        <f:facet name="output">
+                                            <h:outputText value="#{tax.taxFilingEntity.preparedDate}">
+                                                <f:convertDateTime pattern="MM-dd-yyyy" type="date" />
+                                            </h:outputText>
+                                        </f:facet>
+                                        <f:facet name="input">
+                                            <p:calendar value="#{tax.taxFilingEntity.preparedDate}" locale="#{roseUserSession.localeCode}" pattern="MM-dd-yyyy" navigator="true"
+                                                        valueChangeListener="#{searchTaxcorpBean.handleTaxFilingPreparedDateChange(tax.taxFilingEntity.taxFilingUuid)}">
+                                                <p:ajax event="dateSelect" process="@this"/>
+                                            </p:calendar>
+                                        </f:facet>
+                                    </p:cellEditor>
+                                </p:column>
+
+                                <p:column headerText="#{roseText.CompletedDate}" sortBy="#{tax.taxFilingEntity.completedDate}">
+                                    <p:cellEditor>
+                                        <f:facet name="output">
+                                            <h:outputText value="#{tax.taxFilingEntity.completedDate}">
+                                                <f:convertDateTime pattern="MM-dd-yyyy" type="date" />
+                                            </h:outputText>
+                                        </f:facet>
+                                        <f:facet name="input">
+                                            <p:calendar value="#{tax.taxFilingEntity.completedDate}" locale="#{roseUserSession.localeCode}" pattern="MM-dd-yyyy" navigator="true"
+                                                        valueChangeListener="#{searchTaxcorpBean.handleTaxFilingCompletedDateChange(tax.taxFilingEntity.taxFilingUuid)}">
+                                                <p:ajax event="dateSelect" process="@this"/>
+                                            </p:calendar>
+                                        </f:facet>
+                                    </p:cellEditor>
+                                </p:column>
+
+                                <p:column headerText="#{roseText.EfiledDate}" sortBy="#{tax.taxFilingEntity.pickupDate}">
+                                    <p:cellEditor>
+                                        <f:facet name="output">
+                                            <h:outputText value="#{tax.taxFilingEntity.pickupDate}">
+                                                <f:convertDateTime pattern="MM-dd-yyyy" type="date" />
+                                            </h:outputText>
+                                        </f:facet>
+                                        <f:facet name="input">
+                                            <p:calendar value="#{tax.taxFilingEntity.pickupDate}" 
+                                                        locale="#{roseUserSession.localeCode}" 
+                                                        pattern="MM-dd-yyyy" navigator="true">
+                                                <p:ajax event="dateSelect" process="@this"/>
+                                            </p:calendar>
+                                        </f:facet>
+                                    </p:cellEditor>
+                                </p:column>
+                                <p:column width="30" headerText="#{roseText.Edit}">
+                                    <p:rowEditor />
+                                </p:column>
+                                <p:column width="30">
+                                    <h:link outcome="#{rosePages.taxcorpCaseMgtPageName}" value="#{roseText.View}" style="color: #009933" >
+                                        <f:param name="#{roseParamKeys.taxcorpCaseUuidParamKey}" value="#{tax.taxcorpCaseEntity.taxcorpCaseUuid}"/>
+                                    </h:link>
+                                </p:column>
+
+                                <p:column headerText="#{roseText.Delete}">
+                                    <p:commandLink value="#{roseText.Delete}">
+                                        <p:ajax update="@form" listener="#{searchTaxcorpBean.deleteTaxFilingEntity(tax.taxFilingEntity.taxFilingUuid)}" />
+                                        <p:confirm header="Confirmation" message="Are you sure?" icon="ui-icon-alert" />
+                                    </p:commandLink>
+                                </p:column>
+                            </p:dataTable>
+                            <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+                                <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                                <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                            </p:confirmDialog>
+                        </h:form>
+                    </p:panel>
+                    <p:outputPanel style="margin-top: 10px">
+                        <h:panelGrid columns="3">
+                            <h:link class="btn btn-success" style="font-size: 12px; margin-right: 1px; color: white" 
+                                    outcome="#{rosePages.taxcorpFilingContactPageName}">
+                                <i class="fa fa-paper-plane"/> #{roseText.EmailAndSMS}
+                                <f:param name="#{roseParamKeys.entityTypeParamKey}" value="#{roseParamValues.searchTaxcorpFilingParamValue}"/>
+                            </h:link>
+                            <h:link class="btn btn-default" value="#{roseText.GoBack}" style="font-size: 12px"
+                                    outcome="#{searchTaxcorpBean.targetReturnWebPath}"/>
+                        </h:panelGrid>
+                    </p:outputPanel>
+                </h:panelGroup>
+            </ui:define>
+        </ui:composition>
+
+    </body>
+</html>

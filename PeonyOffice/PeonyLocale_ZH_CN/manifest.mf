@@ -1,0 +1,6 @@
+Manifest-Version: 1.0
+AutoUpdate-Show-In-Client: true
+OpenIDE-Module: com.zcomapproach.garden.peony.localezhcn
+OpenIDE-Module-Localizing-Bundle: com/zcomapproach/garden/peony/localezhcn/Bundle.properties
+OpenIDE-Module-Specification-Version: 1.0.11
+

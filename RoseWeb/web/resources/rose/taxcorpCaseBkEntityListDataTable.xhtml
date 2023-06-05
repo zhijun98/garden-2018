@@ -1,0 +1,51 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:cc="http://xmlns.jcp.org/jsf/composite"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+
+    <!-- INTERFACE -->
+    <cc:interface>
+        <cc:attribute name="employeeProfileBean" type="com.zcomapproach.garden.rose.bean.EmployeeProfileBean" required="true"/>
+        <cc:attribute name="taxcorpCaseEntityList" type="java.util.List" required="true"/>
+    </cc:interface>
+
+    <!-- IMPLEMENTATION -->
+    <cc:implementation>
+        <p:dataTable var="taxcorpCase" value="#{cc.attrs.taxcorpCaseEntityList}" styleClass="taxcorpCaseEntityListTable"
+                     style="font-size: 12px" rows="10" paginator="true" rowsPerPageTemplate="5,10,15"
+                     paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}">
+            <f:facet name="header">
+                #{roseText.TaxcorpList} (Total: #{cc.attrs.taxcorpCaseEntityList.size()})
+            </f:facet>
+            <p:column headerText="#{roseText.CompanyName}">
+                <h:outputText value="#{taxcorpCase.corporateName}" />
+            </p:column>
+            <p:column headerText="#{roseText.State}">
+                <h:outputText value="#{taxcorpCase.taxcorpState}" />
+            </p:column>
+            <p:column headerText="#{roseText.BusinessType}">
+                <h:outputText value="#{taxcorpCase.businessType}" />
+            </p:column>
+            <p:column headerText="#{roseText.EinNumber}">
+                <h:outputText value="#{taxcorpCase.einNumber}" />
+            </p:column>
+            <p:column headerText="#{roseText.BusinessStatus}">
+                <h:outputText value="#{taxcorpCase.businessStatus}" />
+            </p:column>
+            <p:column headerText="#{roseText.DosDate}">
+                <h:outputText value="#{taxcorpCase.dosDate}">
+                    <f:convertDateTime pattern="MM-dd-yyyy" />
+                </h:outputText>
+            </p:column>
+            <p:column width="75">
+                <p:commandLink value="#{roseText.Rollback}">
+                    <p:ajax update="@(.taxcorpCaseEntityListTable)" 
+                            listener="#{cc.attrs.employeeProfileBean.rollbackTaxcorpCaseEntity(taxcorpCase.taxcorpCaseUuid)}" />
+                </p:commandLink>
+            </p:column>
+        </p:dataTable>
+    </cc:implementation>
+</html>

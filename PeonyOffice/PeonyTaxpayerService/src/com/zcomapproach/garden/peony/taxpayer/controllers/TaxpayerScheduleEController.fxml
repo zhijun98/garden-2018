@@ -1,0 +1,232 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.geometry.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane prefHeight="600.0" prefWidth="800.0" stylesheets="@../../../../../../../../PeonyResources/src/com/zcomapproach/garden/peony/resources/css/PeonyCss.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <VBox layoutX="10.0" layoutY="10.0" styleClass="peony-secondary-header" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <GridPane maxHeight="60.0" minHeight="60.0" prefHeight="60.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+               <children>
+                  <HBox fx:id="functionalHBox" alignment="CENTER_RIGHT" spacing="2.0" GridPane.columnIndex="1">
+                     <padding>
+                        <Insets right="10.0" />
+                     </padding>
+                  </HBox>
+                  <VBox alignment="CENTER_LEFT">
+                     <children>
+                        <Label styleClass="peony-regular-title-label" text="Personal Schedule E" />
+                     </children>
+                     <padding>
+                        <Insets left="10.0" />
+                     </padding>
+                  </VBox>
+               </children>
+               <columnConstraints>
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="200.0" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+               </columnConstraints>
+               <rowConstraints>
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+               </rowConstraints>
+            </GridPane>
+         </children>
+      </VBox>
+      <VBox layoutY="60.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="60.0">
+         <children>
+            <FlowPane styleClass="peony-data-form-pane">
+               <children>
+                  <VBox maxWidth="180.0" minWidth="180.0" prefWidth="180.0">
+                     <children>
+                        <Label styleClass="peony-bold-control" text="Personal Income Entries">
+                           <VBox.margin>
+                              <Insets />
+                           </VBox.margin>
+                        </Label>
+                     </children>
+                     <opaqueInsets>
+                        <Insets />
+                     </opaqueInsets>
+                     <FlowPane.margin>
+                        <Insets />
+                     </FlowPane.margin>
+                  </VBox>
+                  <VBox styleClass="peony-data-entry-pane">
+                     <children>
+                        <Label styleClass="peony-data-entry-label" text="Property Type" />
+                        <JFXTextField fx:id="propertyTypeField" prefWidth="180.0" promptText="Property Type" styleClass="peony-data-entry-field" />
+                     </children>
+                  </VBox>
+                  <VBox styleClass="peony-data-entry-pane">
+                     <children>
+                        <Label styleClass="peony-data-entry-label" text="Property Address" />
+                        <JFXTextField fx:id="propertyAddressField" prefWidth="180.0" promptText="Property Address" styleClass="peony-data-entry-field" />
+                     </children>
+                  </VBox>
+                  <VBox styleClass="peony-data-entry-pane">
+                     <children>
+                        <Label styleClass="peony-data-entry-label" text="Purchase Price" />
+                        <JFXTextField fx:id="purchasePriceField" prefWidth="180.0" promptText="Purchase Price" styleClass="peony-data-entry-field" />
+                     </children>
+                  </VBox>
+                  <VBox styleClass="peony-data-entry-pane">
+                     <children>
+                        <Label styleClass="peony-data-entry-label" text="\% of Ownership" />
+                        <JFXTextField fx:id="percentageOfOwnershipField" prefWidth="180.0" promptText="\% of Ownership" styleClass="peony-data-entry-field" />
+                     </children>
+                  </VBox>
+                  <VBox styleClass="peony-data-entry-pane">
+                     <children>
+                        <Label styleClass="peony-data-entry-label" text="\% of Rental Use" />
+                        <JFXTextField fx:id="percentageOfRentalUseField" prefWidth="180.0" promptText="\% of Rental Use" styleClass="peony-data-entry-field" />
+                     </children>
+                  </VBox>
+                  <VBox styleClass="peony-data-entry-pane">
+                     <children>
+                        <Label styleClass="peony-data-entry-label" text="Date of Service" />
+                        <DatePicker fx:id="dateOnServicePicker" prefWidth="180.0" promptText="Date of Service" styleClass="peony-data-entry-field" />
+                     </children>
+                  </VBox>
+                  <VBox styleClass="peony-data-entry-pane">
+                     <children>
+                        <Label styleClass="peony-data-entry-label" text="Income Rents Receieved" />
+                        <JFXTextField fx:id="incomeRentsReceievedField" prefWidth="180.0" promptText="Income Rents Receieved" styleClass="peony-data-entry-field" />
+                     </children>
+                  </VBox>
+               </children>
+            </FlowPane>
+            <FlowPane styleClass="peony-data-form-pane">
+               <children>
+                  <VBox maxWidth="180.0" minWidth="180.0" prefWidth="180.0">
+                     <children>
+                        <Label styleClass="peony-bold-control" text="Personal Expenses Entries">
+                           <VBox.margin>
+                              <Insets />
+                           </VBox.margin>
+                        </Label>
+                     </children>
+                     <opaqueInsets>
+                        <Insets />
+                     </opaqueInsets>
+                  </VBox>
+                  <VBox styleClass="peony-data-entry-pane">
+                     <children>
+                        <Label styleClass="peony-data-entry-label" text="Advertising" />
+                        <JFXTextField fx:id="expenseAdvertisingField" prefWidth="180.0" promptText="Advertising" styleClass="peony-data-entry-field" />
+                     </children>
+                  </VBox>
+                  <VBox styleClass="peony-data-entry-pane">
+                     <children>
+                        <Label styleClass="peony-data-entry-label" text="Auto/Travel" />
+                        <JFXTextField fx:id="expenseAutoAndTravelField" prefWidth="180.0" promptText="Auto/Travel" styleClass="peony-data-entry-field" />
+                     </children>
+                  </VBox>
+                  <VBox styleClass="peony-data-entry-pane">
+                     <children>
+                        <Label styleClass="peony-data-entry-label" text="Cleaning" />
+                        <JFXTextField fx:id="expenseCleaningField" prefWidth="180.0" promptText="Cleaning" styleClass="peony-data-entry-field" />
+                     </children>
+                  </VBox>
+                  <VBox styleClass="peony-data-entry-pane">
+                     <children>
+                        <Label styleClass="peony-data-entry-label" text="Commission" />
+                        <JFXTextField fx:id="expenseCommissionsField" prefWidth="180.0" promptText="Commission" styleClass="peony-data-entry-field" />
+                     </children>
+                  </VBox>
+                  <VBox styleClass="peony-data-entry-pane">
+                     <children>
+                        <Label styleClass="peony-data-entry-label" text="Insurance" />
+                        <JFXTextField fx:id="expenseInsuranceField" prefWidth="180.0" promptText="Insurance" styleClass="peony-data-entry-field" />
+                     </children>
+                  </VBox>
+                  <VBox styleClass="peony-data-entry-pane">
+                     <children>
+                        <Label styleClass="peony-data-entry-label" text="Professional Services" />
+                        <JFXTextField fx:id="expenseProfServicesField" prefWidth="180.0" promptText="Professional Services" styleClass="peony-data-entry-field" />
+                     </children>
+                  </VBox>
+                  <VBox styleClass="peony-data-entry-pane">
+                     <children>
+                        <Label styleClass="peony-data-entry-label" text="Management Fee" />
+                        <JFXTextField fx:id="expenseMgtFeeField" prefWidth="180.0" promptText="Management Fee" styleClass="peony-data-entry-field" />
+                     </children>
+                  </VBox>
+                  <VBox styleClass="peony-data-entry-pane">
+                     <children>
+                        <Label styleClass="peony-data-entry-label" text="Morgage Interest" />
+                        <JFXTextField fx:id="expenseMorgageInterestField" prefWidth="180.0" promptText="Morgage Interest" styleClass="peony-data-entry-field" />
+                     </children>
+                  </VBox>
+                  <VBox styleClass="peony-data-entry-pane">
+                     <children>
+                        <Label styleClass="peony-data-entry-label" text="Other Interests" />
+                        <JFXTextField fx:id="expenseOthersField" prefWidth="180.0" promptText="Other Interests" styleClass="peony-data-entry-field" />
+                     </children>
+                  </VBox>
+                  <VBox styleClass="peony-data-entry-pane">
+                     <children>
+                        <Label styleClass="peony-data-entry-label" text="Repairs" />
+                        <JFXTextField fx:id="expenseRepairsField" prefWidth="180.0" promptText="Repairs" styleClass="peony-data-entry-field" />
+                     </children>
+                  </VBox>
+                  <VBox styleClass="peony-data-entry-pane">
+                     <children>
+                        <Label styleClass="peony-data-entry-label" text="Supplies" />
+                        <JFXTextField fx:id="expenseSuppliesField" prefWidth="180.0" promptText="Supplies" styleClass="peony-data-entry-field" />
+                     </children>
+                  </VBox>
+                  <VBox styleClass="peony-data-entry-pane">
+                     <children>
+                        <Label styleClass="peony-data-entry-label" text="Real Estate Taxes" />
+                        <JFXTextField fx:id="expenseReTaxesField" prefWidth="180.0" promptText="Real Estate Taxes" styleClass="peony-data-entry-field" />
+                     </children>
+                  </VBox>
+                  <VBox styleClass="peony-data-entry-pane">
+                     <children>
+                        <Label styleClass="peony-data-entry-label" text="Utilities" />
+                        <JFXTextField fx:id="expenseUtilitiesField" prefWidth="180.0" promptText="Utilities" styleClass="peony-data-entry-field" />
+                     </children>
+                  </VBox>
+                  <VBox styleClass="peony-data-entry-pane">
+                     <children>
+                        <Label styleClass="peony-data-entry-label" text="Depreciation" />
+                        <JFXTextField fx:id="expenseDepreciationField" prefWidth="180.0" promptText="Depreciation" styleClass="peony-data-entry-field" />
+                     </children>
+                  </VBox>
+                  <VBox styleClass="peony-data-entry-pane">
+                     <children>
+                        <Label styleClass="peony-data-entry-label" text="Water Sewer" />
+                        <JFXTextField fx:id="expenseWaterSewerField" prefWidth="180.0" promptText="Water Sewer" styleClass="peony-data-entry-field" />
+                     </children>
+                  </VBox>
+                  <VBox styleClass="peony-data-entry-pane">
+                     <children>
+                        <Label styleClass="peony-data-entry-label" text="Date of Improvement" />
+                        <DatePicker fx:id="dateOnImprovementPicker" prefWidth="180.0" promptText="Date of Improvement" styleClass="peony-data-entry-field" />
+                     </children>
+                  </VBox>
+                  <VBox styleClass="peony-data-entry-pane">
+                     <children>
+                        <Label styleClass="peony-data-entry-label" text="Improvement Cost" />
+                        <JFXTextField fx:id="improvementCostField" prefWidth="180.0" promptText="Improvement Cost" styleClass="peony-data-entry-field" />
+                     </children>
+                  </VBox>
+                  <VBox maxWidth="370.0" minWidth="370.0" prefWidth="370.0">
+                     <children>
+                        <Label styleClass="peony-data-entry-label" text="Memo" />
+                        <JFXTextField fx:id="memoField" promptText="Memo" styleClass="peony-data-entry-field" />
+                     </children>
+                  </VBox>
+               </children>
+            </FlowPane>
+         </children>
+      </VBox>
+   </children>
+</AnchorPane>

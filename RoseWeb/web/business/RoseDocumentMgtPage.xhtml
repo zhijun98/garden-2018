@@ -1,0 +1,114 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:ez="http://xmlns.jcp.org/jsf/composite/ezcomp">
+
+    <body>
+
+        <ui:composition template="./../templates/templateTopLeftCenterBottom.xhtml">
+            
+            <ui:remove><!--Title--></ui:remove>
+            <ui:param name="rosePageTopic" value="#{roseDocumentTransferBean.rosePageTopic}"/>
+            <ui:param name="topicIconAwesome" value="#{roseDocumentTransferBean.topicIconAwesomeName}"/>
+            
+            <ui:define name="f-metadata">
+                <f:metadata>
+                    <f:event listener="#{roseUserSession.handlePreRenderViewEvent()}" type="preRenderView" />
+                    <f:viewParam name="#{roseParamKeys.roseArchivedFileUuidParamKey}" value="#{roseDocumentTransferBean.requestedArchivedFileUuid}"/>
+                </f:metadata>
+            </ui:define>
+            
+            <ui:remove><!--This page displays public web post for any web users to read--></ui:remove>
+            <ui:define name="rosePageContent">
+                <h:form enctype="multipart/form-data">
+                    <p:panel header="#{roseDocumentTransferBean.roseDocumentTransferHeader}" style="width: 100%; font-size: 12px">
+                        <p:panelGrid styleClass="roseNoBorder">
+                            <p:row styleClass="roseNoBorder">
+                                <p:column styleClass="roseNoBorder" colspan="2">
+                                    <h:outputLabel value="#{roseText.ArchivedDocuments}:"/>
+                                </p:column>
+                            </p:row>
+                            <p:row styleClass="roseNoBorder">
+                                <p:column styleClass="roseNoBorder" width="50">
+                                    <h:outputLabel value="#{roseText.FileName}:"/>
+                                </p:column>
+                                <p:column styleClass="roseNoBorder">
+                                    <p:inputText value="#{roseDocumentTransferBean.targetGardenArchivedDocument.fileCustomName}" 
+                                                 maxlength="45" style="width: 100%" validatorMessage="#{roseText.FileName} - #{roseText.FieldLengthRequired_T}: 45"
+                                                 placeholder="alphanumeric, underscore or/and file extension are permitted">
+                                        <p:ajax/>
+                                    </p:inputText>
+                                </p:column>
+                            </p:row>
+                            <p:row styleClass="roseNoBorder">
+                                <p:column styleClass="roseNoBorder" width="50">
+                                    <h:outputLabel value="#{roseText.Type}:"/>
+                                </p:column>
+                                <p:column styleClass="roseNoBorder">
+                                    <h:selectOneMenu class="form-control" 
+                                                    value = "#{roseDocumentTransferBean.targetGardenArchivedDocument.fileStatus}">
+                                        <f:selectItems value="#{roseSettings.gardenArchivedFileTypeList}" 
+                                                      var="type" itemValue = "#{type}" itemLabel = "#{type}" />
+                                        <p:ajax event="change" process="@this"/>
+                                    </h:selectOneMenu>
+                                </p:column>
+                            </p:row>
+                            <p:row styleClass="roseNoBorder">
+                                <p:column styleClass="roseNoBorder" width="50">
+                                    <h:outputLabel value="#{roseText.DateTime}:"/>
+                                </p:column>
+                                <p:column styleClass="roseNoBorder">
+                                    <p:calendar value="#{roseDocumentTransferBean.targetGardenArchivedDocument.fileTimestamp}" 
+                                                locale="#{roseUserSession.localeCode}" pattern="MM-dd-yyyy" navigator="true">
+                                        <p:ajax event="dateSelect" process="@this"/>
+                                    </p:calendar>
+                                </p:column>
+                            </p:row>
+                            <p:row styleClass="roseNoBorder">
+                                <p:column styleClass="roseNoBorder" width="50">
+                                    <h:outputLabel value="#{roseText.MemoOnFile}:"/>
+                                </p:column>
+                                <p:column styleClass="roseNoBorder">
+                                    <p:inputTextarea value="#{roseDocumentTransferBean.targetGardenArchivedDocument.memo}" 
+                                                     validatorMessage="#{roseText.MemoOnFile} - #{roseText.FieldLengthRequired_T}: 450"
+                                                     maxlength="450" style="width: 100%" placeholder="At most 450 characters">
+                                        <p:ajax/>
+                                    </p:inputTextarea>
+                                </p:column>
+                            </p:row>
+                            <p:row styleClass="roseNoBorder">
+                                <p:column styleClass="roseNoBorder" colspan="2">
+                                    <h:panelGrid columns="7">
+                                        <p:commandLink class="btn btn-success" value="#{roseText.Save}" style="color: white"
+                                                         action="#{roseDocumentTransferBean.storeTargetGardenArchivedDocument()}"/>
+                                        <p:spacer width="2"/>
+                                        <p:commandLink class="btn btn-warning" value="#{roseText.Delete}" style="color: white" 
+                                                         action="#{roseDocumentTransferBean.deleteTargetGardenArchivedDocument()}">
+                                            <p:confirm header="Confirmation" message="Are you sure?" icon="ui-icon-alert" />
+                                        </p:commandLink>
+                                        <p:spacer width="10"/>
+                                        <h:outputLink value="#{roseDocumentTransferBean.goBackWebPath}">
+                                            #{roseText.GoBack}
+                                        </h:outputLink>
+                                        <p:spacer width="10"/>
+                                        <p:messages globalOnly="true"/>
+                                    </h:panelGrid>
+                                </p:column>
+                            </p:row>
+                        </p:panelGrid>
+                    </p:panel>
+                    
+                    <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+                        <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                        <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                    </p:confirmDialog>
+                </h:form>
+            </ui:define>
+        </ui:composition>
+
+    </body>
+</html>

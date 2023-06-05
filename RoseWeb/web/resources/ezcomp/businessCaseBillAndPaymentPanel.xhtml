@@ -1,0 +1,187 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:cc="http://xmlns.jcp.org/jsf/composite"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+    
+    <!--@Deprecated by businessCaseBillAndPaymentPanel.xhtml-->
+
+    <!-- INTERFACE -->
+    <cc:interface>
+        <cc:attribute name="businessBillPaymentInvoiceBean" type="com.zcomapproach.garden.rose.bean.IBusinessBillPaymentInvoiceBean" required="true"/>
+        <cc:attribute name="businessCaseProfile" type="com.zcomapproach.garden.rose.data.profile.AbstractBusinessCaseProfile" required="true"/>
+        <cc:attribute name="viewOnly" type="java.lang.Boolean" required="true"/>
+    </cc:interface>
+
+    <!-- IMPLEMENTATION -->
+    <cc:implementation>
+        <p:commandButton value="#{roseText.AddBillItem}" rendered="#{(!cc.attrs.viewOnly) and roseUserSession.employed}">
+            <p:ajax event="click" update="@(.roseBusinessCaseBillAndPaymentPanel)"
+                    listener="#{cc.attrs.businessBillPaymentInvoiceBean.displayBusinessCaseBillDataEntryPanel()}"/>
+        </p:commandButton>
+        <p:outputPanel rendered="#{cc.attrs.businessCaseProfile.businessCaseBillProfileList.size() > 0}">
+            <h:panelGrid columns="1" style=" width: 100%; margin-top: 5px; margin-bottom: 5px">
+                <ui:repeat value="#{cc.attrs.businessCaseProfile.businessCaseBillProfileList}" var="billProfile">
+                    <p:panel header="#{roseText.BillAndPayment}: #{billProfile.billUuidForWeb}
+                             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[#{billProfile.billDatetimeForWeb}]" 
+                             style="margin-top: 5px; width: 100%" toggleable="#{!cc.attrs.viewOnly}">
+                        <p:panelGrid style=" width: 100%">
+                            <p:row>
+                                <p:column styleClass="roseWarningColors">
+                                    <h:outputText value="#{roseText.BillDateTime}: #{billProfile.billDatetimeForWeb}"/>
+                                </p:column>
+                            </p:row>
+                            <p:row>
+                                <p:column>
+                                    <h:panelGrid columns="8">
+                                        <h:outputLabel value="#{roseText.BillContent}" style="text-decoration: underline; margin-top: 5px"/>:
+                                        <p:spacer width="2"/>
+                                        <h:outputText value="#{billProfile.billEntity.billContent}" 
+                                                      style="margin-top: 5px; font-style: italic"/>
+                                    </h:panelGrid>
+                                </p:column>
+                            </p:row>
+                            <p:row>
+                                <p:column>
+                                    <h:panelGrid columns="36">
+                                        <h:outputLabel value="#{roseText.Price}" style="text-decoration: underline; margin-top: 5px"/>:
+                                        <p:spacer width="2"/>
+                                        <h:outputText value="#{billProfile.billTotalForWeb}" 
+                                                      style="margin-top: 5px; font-style: italic">
+                                            <f:convertNumber pattern="¤#,##0.00" currencySymbol="$" />
+                                        </h:outputText>
+                                        <p:spacer width="20"/>
+                                        <h:outputLabel value="#{roseText.Discount}" style="text-decoration: underline; margin-top: 5px"/>:
+                                        <p:spacer width="2"/>
+                                        <h:outputText value="#{billProfile.billDiscountForWeb}" 
+                                                      style="margin-top: 5px; font-style: italic"/>
+                                        <p:spacer width="20"/>
+                                        <h:outputLabel value="#{roseText.DiscountedPrice}" style="text-decoration: underline; margin-top: 5px;"/>:
+                                        <p:spacer width="2"/>
+                                        <h:outputText value="#{billProfile.billFinalTotalForWeb}" 
+                                                      style="margin-top: 5px; font-style: italic">
+                                            <f:convertNumber pattern="¤#,##0.00" currencySymbol="$" />
+                                        </h:outputText>
+                                        <p:spacer width="20"/>
+                                        <h:outputLabel value="#{roseText.CustomerPaid}" style="text-decoration: underline; margin-top: 5px; color: blue;"/>:
+                                        <p:spacer width="2"/>
+                                        <h:outputText value="#{billProfile.totalPaidPriceValueForWeb}" 
+                                                      style="margin-top: 5px; color: blue; font-style: italic">
+                                            <f:convertNumber pattern="¤#,##0.00" currencySymbol="$" />
+                                        </h:outputText>
+                                        <p:spacer width="20"/>
+                                        <h:outputLabel value="#{roseText.Balance}" style="text-decoration: underline; margin-top: 5px; color: darkred"/>:
+                                        <p:spacer width="2"/>
+                                        <h:outputText value="#{billProfile.finalBalanceValueForWeb}" 
+                                                      style="margin-top: 5px; color: darkred; font-style: italic">
+                                            <f:convertNumber pattern="¤#,##0.00" currencySymbol="$" />
+                                        </h:outputText>
+                                        <p:spacer width="20"/>
+                                        <p:commandButton value="#{roseText.EditBill}" rendered="#{(!cc.attrs.viewOnly) and roseUserSession.employed}">
+                                            <p:ajax event="click" update="@(.roseBusinessCaseBillAndPaymentPanel)"
+                                                    listener="#{cc.attrs.businessBillPaymentInvoiceBean.displayBusinessCaseBillDataEntryPanelForEdit(billProfile.billEntity.billUuid)}"/>
+                                        </p:commandButton>
+                                        <p:spacer width="2"/>
+                                        <p:commandButton value="#{roseText.Delete}" rendered="#{(!cc.attrs.viewOnly) and roseUserSession.employed}">
+                                            <p:ajax event="click" update="@(.roseBusinessCaseBillAndPaymentPanel)"
+                                                    listener="#{cc.attrs.businessBillPaymentInvoiceBean.deleteBusinessCaseBillProfile(billProfile.billEntity.billUuid)}"/>
+                                        </p:commandButton>
+                                    </h:panelGrid>
+                                </p:column>
+                            </p:row>
+                            <p:row>
+                                <p:column styleClass="roseWarningColors">
+                                    <h:outputText value="#{roseText.ConfirmedCustomerPayments}"/>
+                                </p:column>
+                            </p:row>
+                            <p:row>
+                                <p:column >
+                                    <p:outputPanel rendered="#{billProfile.businessCasePaymentProfileList.size()==0}">
+                                        <p:spacer width="2"/>
+                                        <h:outputText value="#{roseText.NoPaymentConfirmed}:" style="font-size: 12px; color: darkgreen;"/>
+                                        <p:spacer width="2"/>
+                                    </p:outputPanel>
+                                    <h:panelGrid columns="1" rendered="#{billProfile.businessCasePaymentProfileList.size() > 0}">
+                                        <p:spacer width="2"/>
+                                        <h:dataTable value= "#{billProfile.businessCasePaymentProfileList}" var="paymentProfile">
+                                            <h:column>
+                                                <f:facet name="header">
+                                                    <h:outputLabel style="text-decoration: underline" value="#{roseText.PaymentMethod}"/>
+                                                </f:facet>
+                                                <h:outputText value="#{paymentProfile.paymentEntity.paymentType}" style="font-style: italic"/>
+                                            </h:column>
+                                            <h:column>
+                                                <p:spacer width="20"/>
+                                            </h:column>
+                                            <h:column>
+                                                <f:facet name="header">
+                                                    <h:outputLabel style="text-decoration: underline" value="#{roseText.Paid}"/>
+                                                </f:facet>
+                                                <h:outputText value="#{paymentProfile.paymentEntity.paymentPrice}" 
+                                                              style="font-style: italic">
+                                                    <f:convertNumber pattern="¤#,##0.00" currencySymbol="$" />
+                                                </h:outputText>
+                                            </h:column>
+                                            <h:column>
+                                                <p:spacer width="20"/>
+                                            </h:column>
+                                            <h:column>
+                                                <f:facet name="header">
+                                                    <h:outputLabel style="text-decoration: underline" value="#{roseText.ConfirmedByAgent}"/>
+                                                </f:facet>
+                                                <h:outputText value="#{paymentProfile.agent.profileDescriptiveName}" style="font-style: italic"/>
+                                            </h:column>
+                                            <h:column>
+                                                <p:spacer width="20"/>
+                                            </h:column>
+                                            <h:column>
+                                                <f:facet name="header">
+                                                    <h:outputLabel style="text-decoration: underline" value="#{roseText.Memo}"/>
+                                                </f:facet>
+                                                <h:outputText value="#{paymentProfile.paymentEntity.paymentMemo}" style="font-style: italic"/>
+                                            </h:column>
+                                            <h:column>
+                                                <p:spacer width="20"/>
+                                            </h:column>
+                                            <h:column>
+                                                <f:facet name="header">
+                                                    <h:outputLabel style="text-decoration: underline" value="#{roseText.PaymentDate}"/>
+                                                </f:facet>
+                                                <h:outputText value="#{paymentProfile.paymentEntity.paymentDate}" style="font-style: italic">
+                                                    <f:convertDateTime pattern="MM-dd-yyyy" />
+                                                </h:outputText>
+                                            </h:column>
+                                            <h:column>
+                                                <p:spacer width="20"/>
+                                            </h:column>
+                                            <h:column rendered="#{roseUserSession.employed}">
+                                                <f:facet name="header">
+                                                </f:facet>
+                                                <p:commandLink value="#{roseText.Delete}" style="text-decoration: underline; color: blue" 
+                                                               update="@(.roseBusinessCaseBillAndPaymentPanel)" process="@this" rendered="#{(!cc.attrs.viewOnly) and roseUserSession.employed}" 
+                                                               actionListener="#{cc.attrs.businessBillPaymentInvoiceBean.deleteBusinessCasePaymentProfile(billProfile.billEntity.billUuid, paymentProfile.paymentEntity.paymentUuid)}">
+                                                </p:commandLink>
+                                            </h:column>
+                                        </h:dataTable>
+                                    </h:panelGrid>
+                                </p:column>
+                            </p:row>
+                            <p:row>
+                                <p:column >
+                                    <p:commandButton value="#{roseText.addNewPayment}" rendered="#{(!cc.attrs.viewOnly) and roseUserSession.employed}">
+                                        <p:ajax event="click" update="@(.roseBusinessCaseBillAndPaymentPanel)"
+                                                listener="#{cc.attrs.businessBillPaymentInvoiceBean.displayBusinessCasePaymentDataEntryPanel(billProfile.billEntity.billUuid)}"/>
+                                    </p:commandButton>
+                                </p:column>
+                            </p:row>
+                        </p:panelGrid>
+                    </p:panel>
+                    <p:spacer width="1"/>
+                </ui:repeat>
+            </h:panelGrid>
+        </p:outputPanel>
+    </cc:implementation>
+</html>

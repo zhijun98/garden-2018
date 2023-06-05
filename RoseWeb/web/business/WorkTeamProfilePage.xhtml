@@ -1,0 +1,44 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:ez="http://xmlns.jcp.org/jsf/composite/ezcomp"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:b="http://bootsfaces.net/ui">
+
+    <body>
+
+        <ui:composition template="./../templates/templateTopLeftCenterBottom.xhtml">
+            <ui:remove><!--Title--></ui:remove>
+            <ui:param name="rosePageTopic" value="#{roseText.WorkTeam}"/>
+            <ui:param name="topicIconAwesome" value="users"/>
+            
+            <ui:define name="f-metadata">
+                <f:metadata>
+                    <f:event listener="#{roseUserSession.handlePreRenderViewEvent()}" type="preRenderView" />
+                    <f:viewParam name="#{roseParamKeys.viewPurposeParamKey}" value="#{roseWorkTeamBean.requestedViewPurpose}"/>
+                    <f:viewParam name="#{roseParamKeys.workTeamUuidParamKey}" value="#{roseWorkTeamBean.requestedWorkTeamUuid}"/>
+                </f:metadata>
+            </ui:define>
+            
+            <ui:define name="rosePageContent">
+                <b:row>
+                    <b:column>
+                        <h:form>
+                            <ez:workTeamProfilePanel roseWorkTeamBean="#{roseWorkTeamBean}"/>
+                            <h:panelGrid columns="3">
+                                <h:commandButton class="btn btn-success" value="#{roseText.Save}"
+                                                 action="#{roseWorkTeamBean.storeTargetWorkTeamProfile}" />
+                                <p:spacer width="1"/>
+                                <h:link class="btn btn-default" outcome="#{rosePages.workTeamListPageName}" value="#{roseText.GoBack}"/>
+                            </h:panelGrid>
+                        </h:form>
+                    </b:column>
+                </b:row>
+            </ui:define>
+        </ui:composition>
+
+    </body>
+</html>

@@ -1,0 +1,142 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:cc="http://xmlns.jcp.org/jsf/composite"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:b="http://bootsfaces.net/ui">
+
+    <!-- INTERFACE -->
+    <cc:interface>
+        <!--Target entity record for this panel-->
+        <cc:attribute name="accountProfile" type="com.zcomapproach.garden.rose.data.profile.RoseAccountProfile" required="true"/>
+        <!--Only view data-->
+        <cc:attribute name="viewOnly" type="java.lang.Boolean" required="true"/>
+        <!--For redeem credentials, it need make question part read-only and the answer part being input controls-->
+        <cc:attribute name="forRedeemCredentials" type="java.lang.Boolean" required="true"/>
+    </cc:interface>
+
+    <!-- IMPLEMENTATION -->
+    <cc:implementation>
+        <b:row>
+            <b:column col-md="4">
+                <p:panelGrid style="width: 95%;" styleClass="roseNoBorder">
+                    <p:row styleClass="roseNoBorder">
+                        <p:column style="width:125px" styleClass="roseNoBorder">
+                            <p:outputLabel for="qna01" value="#{roseText.Question}-01:"/>
+                        </p:column>
+                        <p:column styleClass="roseNoBorder">
+                            <h:outputText value="#{cc.attrs.accountProfile.securityQnaProfile01.securityQuestionValue}" 
+                                          rendered="#{cc.attrs.viewOnly}"/>
+                            <h:selectOneMenu id="qna01" class="form-control" rendered="#{!cc.attrs.viewOnly}"
+                                             required="true" requiredMessage="#{roseText.Question} - #{roseText.FieldRequired_T}"
+                                             value="#{cc.attrs.accountProfile.securityQnaProfile01}" converter="securityQnaProfileConverter">
+                                <f:selectItem itemLabel = "#{roseText.SelectQuestions}..." itemValue = "" /> 
+                                <f:selectItems value="#{cc.attrs.accountProfile.allSecurityQnaProfile}" var="qna"
+                                               itemLabel="#{qna.securityQuestionValue}" itemValue="#{qna}"/>
+                                <p:ajax event="change" process="@this"/>
+                            </h:selectOneMenu>
+                        </p:column>
+                    </p:row>
+                    <p:row styleClass="roseNoBorder">
+                        <p:column style="width:125px" styleClass="roseNoBorder">
+                            <p:outputLabel for="qnaAnswer01" value="#{roseText.Answer}-01:"/>
+                        </p:column>
+                        <p:column styleClass="roseNoBorder">
+                            <h:outputText value="#{cc.attrs.accountProfile.securityQnaProfile01.securityQnaEntity.sequrityAnswer}" 
+                                          rendered="#{cc.attrs.viewOnly and (!cc.attrs.forRedeemCredentials)}"/>
+                            <p:inputText id="qnaAnswer01" placeholder="#{roseText.Answer}" style="width: 100%;"
+                                         rendered="#{!cc.attrs.viewOnly or (cc.attrs.forRedeemCredentials)}"
+                                         value="#{cc.attrs.accountProfile.securityQnaProfile01.securityQnaEntity.sequrityAnswer}"
+                                         required="true" requiredMessage="#{roseText.Answer} - #{roseText.FieldRequired_T}"
+                                         validatorMessage="#{roseText.Answer} - #{roseText.MaxLengthRequired_T}: 100">
+                                <f:validateLength maximum="100"/>
+                                <p:ajax/>
+                            </p:inputText>
+                        </p:column>
+                    </p:row>
+                </p:panelGrid>
+                
+            </b:column>
+            <b:column col-md="4">
+                <p:panelGrid style="width: 95%;" styleClass="roseNoBorder">
+                    <p:row styleClass="roseNoBorder">
+                        <p:column style="width:125px" styleClass="roseNoBorder">
+                            <p:outputLabel for="qna02" value="#{roseText.Question}-02:"/>
+                        </p:column>
+                        <p:column styleClass="roseNoBorder">
+                            <h:outputText value="#{cc.attrs.accountProfile.securityQnaProfile02.securityQuestionValue}" 
+                                          rendered="#{cc.attrs.viewOnly}"/>
+                            <h:selectOneMenu id="qna02" class="form-control" rendered="#{!cc.attrs.viewOnly}"
+                                             required="true" requiredMessage="#{roseText.Question} - #{roseText.FieldRequired_T}"
+                                             value="#{cc.attrs.accountProfile.securityQnaProfile02}" converter="securityQnaProfileConverter"> 
+                                <f:selectItem itemLabel = "#{roseText.SelectQuestions}..." itemValue = "" /> 
+                                <f:selectItems value="#{cc.attrs.accountProfile.allSecurityQnaProfile}" var="qna"
+                                               itemLabel="#{qna.securityQuestionValue}" itemValue="#{qna}"/>
+                                <p:ajax event="change" process="@this"/>
+                            </h:selectOneMenu>
+                        </p:column>
+                    </p:row>
+                    <p:row styleClass="roseNoBorder">
+                        <p:column style="width:125px" styleClass="roseNoBorder">
+                            <p:outputLabel for="qnaAnswer02" value="#{roseText.Answer}-02:"/>
+                        </p:column>
+                        <p:column styleClass="roseNoBorder">
+                            <h:outputText value="#{cc.attrs.accountProfile.securityQnaProfile02.securityQnaEntity.sequrityAnswer}" 
+                                          rendered="#{cc.attrs.viewOnly and (!cc.attrs.forRedeemCredentials)}"/>
+                            <p:inputText id="qnaAnswer02" placeholder="#{roseText.Answer}" style="width: 100%;"
+                                         rendered="#{!cc.attrs.viewOnly or (cc.attrs.forRedeemCredentials)}"
+                                         value="#{cc.attrs.accountProfile.securityQnaProfile02.securityQnaEntity.sequrityAnswer}"
+                                         required="true" requiredMessage="#{roseText.Answer} - #{roseText.FieldRequired_T}"
+                                         validatorMessage="#{roseText.Answer} - #{roseText.MaxLengthRequired_T}: 100">
+                                <f:validateLength maximum="100"/>
+                                <p:ajax/>
+                            </p:inputText>
+                        </p:column>
+                    </p:row>
+                </p:panelGrid>
+                
+            </b:column>
+            <b:column col-md="4">
+                <p:panelGrid style="width: 95%;" styleClass="roseNoBorder">
+                    <p:row styleClass="roseNoBorder">
+                        <p:column style="width:125px" styleClass="roseNoBorder">
+                            <p:outputLabel for="qna03" value="#{roseText.Question}-03:"/>
+                        </p:column>
+                        <p:column styleClass="roseNoBorder">
+                            <h:outputText value="#{cc.attrs.accountProfile.securityQnaProfile03.securityQuestionValue}" 
+                                          rendered="#{cc.attrs.viewOnly}"/>
+                            <h:selectOneMenu id="qna03" class="form-control" rendered="#{!cc.attrs.viewOnly}"
+                                             required="true" requiredMessage="#{roseText.Question} - #{roseText.FieldRequired_T}"
+                                             value="#{cc.attrs.accountProfile.securityQnaProfile03}" converter="securityQnaProfileConverter"> 
+                                <f:selectItem itemLabel = "#{roseText.SelectQuestions}..." itemValue = "" /> 
+                                <f:selectItems value="#{cc.attrs.accountProfile.allSecurityQnaProfile}" var="qna"
+                                               itemLabel="#{qna.securityQuestionValue}" itemValue="#{qna}"/>
+                                <p:ajax event="change" process="@this"/>
+                            </h:selectOneMenu>
+                        </p:column>
+                    </p:row>
+                    <p:row styleClass="roseNoBorder">
+                        <p:column style="width:125px" styleClass="roseNoBorder">
+                            <p:outputLabel for="qnaAnswer03" value="#{roseText.Answer}-03:"/>
+                        </p:column>
+                        <p:column styleClass="roseNoBorder">
+                            <h:outputText value="#{cc.attrs.accountProfile.securityQnaProfile03.securityQnaEntity.sequrityAnswer}" 
+                                          rendered="#{cc.attrs.viewOnly and (!cc.attrs.forRedeemCredentials)}"/>
+                            <p:inputText id="qnaAnswer03" placeholder="#{roseText.Answer}" style="width: 100%;"
+                                         rendered="#{!cc.attrs.viewOnly or (cc.attrs.forRedeemCredentials)}"
+                                         value="#{cc.attrs.accountProfile.securityQnaProfile03.securityQnaEntity.sequrityAnswer}"
+                                         required="true" requiredMessage="#{roseText.Answer} - #{roseText.FieldRequired_T}"
+                                         validatorMessage="#{roseText.Answer} - #{roseText.MaxLengthRequired_T}: 100">
+                                <f:validateLength maximum="100"/>
+                                <p:ajax/>
+                            </p:inputText>
+                        </p:column>
+                    </p:row>
+                </p:panelGrid>
+                
+            </b:column>
+        </b:row>
+    </cc:implementation>
+</html>

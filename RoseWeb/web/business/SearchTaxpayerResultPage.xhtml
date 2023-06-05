@@ -1,0 +1,37 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ez="http://xmlns.jcp.org/jsf/composite/ezcomp">
+
+    <body>
+        <ui:composition template="./../templates/templateTopFluidCenterBottom.xhtml">
+            
+            <ui:remove><!--Title--></ui:remove>
+            <ui:param name="rosePageTopic" value="#{roseText.SearchPersonalTaxCaseResult}"/>
+            <ui:param name="topicIconAwesome" value="search"/>
+            
+            <ui:remove><!--This page displays public web post for any web users to read--></ui:remove>
+            <ui:define name="rosePageContent">
+                <h:form>
+                    <p:outputPanel styleClass="searchTaxFilingOutputPanel">
+                        <p:panel header="#{roseText.PersonalFamilyTaxFilingTaskList}" style="font-size: 12px">
+                            <h:outputText value="#{roseText.SearchResult}" style="color: darkgreen; font-size: 14px; font-weight: bolder" 
+                                          rendered="#{searchTaxpayerBean.searchResultTaxpayerProfileList.size() == 0}"/>
+                            <ez:taxpayerCaseEntityListDataTable taxpayerCaseEntityList="#{searchTaxpayerBean.searchResultTaxpayerProfileList}"
+                                                                roseComponentBean="#{searchTaxpayerBean}"
+                                                                rendered="#{searchTaxpayerBean.searchResultTaxpayerProfileList.size() > 0}"/>
+                        </p:panel>
+                    </p:outputPanel>
+                    <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+                        <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                        <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                    </p:confirmDialog>
+                </h:form>
+            </ui:define>
+        </ui:composition>
+
+    </body>
+</html>

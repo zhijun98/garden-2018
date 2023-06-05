@@ -1,0 +1,213 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:cc="http://xmlns.jcp.org/jsf/composite"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+
+    <!-- INTERFACE -->
+    <cc:interface>
+        <cc:attribute name="roseInvoiceBean" type="com.zcomapproach.garden.rose.bean.RoseInvoiceBean" required="true"/>
+        <cc:attribute name="viewOnly" type="java.lang.Boolean" required="true"/>
+    </cc:interface>
+
+    <!-- IMPLEMENTATION -->
+    <cc:implementation>
+        
+        <p:outputPanel>
+            <ui:remove><!--Invoice--></ui:remove>
+            <p:panel style="font-size: 14px; margin-top: 5px; margin-bottom: 5px;"
+                     header="#{roseSettings.webOwnerName}" toggleable="#{!cc.attrs.viewOnly}">
+
+                <h:panelGrid columns="2" style="font-size: 11px; font-style: italic; width: 100%">
+                    <h:outputText value="#{roseSettings.webOwnerAddress}"/>
+                    <h:outputLabel value="#{roseText.Invoice}" style="font-size: 14px; float: right"/>
+                </h:panelGrid>
+                <hr/>
+                <h:panelGrid columns="1">
+                    <h:outputLabel value="#{roseText.InvoiceTo}: #{cc.attrs.roseInvoiceBean.targetBusinessCaseProfile.profileName}" 
+                                   style="font-size: 12px;"/>
+                    <h:outputText value="#{roseText.DateTime}: #{cc.attrs.roseInvoiceBean.targetBusinessCaseBillProfile.billDatetimeForWeb}"
+                                  style="font-size: 11px; font-style: italic;"/>
+                </h:panelGrid>
+                <p:panelGrid style="font-size: 11px; margin-top: 5px; width: 100%">
+                    <p:row>
+                        <p:column>
+                            <h:outputLabel value="#{roseText.Content}" style="font-size: 12px; text-decoration: underline; margin-top: 5px"/>
+                        </p:column>
+                    </p:row>
+                    <p:row>
+                        <p:column>
+                            <h:outputText value="#{cc.attrs.roseInvoiceBean.targetBusinessCaseBillProfile.billEntity.billContent}" 
+                                          style="margin-top: 5px; font-style: italic"/>
+                        </p:column>
+                    </p:row>
+                    <p:row>
+                        <p:column>
+                            <h:outputLabel value="#{roseText.Paid}" style="font-size: 12px; text-decoration: underline; margin-top: 5px"/>
+                        </p:column>
+                    </p:row>
+                    <p:row>
+                        <p:column>
+                            <h:panelGrid columns="1">
+                                <p:outputPanel rendered="#{cc.attrs.roseInvoiceBean.targetBusinessCaseBillProfile.businessCasePaymentProfileList.size()==0}">
+                                    <p:spacer width="2"/>
+                                    <h:outputText value="#{roseText.NoPaymentConfirmed}" style="font-size: 11px; font-style: italic; color: darkgreen;"/>
+                                    <p:spacer width="2"/>
+                                </p:outputPanel>
+                                <h:panelGrid columns="1" rendered="#{cc.attrs.roseInvoiceBean.targetBusinessCaseBillProfile.businessCasePaymentProfileList.size() > 0}">
+                                    <p:spacer width="2"/>
+                                    <h:dataTable value= "#{cc.attrs.roseInvoiceBean.targetBusinessCaseBillProfile.businessCasePaymentProfileList}" var="paymentProfile">
+                                        <h:column>
+                                            <f:facet name="header">
+                                                <h:outputLabel style="font-weight: lighter; text-decoration: underline" value="#{roseText.PaymentMethod}"/>
+                                            </f:facet>
+                                            <h:outputText value="#{paymentProfile.paymentEntity.paymentType}" style="font-style: italic"/>
+                                        </h:column>
+                                        <h:column>
+                                            <p:spacer width="20"/>
+                                        </h:column>
+                                        <h:column>
+                                            <f:facet name="header">
+                                                <h:outputLabel style="font-weight: lighter; text-decoration: underline" value="#{roseText.Paid}"/>
+                                            </f:facet>
+                                            <h:outputText value="#{paymentProfile.paymentEntity.paymentPrice}" 
+                                                          style="font-style: italic">
+                                                <f:convertNumber pattern="¤#,##0.00" currencySymbol="$" />
+                                            </h:outputText>
+                                        </h:column>
+                                        <h:column>
+                                            <p:spacer width="20"/>
+                                        </h:column>
+                                        <h:column>
+                                            <f:facet name="header">
+                                                <h:outputLabel style="font-weight: lighter; text-decoration: underline" value="#{roseText.ConfirmedByAgent}"/>
+                                            </f:facet>
+                                            <h:outputText value="#{paymentProfile.agent.profileDescriptiveName}" style="font-style: italic"/>
+                                        </h:column>
+                                        <h:column>
+                                            <p:spacer width="20"/>
+                                        </h:column>
+                                        <h:column>
+                                            <f:facet name="header">
+                                                <h:outputLabel style="font-weight: lighter; text-decoration: underline" value="#{roseText.Memo}"/>
+                                            </f:facet>
+                                            <h:outputText value="#{paymentProfile.paymentEntity.paymentMemo}" style="font-style: italic"/>
+                                        </h:column>
+                                        <h:column>
+                                            <p:spacer width="20"/>
+                                        </h:column>
+                                        <h:column>
+                                            <f:facet name="header">
+                                                <h:outputLabel style="font-weight: lighter; text-decoration: underline" value="#{roseText.PaymentDate}"/>
+                                            </f:facet>
+                                            <h:outputText value="#{paymentProfile.paymentEntity.paymentDate}" style="font-style: italic">
+                                                <f:convertDateTime pattern="MM-dd-yyyy" />
+                                            </h:outputText>
+                                        </h:column>
+                                        <h:column>
+                                            <p:spacer width="20"/>
+                                        </h:column>
+                                    </h:dataTable>
+                                </h:panelGrid>
+                            </h:panelGrid>
+                        </p:column>
+                    </p:row>
+                    <p:row>
+                        <p:column>
+                            <h:outputLabel value="#{roseText.Summary}" style="font-size: 12px; text-decoration: underline; margin-top: 5px"/>
+                        </p:column>
+                    </p:row>
+                    <p:row>
+                        <p:column>
+                            <h:panelGrid columns="36">
+                                <h:outputLabel value="#{roseText.Price}" style="font-weight: lighter; text-decoration: underline; margin-top: 5px"/>:
+                                <p:spacer width="2"/>
+                                <h:outputText value="#{cc.attrs.roseInvoiceBean.targetBusinessCaseBillProfile.billTotalForWeb}" 
+                                              style="margin-top: 5px; font-style: italic">
+                                    <f:convertNumber pattern="¤#,##0.00" currencySymbol="$" />
+                                </h:outputText>
+                                <p:spacer width="20"/>
+                                <h:outputLabel value="#{roseText.Discount}" style="font-weight: lighter; text-decoration: underline; margin-top: 5px"/>:
+                                <p:spacer width="2"/>
+                                <h:outputText value="#{cc.attrs.roseInvoiceBean.targetBusinessCaseBillProfile.billDiscountForWeb}" 
+                                              style="margin-top: 5px; font-style: italic"/>
+                                <p:spacer width="20"/>
+                                <h:outputLabel value="#{roseText.DiscountedPrice}" style="font-weight: lighter; text-decoration: underline; margin-top: 5px;"/>:
+                                <p:spacer width="2"/>
+                                <h:outputText value="#{cc.attrs.roseInvoiceBean.targetBusinessCaseBillProfile.billFinalTotalForWeb}" 
+                                              style="margin-top: 5px; font-style: italic">
+                                    <f:convertNumber pattern="¤#,##0.00" currencySymbol="$" />
+                                </h:outputText>
+                                <p:spacer width="20"/>
+                                <h:outputLabel value="#{roseText.CustomerPaid}" style="font-weight: lighter; text-decoration: underline; margin-top: 5px; color: blue;"/>:
+                                <p:spacer width="2"/>
+                                <h:outputText value="#{cc.attrs.roseInvoiceBean.targetBusinessCaseBillProfile.totalPaidPriceValueForWeb}" 
+                                              style="margin-top: 5px; color: blue; font-style: italic">
+                                    <f:convertNumber pattern="¤#,##0.00" currencySymbol="$" />
+                                </h:outputText>
+                                <p:spacer width="20"/>
+                                <h:outputLabel value="#{roseText.Balance}" style="font-weight: lighter; text-decoration: underline; margin-top: 5px; color: darkred"/>:
+                                <p:spacer width="2"/>
+                                <h:outputText value="#{cc.attrs.roseInvoiceBean.targetBusinessCaseBillProfile.finalBalanceValueForWeb}" 
+                                              style="margin-top: 5px; color: darkred; font-style: italic">
+                                    <f:convertNumber pattern="¤#,##0.00" currencySymbol="$" />
+                                </h:outputText>
+                            </h:panelGrid>
+                        </p:column>
+                    </p:row>
+                    <p:row>
+                        <p:column>
+                            <h:panelGrid columns="3">
+                                <h:outputText value="#{roseText.BalanceDue}:" style="font-size: 12px; text-decoration: underline; margin-top: 5px"/>
+                                <p:spacer width="2"/>
+                                <h:outputText value="#{cc.attrs.roseInvoiceBean.targetBusinessCaseBillProfile.finalBalanceValueForWeb}" 
+                                              style="margin-top: 5px; color: darkred; font-style: italic">
+                                    <f:convertNumber pattern="¤#,##0.00" currencySymbol="$" />
+                                </h:outputText>
+                            </h:panelGrid>
+                        </p:column>
+                    </p:row>
+                    <p:row>
+                        <p:column>
+                            <h:outputLabel value="#{roseText.Notice} - #{roseText.PaymentMethod}" style="font-size: 12px; text-decoration: underline; margin-top: 5px"/>
+                        </p:column>
+                    </p:row>
+                    <p:row>
+                        <p:column>
+                            <h:panelGrid columns="1">
+                                <h:outputText value="1. You can CHASE-QUICK-PAY to us. Our CHASE-QUICK-PAY account is: YIN6688LU@GMAIL.COM" 
+                                              style="margin-top: 5px; font-style: italic"/>
+                                <h:outputText value="2. You can write a check to: YIN LU CPA P.C. and email us the photo copies of the front/back of your check" 
+                                              style="margin-top: 5px; font-style: italic"/>
+                            </h:panelGrid>
+                        </p:column>
+                    </p:row>
+                </p:panelGrid>
+
+                <h:panelGrid columns="5" style="font-size: 11px; margin-top: 5px; margin-bottom: 5px" rendered="#{!cc.attrs.viewOnly}">
+                    <h:link class="btn btn-success" style="color: white; font-size: 11px;" 
+                            onclick="return openPrintableViewPage('#{cc.attrs.roseInvoiceBean.printableViewPageLink}')">
+                        <i class="fa fa-print"/> #{roseText.PrintableView}
+                    </h:link>
+                    <p:spacer width="2"/>
+                    <h:link class="btn btn-success" style="font-size: 11px; color: white" 
+                            rendered="#{roseUserSession.employed and (cc.attrs.roseInvoiceBean.targetEntityUuid != null) and (cc.attrs.roseInvoiceBean.targetEntityTypeParamValue != null)}" 
+                            outcome="#{rosePages.roseContactPageName}">
+                        <i class="fa fa-paper-plane"/> #{roseText.EmailAndSMS}
+                        <f:param name="#{roseParamKeys.entityTypeParamKey}" value="#{cc.attrs.roseInvoiceBean.targetEntityTypeParamValue}" />
+                        <f:param name="#{roseParamKeys.entityUuidParamKey}" value="#{cc.attrs.roseInvoiceBean.targetEntityUuid}"/>
+                        <f:param name="#{roseParamKeys.roseBillUuidParamKey}" value="#{cc.attrs.roseInvoiceBean.requestedBillUuid}"/>
+                    </h:link>
+                    <p:spacer width="2"/>
+                    <h:outputLink value="#{cc.attrs.roseInvoiceBean.goBackWebPath}" class="btn btn-default" style="font-size: 11px;">
+                        #{roseText.GoBack}
+                    </h:outputLink>
+                </h:panelGrid>
+
+            </p:panel>
+        </p:outputPanel>
+    </cc:implementation>
+</html>

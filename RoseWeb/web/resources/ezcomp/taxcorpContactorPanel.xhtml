@@ -1,0 +1,301 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:cc="http://xmlns.jcp.org/jsf/composite"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+    
+    <!--@Deprecated by taxcorpContactorEditor.xhtml-->
+
+    <!-- INTERFACE -->
+    <cc:interface>
+        <cc:attribute name="taxcorpCaseViewBean" type="com.zcomapproach.garden.rose.bean.TaxcorpCaseViewBean" required="true"/>
+        <cc:attribute name="taxcorpRepresentativeProfile" type="com.zcomapproach.garden.rose.data.profile.TaxcorpRepresentativeProfile" required="true"/>
+        <!--Only view data-->
+        <cc:attribute name="viewOnly" type="java.lang.Boolean" required="true"/>
+    </cc:interface>
+
+    <!-- IMPLEMENTATION -->
+    <cc:implementation>
+        <p:panel styleClass="roseUserContactInfoListPanel" style="font-size: 12px; margin-bottom: 5px">
+            <h:panelGrid columns="5" style="margin-bottom: 5px;">
+                <h:outputText value="#{roseText.ContactorBasicInformation}" style="font-weight: bolder"/>
+                <p:spacer width="10"/>
+                <p:commandLink value="[ #{roseText.AddContactInfo} ]" immediate="true" style="color: darkblue; text-decoration: underline"
+                               update="@(.roseUserContactInfoListPanel)" rendered="#{!cc.attrs.viewOnly}"
+                               actionListener="#{cc.attrs.taxcorpRepresentativeProfile.addNewContactInfoDataEntry()}"/>
+                <p:spacer width="10"/>
+                <p:commandLink value="[ #{roseText.AddAddressLocation} ]" immediate="true" style="color: darkblue; text-decoration: underline"
+                                 update="@(.roseUserContactInfoListPanel)" rendered="#{!cc.attrs.viewOnly}"
+                                 actionListener="#{cc.attrs.taxcorpRepresentativeProfile.addNewLocationDataEntry()}"/>
+            </h:panelGrid>
+            <p:panelGrid styleClass="roseNoBorder">
+                <p:row styleClass="roseNoBorder">
+                    <p:column style="width:100px" styleClass="roseNoBorder">
+                        <p:outputLabel for="roleInCorp" value="#{roseText.Role}"/>
+                    </p:column>
+                    <p:column styleClass="roseNoBorder">
+                        <h:selectOneMenu id="roleInCorp" class="form-control" required="true" requiredMessage="#{roseText.Role}: #{roseText.FieldRequired_T}" 
+                                         value="#{cc.attrs.taxcorpRepresentativeProfile.taxcorpRepresentativeEntity.roleInCorp}" style="width: 200px" >
+                            <f:selectItem itemLabel="#{roseText.Select} #{roseText.Role}..." itemValue="" />
+                            <f:selectItems value="#{roseSettings.taxcorpContactorRoleValueList}" var="roleValue" 
+                                           itemValue = "#{roleValue}" itemLabel = "#{roleValue}" />
+                            <p:ajax event="change" process="@this"/>
+                        </h:selectOneMenu>
+                    </p:column>
+                    <p:column style="width:100px" styleClass="roseNoBorder">
+                        <p:outputLabel for="firstName" value="#{roseText.FirstName}"/>
+                    </p:column>
+                    <p:column styleClass="roseNoBorder">
+                        <h:outputText value="#{cc.attrs.taxcorpRepresentativeProfile.userEntity.firstName}" rendered="#{cc.attrs.viewOnly}"/>
+                        <p:inputText id="firstName" placeholder="#{roseText.FirstName}" rendered="#{!cc.attrs.viewOnly}"
+                                     value="#{cc.attrs.taxcorpRepresentativeProfile.userEntity.firstName}"
+                                     required="true" requiredMessage="#{roseText.FirstName} - #{roseText.FieldRequired_T}"
+                                     validatorMessage="#{roseText.FirstName} - #{roseText.MaxLengthRequired_T}: 45">
+                            <f:validateLength maximum="45"/>
+                            <p:ajax/>
+                        </p:inputText>
+                    </p:column>
+                    <p:column style="width:100px" styleClass="roseNoBorder">
+                        <p:outputLabel for="lastName" value="#{roseText.LastName}"/>
+                    </p:column>
+                    <p:column styleClass="roseNoBorder">
+                        <h:outputText value="#{cc.attrs.taxcorpRepresentativeProfile.userEntity.lastName}" rendered="#{cc.attrs.viewOnly}"/>
+                        <p:inputText id="lastName" placeholder="#{roseText.LastName}" rendered="#{!cc.attrs.viewOnly}"
+                                     value="#{cc.attrs.taxcorpRepresentativeProfile.userEntity.lastName}"
+                                     required="true" requiredMessage="#{roseText.LastName} - #{roseText.FieldRequired_T}"
+                                     validatorMessage="#{roseText.LastName} - #{roseText.MaxLengthRequired_T}: 45">
+                            <f:validateLength maximum="45"/>
+                            <p:ajax/>
+                        </p:inputText>
+                    </p:column>
+                    <p:column styleClass="roseNoBorder">
+                        <p:commandButton id="removeContactPanel" immediate="true" update="@(.roseTaxcorpContactorPanel)" icon="fa fa-close" style="color: darkgreen;" 
+                                         actionListener="#{cc.attrs.taxcorpCaseBean.targetTaxcorpCaseProfile.deleteTaxcorpRepresentativeProfileDataEntry(cc.attrs.taxcorpRepresentativeProfile.userEntity.userUuid)}"
+                                         rendered="#{cc.attrs.taxcorpCaseBean.targetTaxcorpCaseProfile.taxcorpRepresentativeProfileList.size() > 1}"/>
+                        <p:tooltip for="removeContactPanel" style="font-size: 11px" position="top" value="#{roseText.RemoveContactor_T}"/>
+                    </p:column>
+                </p:row>
+            </p:panelGrid>
+            
+            <p:repeat value="#{cc.attrs.taxcorpRepresentativeProfile.userContactInfoProfileList}" var="contactInfoProfile">
+                <p:panelGrid style="width: 100%; margin-bottom: 5px" >
+                    <p:row>
+                        <p:column style="background-color: #fafafa">
+                            <h:panelGrid columns="2">
+                                <h:outputText value="#{roseText.ContactInfoData}" style="font-weight: bolder"/>
+                                <p:outputPanel rendered="#{!cc.attrs.viewOnly}">
+                                    <p:commandButton id="removeContactInfo" immediate="true" icon="fa fa-close" update="@(.roseUserContactInfoListPanel)" 
+                                                     rendered="#{cc.attrs.taxcorpRepresentativeProfile.userContactInfoProfileList.size() > 1}" style="float: right; " 
+                                                     actionListener="#{cc.attrs.taxcorpRepresentativeProfile.deleteContactInfoDataEntry(contactInfoProfile.contactInfoEntity.contactInfoUuid)}"/>
+                                    <p:tooltip for="removeContactInfo" style="font-size: 11px" position="top" value="#{roseText.RemoveContactInfo}"/>
+                                </p:outputPanel>
+                            </h:panelGrid>
+                        </p:column>
+                    </p:row>
+                    <p:row>
+                        <p:column>
+                            <p:panelGrid styleClass="roseNoBorder">
+                                <p:row styleClass="roseNoBorder">
+                                    <p:column styleClass="roseNoBorder">
+                                        <p:outputLabel for="contactType" value="#{roseText.ContactMethod}"/>
+                                    </p:column>
+                                    <p:column styleClass="roseNoBorder">
+                                        <h:outputText value="#{contactInfoProfile.contactInfoEntity.contactType}" 
+                                                      style="font-style: italic" rendered="#{cc.attrs.viewOnly}"/>
+                                        <h:selectOneMenu id="contactType" class="form-control" rendered="#{!cc.attrs.viewOnly}"
+                                                         required="true" requiredMessage="#{roseText.ContactMethod} - #{roseText.FieldRequired_T}"
+                                                         value = "#{contactInfoProfile.contactInfoEntity.contactType}">
+                                            <f:selectItem itemLabel = "#{roseText.Select} #{roseText.ContactMethod}..." itemValue = "" /> 
+                                            <f:selectItems value="#{roseSettings.contactTypeValueList}" var="contactTypeValue" 
+                                                           itemValue = "#{contactTypeValue}" itemLabel = "#{contactTypeValue}" />
+                                            <p:ajax event="change" process="@this" update="@(.contactInfoField)"/>
+                                        </h:selectOneMenu>
+                                    </p:column>
+                                    <p:column style="width:125px" styleClass="roseNoBorder">
+                                        <p:outputLabel for="weChatInfo" value="#{roseText.ContactInfoData}" 
+                                                       rendered="#{!cc.attrs.viewOnly and (contactInfoProfile.weChat or contactInfoProfile.unknownType)}"/>
+                                        <p:outputLabel for="emailInfo" value="#{roseText.ContactInfoData}" 
+                                                       rendered="#{!cc.attrs.viewOnly and (contactInfoProfile.emailType)}"/>
+                                        <p:outputLabel for="phoneLikeInfo" value="#{roseText.ContactInfoData}"
+                                                       rendered="#{!cc.attrs.viewOnly and contactInfoProfile.phoneLikeType}"/>
+                                    </p:column>
+                                    <p:column styleClass="roseNoBorder">
+                                        <h:outputText value="#{contactInfoProfile.contactInfoEntity.contactInfo}" 
+                                                      style="font-style: italic" rendered="#{cc.attrs.viewOnly}"/>
+                                        <h:panelGrid id="contactInfoFieldPanelGrid" styleClass="contactInfoField" columns="1">
+                                            <p:inputText id="weChatInfo" placeholder="#{roseText.ContactInfoData}" 
+                                                         required="true" requiredMessage="#{roseText.ContactInfoData} - #{roseText.FieldRequired_T}"
+                                                         rendered="#{!cc.attrs.viewOnly and (contactInfoProfile.weChat or contactInfoProfile.unknownType)}"
+                                                         value="#{contactInfoProfile.contactInfoEntity.contactInfo}" 
+                                                         validatorMessage="#{roseText.ContactInfoData} - #{roseText.MaxLengthRequired_T}: 100">
+                                                <f:validateLength maximum="100"/>
+                                                <p:ajax/>
+                                            </p:inputText>
+                                            <p:inputText id="emailInfo" placeholder="#{roseText.Email}" 
+                                                         required="true" requiredMessage="#{roseText.ContactInfoData} - #{roseText.FieldRequired_T}"
+                                                         rendered="#{!cc.attrs.viewOnly and (contactInfoProfile.emailType)}"
+                                                         value="#{contactInfoProfile.contactInfoEntity.contactInfo}" 
+                                                         validator="#{roseEmailValidator.validate}" 
+                                                         validatorMessage="#{roseText.ContactInfoData} - (1) #{roseText.BadEmailPattern_T} (2) #{roseText.MaxLengthRequired_T}: 100">
+                                                <f:validateLength maximum="100"/>
+                                                <p:ajax/>
+                                            </p:inputText>
+                                            <p:inputMask id="phoneLikeInfo" placeholder="#{roseText.PhoneNumber}/#{roseText.Fax}" mask="(1)-999-999-9999"
+                                                         required="true" requiredMessage="#{roseText.ContactInfoData} - #{roseText.FieldRequired_T}"
+                                                         rendered="#{!cc.attrs.viewOnly and contactInfoProfile.phoneLikeType}"
+                                                         value="#{contactInfoProfile.contactInfoEntity.contactInfo}" 
+                                                         validatorMessage="#{roseText.ContactInfoData} - #{roseText.MaxLengthRequired_T}: 100">
+                                                <p:ajax/>
+                                            </p:inputMask>
+                                        </h:panelGrid>
+                                    </p:column>
+                                    <p:column styleClass="roseNoBorder">
+                                        <h:outputText value="(#{roseText.ContactInfoData_T})" style="font-size: 10px" rendered="#{!cc.attrs.viewOnly}"/>
+                                    </p:column>
+                                    <p:column style="width:125px" styleClass="roseNoBorder">
+                                        <p:outputLabel for="preferenceValue" value="#{roseText.Priority}"/>
+                                    </p:column>
+                                    <p:column styleClass="roseNoBorder">
+                                        <h:outputText value="#{contactInfoProfile.preferenceValue}" 
+                                                      style="font-style: italic" rendered="#{cc.attrs.viewOnly}"/>
+                                        <h:selectOneMenu id="preferenceValue" class="form-control" rendered="#{!cc.attrs.viewOnly}"
+                                                         value = "#{contactInfoProfile.preferenceValue}" style="width: 160px;">
+                                            <f:selectItem itemLabel = "#{roseText.Select} #{roseText.Priority}..." itemValue = "" /> 
+                                            <f:selectItems value="#{roseSettings.preferenceValueList}" var="preferenceValue" 
+                                                           itemValue = "#{preferenceValue}" itemLabel = "#{preferenceValue}" />
+                                            <p:ajax event="change" process="@this"/>
+                                        </h:selectOneMenu>
+                                    </p:column>
+                                </p:row>
+                            </p:panelGrid>
+                        </p:column>
+                    </p:row>
+                </p:panelGrid>
+            </p:repeat>
+                
+            <p:repeat value="#{cc.attrs.taxcorpRepresentativeProfile.userLocationProfileList}" var="locationProfile">
+                <p:panelGrid style="width: 100%; margin-bottom: 5px" >
+                    <p:row>
+                        <p:column style="background-color: #fafafa">
+                            <h:panelGrid columns="2" style="width: 100%">
+                                <h:outputText value="#{roseText.Address}" style="font-weight: bolder"/>
+                                <p:outputPanel rendered="#{!cc.attrs.viewOnly}">
+                                    <p:commandButton immediate="true" icon="fa fa-close"  update="@(.roseUserContactInfoListPanel)" style="float: right; margin-top: 2px" 
+                                                     actionListener="#{cc.attrs.taxcorpRepresentativeProfile.deleteLocationDataEntry(locationProfile.locationEntity.locationUuid)}"/>
+                                </p:outputPanel>
+                            </h:panelGrid>
+                        </p:column>
+                    </p:row>
+                    <p:row>
+                        <p:column>
+                            <p:panelGrid style="width: 100%;" styleClass="roseNoBorder">
+                                <p:row styleClass="roseNoBorder">
+                                    <p:column style="width:100px" styleClass="roseNoBorder">
+                                        <p:outputLabel for="localAddress" value="#{roseText.Address}"/>
+                                    </p:column>
+                                    <p:column styleClass="roseNoBorder">
+                                        <h:outputText value="#{locationProfile.locationEntity.localAddress}" 
+                                                      style="font-style: italic" rendered="#{cc.attrs.viewOnly}"/>
+                                        <p:inputText id="localAddress" placeholder="#{roseText.Address}" rendered="#{!cc.attrs.viewOnly}"
+                                                     value="#{locationProfile.locationEntity.localAddress}" 
+                                                     validatorMessage="#{roseText.Address} - #{roseText.MaxLengthRequired_T}: 150">
+                                            <f:validateLength maximum="150"/>
+                                            <p:ajax/>
+                                        </p:inputText>
+                                    </p:column>
+                                    <p:column style="width:100px" styleClass="roseNoBorder">
+                                        <p:outputLabel for="cityName" value="#{roseText.City}"/>
+                                    </p:column>
+                                    <p:column styleClass="roseNoBorder">
+                                        <h:outputText value="#{locationProfile.locationEntity.cityName}" 
+                                                      style="font-style: italic" rendered="#{cc.attrs.viewOnly}"/>
+                                        <p:inputText id="cityName" placeholder="#{roseText.City}" rendered="#{!cc.attrs.viewOnly}"
+                                                     value="#{locationProfile.locationEntity.cityName}" 
+                                                     validatorMessage="#{roseText.City} - #{roseText.MaxLengthRequired_T}: 45">
+                                            <f:validateLength maximum="45"/>
+                                            <p:ajax/>
+                                        </p:inputText>
+                                    </p:column>
+                                    <p:column style="width:100px" styleClass="roseNoBorder">
+                                        <p:outputLabel for="stateCounty" value="#{roseText.County}"/>
+                                    </p:column>
+                                    <p:column styleClass="roseNoBorder">
+                                        <h:outputText value="#{locationProfile.locationEntity.stateCounty}" 
+                                                      style="font-style: italic" rendered="#{cc.attrs.viewOnly}"/>
+                                        <p:inputText id="stateCounty" placeholder="#{roseText.County}" rendered="#{!cc.attrs.viewOnly}"
+                                                     value="#{locationProfile.locationEntity.stateCounty}" 
+                                                     validatorMessage="#{roseText.County} - #{roseText.MaxLengthRequired_T}: 45">
+                                            <f:validateLength maximum="45"/>
+                                            <p:ajax/>
+                                        </p:inputText>
+                                    </p:column>
+                                    <p:column style="width:100px" styleClass="roseNoBorder">
+                                        <p:outputLabel for="preferenceValue" value="#{roseText.Priority}"/>
+                                    </p:column>
+                                    <p:column styleClass="roseNoBorder">
+                                        <h:outputText value="#{locationProfile.preferenceValue}" 
+                                                      style="font-style: italic" rendered="#{cc.attrs.viewOnly}"/>
+                                        <h:selectOneMenu id="preferenceValue" class="form-control" rendered="#{!cc.attrs.viewOnly}"
+                                                         value = "#{locationProfile.preferenceValue}" style="width: 160px;">
+                                            <f:selectItem itemLabel = "#{roseText.Select} #{roseText.Priority}..." itemValue = "" /> 
+                                            <f:selectItems value="#{roseSettings.preferenceValueList}" var="preferenceValue" 
+                                                           itemValue = "#{preferenceValue}" itemLabel = "#{preferenceValue}" /> 
+                                            <p:ajax event="change" process="@this"/>
+                                        </h:selectOneMenu>
+                                    </p:column>
+                                </p:row>
+                                <p:row styleClass="roseNoBorder">
+                                    <p:column style="width:100px" styleClass="roseNoBorder">
+                                        <p:outputLabel for="zipCode" value="#{roseText.Zip}"/>
+                                    </p:column>
+                                    <p:column styleClass="roseNoBorder">
+                                        <h:outputText value="#{locationProfile.locationEntity.zipCode}" 
+                                                      style="font-style: italic" rendered="#{cc.attrs.viewOnly}"/>
+                                        <p:inputMask id="zipCode" value="#{locationProfile.locationEntity.zipCode}" rendered="#{!cc.attrs.viewOnly}"
+                                                     placeholder="#{roseText.Zip}" mask="99999" slotChar="99999">
+                                            <p:ajax/>
+                                        </p:inputMask>
+                                    </p:column>
+                                    <p:column style="width:100px" styleClass="roseNoBorder">
+                                        <p:outputLabel for="stateName" value="#{roseText.State}"/>
+                                    </p:column>
+                                    <p:column styleClass="roseNoBorder">
+                                        <h:outputText value="#{locationProfile.locationEntity.stateName}" 
+                                                      style="font-style: italic" rendered="#{cc.attrs.viewOnly}"/>
+                                        <h:selectOneMenu id="stateName" class="form-control" rendered="#{!cc.attrs.viewOnly}" style="width: 160px;"
+                                                         required="true" requiredMessage="#{roseText.State} - #{roseText.FieldRequired_T}"
+                                                         value = "#{locationProfile.locationEntity.stateName}">
+                                            <f:selectItem itemLabel = "#{roseText.Select} #{roseText.State}..." itemValue = "" /> 
+                                            <f:selectItems value="#{roseSettings.stateNameValueList}" var="stateName" 
+                                                           itemValue = "#{stateName}" itemLabel = "#{stateName}" />
+                                            <p:ajax event="change" process="@this"/>
+                                        </h:selectOneMenu>
+                                    </p:column>
+                                    <p:column style="width:100px" styleClass="roseNoBorder">
+                                        <p:outputLabel for="memo" value="#{roseText.Memo}"/>
+                                    </p:column>
+                                    <p:column styleClass="roseNoBorder">
+                                        <h:outputText value="#{locationProfile.locationEntity.shortMemo}" 
+                                                      style="font-style: italic" rendered="#{cc.attrs.viewOnly}"/>
+                                        <p:inputText id="memo" placeholder="#{roseText.Memo}" rendered="#{!cc.attrs.viewOnly}"
+                                                     value="#{locationProfile.locationEntity.shortMemo}"
+                                                     validatorMessage="#{roseText.Memo} - #{roseText.MaxLengthRequired_T}: 250">
+                                            <f:validateLength maximum="250"/>
+                                            <p:ajax/>
+                                        </p:inputText>
+                                    </p:column>
+                                    <p:column style="width:100px" styleClass="roseNoBorder">
+                                    </p:column>
+                                    <p:column styleClass="roseNoBorder">
+                                    </p:column>
+                                </p:row>
+                            </p:panelGrid>
+                        </p:column>
+                    </p:row>
+                </p:panelGrid>
+            </p:repeat>
+        </p:panel>
+    </cc:implementation>
+</html>

@@ -1,0 +1,1138 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:ez="http://xmlns.jcp.org/jsf/composite/ezcomp">
+
+    <body>
+
+        <ui:composition template="./../templates/templatePrintable.xhtml">
+            
+            <ui:remove><!--Title--></ui:remove>
+            <ui:param name="rosePageTopic" value="#{taxpayerCaseMgtBean.rosePageTopic }"/>
+            <ui:param name="topicIconAwesome" value="#{taxpayerCaseMgtBean.topicIconAwesomeName}"/>
+            
+            <ui:define name="f-metadata">
+                <f:metadata>
+                    <f:event listener="#{roseUserSession.handlePreRenderViewEvent()}" type="preRenderView" />
+                    <f:viewParam name="#{roseParamKeys.taxpayerCaseUuidParamKey}" value="#{taxpayerCaseMgtBean.requestedTaxpayerCaseUuid}"/>
+                    <f:viewParam name="#{roseParamKeys.viewPurposeParamKey}" value="#{taxpayerCaseMgtBean.requestedViewPurpose}"/>
+                    <f:viewParam name="#{roseParamKeys.customerUuidParamKey}" value="#{taxpayerCaseMgtBean.requestedCustomerUuid}"/>
+                </f:metadata>
+            </ui:define>
+            
+            <ui:define name="rosePageTop">
+                <p:outputPanel style="margin: 10px">
+                    <h:outputText style="font-weight: bolder; font-size: 18px" value="#{taxpayerCaseMgtBean.rosePageTopic}:"/>
+                </p:outputPanel>
+            </ui:define>
+
+            <ui:define name="rosePageContent">
+                <ui:insert name="custom-css">
+                    <h:outputStylesheet library="css" name="ie10-viewport-bug-workaround.css" />
+                    <h:outputStylesheet library="css" name="rose.css" />
+                </ui:insert>
+                <p:outputPanel style="margin: 10px">
+                    <ui:remove><!--Taxpayer Data Entry--></ui:remove>
+                    <h:form>
+                        <p:panel id="basicInformationPanel" style="font-size: 11px;" 
+                                 header="#{roseText.BasicInformation}">
+                            <p:panelGrid style="width: 100%" styleClass="roseNoBorder">
+                                <p:row styleClass="roseNoBorder">
+                                    <p:column styleClass="roseNoBorder">
+                                        <h:outputText style="font-weight: bolder; width: 100px" value="#{roseText.Customer}:"/>
+                                    </p:column>
+                                    <p:column styleClass="roseNoBorder">
+                                        <h:outputText value="#{taxpayerCaseMgtBean.targetTaxpayerCaseProfile.customerProfile.profileDescriptiveName}" 
+                                                      style="font-style: italic"/>
+                                    </p:column>
+                                    <p:column styleClass="roseNoBorder">
+                                        <p:outputLabel value="#{roseText.Deadline}:"/>
+                                    </p:column>
+                                    <p:column styleClass="roseNoBorder">
+                                        <h:outputText value="#{taxpayerCaseMgtBean.targetTaxpayerCaseProfile.taxpayerCaseEntity.deadline}" 
+                                                      style="font-style: italic; font-weight: bolder; color: darkred">
+                                            <f:convertDateTime pattern="MM-dd-yyyy" />
+                                        </h:outputText>
+                                    </p:column>
+                                    <p:column styleClass="roseNoBorder">
+                                        <p:outputLabel value="#{roseText.ExtendedDeadline}:"/>
+                                    </p:column>
+                                    <p:column styleClass="roseNoBorder">
+                                        <h:outputText value="#{taxpayerCaseMgtBean.targetTaxpayerCaseProfile.taxpayerCaseEntity.extensionDate}" 
+                                                      style="font-style: italic">
+                                            <f:convertDateTime pattern="MM-dd-yyyy" />
+                                        </h:outputText>
+                                    </p:column>
+                                    <p:column styleClass="roseNoBorder">
+                                        <p:outputLabel value="#{roseText.ExtensionMemo}:"/>
+                                    </p:column>
+                                    <p:column styleClass="roseNoBorder">
+                                        <h:outputText value="#{taxpayerCaseMgtBean.targetTaxpayerCaseProfile.taxpayerCaseEntity.extensionMemo}" 
+                                                      style="font-style: italic"/>
+                                    </p:column>
+                                </p:row>
+                                <p:row styleClass="roseNoBorder">
+                                    <p:column styleClass="roseNoBorder">
+                                        <p:outputLabel value="#{roseText.FederalFilingStatus}:"/>
+                                    </p:column>
+                                    <p:column styleClass="roseNoBorder">
+                                        <h:outputText value="#{taxpayerCaseMgtBean.targetTaxpayerCaseProfile.taxpayerCaseEntity.federalFilingStatus}" 
+                                                      style="font-style: italic"/>
+                                    </p:column>
+                                    <p:column styleClass="roseNoBorder">
+                                        <p:outputLabel value="#{roseText.BankRoutingNumber}:"/>
+                                    </p:column>
+                                    <p:column styleClass="roseNoBorder">
+                                        <h:outputText value="#{taxpayerCaseMgtBean.targetTaxpayerCaseProfile.taxpayerCaseEntity.bankRoutingNumber}" 
+                                                      style="font-style: italic"/>
+                                    </p:column>
+                                    <p:column styleClass="roseNoBorder">
+                                        <p:outputLabel value="#{roseText.BankAccountNumber}:"/>
+                                    </p:column>
+                                    <p:column styleClass="roseNoBorder">
+                                        <h:outputText value="#{taxpayerCaseMgtBean.targetTaxpayerCaseProfile.taxpayerCaseEntity.bankAccountNumber}" 
+                                                      style="font-style: italic"/>
+                                    </p:column>
+                                    <p:column styleClass="roseNoBorder">
+                                    </p:column>
+                                    <p:column styleClass="roseNoBorder">
+                                    </p:column>
+                                </p:row>
+                                <p:row styleClass="roseNoBorder">
+                                    <p:column styleClass="roseNoBorder" colspan="8">
+                                        <p:outputLabel value="#{roseText.Memo}: "/>
+                                        <h:outputText value="#{taxpayerCaseMgtBean.targetTaxpayerCaseProfile.taxpayerCaseEntity.memo}" 
+                                                      style="font-style: italic"/>
+                                    </p:column>
+                                </p:row>
+                            </p:panelGrid>
+                        </p:panel>
+                        <p:panel id="personalInformationPanel" style="font-size: 11px;" 
+                                 header="#{roseText.PrimaryTaxpayer}">
+                            <p:panelGrid style="width: 100%;" styleClass="roseNoBorder">
+                                <p:row styleClass="roseNoBorder">
+                                    <p:column style="width:100px" styleClass="roseNoBorder">
+                                        <p:outputLabel value="#{roseText.FirstName}"/>
+                                    </p:column>
+                                    <p:column styleClass="roseNoBorder">
+                                        <h:outputText value="#{taxpayerCaseMgtBean.targetTaxpayerCaseProfile.primaryTaxpayerProfile.roseUserProfile.userEntity.firstName}" 
+                                                      style="font-style: italic"/>
+                                    </p:column>
+                                    <p:column style="width:100px" styleClass="roseNoBorder">
+                                        <p:outputLabel value="#{roseText.MiddleName}"/>
+                                    </p:column>
+                                    <p:column styleClass="roseNoBorder">
+                                        <h:outputText value="#{taxpayerCaseMgtBean.targetTaxpayerCaseProfile.primaryTaxpayerProfile.roseUserProfile.userEntity.middleName}" 
+                                                      style="font-style: italic"/>
+                                    </p:column>
+                                    <p:column style="width:100px" styleClass="roseNoBorder">
+                                        <p:outputLabel value="#{roseText.LastName}"/>
+                                    </p:column>
+                                    <p:column styleClass="roseNoBorder">
+                                        <h:outputText value="#{taxpayerCaseMgtBean.targetTaxpayerCaseProfile.primaryTaxpayerProfile.roseUserProfile.userEntity.lastName}" 
+                                                      style="font-style: italic"/>
+                                    </p:column>
+                                    <p:column style="width:100px" styleClass="roseNoBorder">
+                                        <p:outputLabel value="#{roseText.Birthday}"/>
+                                    </p:column>
+                                    <p:column styleClass="roseNoBorder">
+                                        <h:outputText value="#{taxpayerCaseMgtBean.targetTaxpayerCaseProfile.primaryTaxpayerProfile.roseUserProfile.userEntity.birthday}" 
+                                                      style="font-style: italic">
+                                            <f:convertDateTime pattern="MM-dd-yyyy"/>
+                                        </h:outputText>
+                                    </p:column>
+                                    <p:column style="width:100px" styleClass="roseNoBorder">
+                                        <p:outputLabel value="#{roseText.Gender}"/>
+                                    </p:column>
+                                    <p:column styleClass="roseNoBorder">
+                                        <h:outputText value="#{taxpayerCaseMgtBean.targetTaxpayerCaseProfile.primaryTaxpayerProfile.roseUserProfile.userEntity.gender}" 
+                                                      style="font-style: italic"/>
+                                    </p:column>
+                                </p:row>
+                                <p:row styleClass="roseNoBorder">
+                                    <p:column style="width:100px" styleClass="roseNoBorder">
+                                        <p:outputLabel value="#{roseText.SSN}"/>
+                                    </p:column>
+                                    <p:column styleClass="roseNoBorder">
+                                        <h:outputText value="#{taxpayerCaseMgtBean.targetTaxpayerCaseProfile.primaryTaxpayerProfile.roseUserProfile.userEntity.ssn}" 
+                                                      style="font-style: italic"/>
+                                    </p:column>
+                                    <p:column style="width:100px" styleClass="roseNoBorder">
+                                        <p:outputLabel value="#{roseText.Email}"/>
+                                    </p:column>
+                                    <p:column styleClass="roseNoBorder">
+                                        <h:outputText value="#{taxpayerCaseMgtBean.targetTaxpayerCaseProfile.primaryTaxpayerProfile.taxpayerInfoEntity.email}" 
+                                                      style="font-style: italic"/>
+                                    </p:column>
+                                    <p:column style="width:100px" styleClass="roseNoBorder">
+                                        <p:outputLabel value="#{roseText.HomePhone}"/>
+                                    </p:column>
+                                    <p:column styleClass="roseNoBorder">
+                                        <h:outputText value="#{taxpayerCaseMgtBean.targetTaxpayerCaseProfile.primaryTaxpayerProfile.taxpayerInfoEntity.homePhone}" 
+                                                      style="font-style: italic"/>
+                                    </p:column>
+                                    <p:column style="width:100px" styleClass="roseNoBorder">
+                                        <p:outputLabel value="#{roseText.Mobile}"/>
+                                    </p:column>
+                                    <p:column styleClass="roseNoBorder">
+                                        <h:outputText value="#{taxpayerCaseMgtBean.targetTaxpayerCaseProfile.primaryTaxpayerProfile.taxpayerInfoEntity.mobilePhone}" 
+                                                      style="font-style: italic"/>
+                                    </p:column>
+                                    <p:column style="width:100px" styleClass="roseNoBorder">
+                                        <p:outputLabel value="#{roseText.WorkPhone}"/>
+                                    </p:column>
+                                    <p:column styleClass="roseNoBorder">
+                                        <h:outputText value="#{taxpayerCaseMgtBean.targetTaxpayerCaseProfile.primaryTaxpayerProfile.taxpayerInfoEntity.workPhone}" 
+                                                      style="font-style: italic"/>
+                                    </p:column>
+                                </p:row>
+                                <p:row styleClass="roseNoBorder">
+                                    <p:column style="width:100px" styleClass="roseNoBorder">
+                                        <p:outputLabel value="#{roseText.Fax}"/>
+                                    </p:column>
+                                    <p:column styleClass="roseNoBorder">
+                                        <h:outputText value="#{taxpayerCaseMgtBean.targetTaxpayerCaseProfile.primaryTaxpayerProfile.taxpayerInfoEntity.fax}" 
+                                                      style="font-style: italic"/>
+                                    </p:column>
+                                    <p:column style="width:100px" styleClass="roseNoBorder">
+                                        <p:outputLabel value="#{roseText.Occupation}"/>
+                                    </p:column>
+                                    <p:column styleClass="roseNoBorder">
+                                        <h:outputText value="#{taxpayerCaseMgtBean.targetTaxpayerCaseProfile.primaryTaxpayerProfile.roseUserProfile.userEntity.occupation}" 
+                                                      style="font-style: italic"/>
+                                    </p:column>
+                                    <p:column style="width:100px" styleClass="roseNoBorder">
+                                        <p:outputLabel value="#{roseText.Citizenship}"/>
+                                    </p:column>
+                                    <p:column styleClass="roseNoBorder">
+                                        <h:outputText value="#{taxpayerCaseMgtBean.targetTaxpayerCaseProfile.primaryTaxpayerProfile.roseUserProfile.userEntity.citizenship}" 
+                                                      style="font-style: italic"/>
+                                    </p:column>
+                                </p:row>
+                            </p:panelGrid>
+                        </p:panel>
+                        <p:panel id="personalInformationPanel" style="font-size: 11px;" header="#{roseText.PrimaryAddress}">
+                            <p:panelGrid style="width: 100%;" styleClass="roseNoBorder">
+                                <p:row styleClass="roseNoBorder">
+                                    <p:column style="width:100px" styleClass="roseNoBorder">
+                                        <p:outputLabel value="#{roseText.Address}"/>
+                                    </p:column>
+                                    <p:column styleClass="roseNoBorder">
+                                        <h:outputText value="#{taxpayerCaseMgtBean.targetTaxpayerCaseProfile.primaryLocationProfile.locationEntity.localAddress}" 
+                                                      style="font-style: italic"/>
+                                    </p:column>
+                                    <p:column style="width:100px" styleClass="roseNoBorder">
+                                        <p:outputLabel value="#{roseText.City}"/>
+                                    </p:column>
+                                    <p:column styleClass="roseNoBorder">
+                                        <h:outputText value="#{taxpayerCaseMgtBean.targetTaxpayerCaseProfile.primaryLocationProfile.locationEntity.cityName}" 
+                                                      style="font-style: italic"/>
+                                    </p:column>
+                                    <p:column style="width:100px" styleClass="roseNoBorder">
+                                        <p:outputLabel value="#{roseText.County}"/>
+                                    </p:column>
+                                    <p:column styleClass="roseNoBorder">
+                                        <h:outputText value="#{taxpayerCaseMgtBean.targetTaxpayerCaseProfile.primaryLocationProfile.locationEntity.stateCounty}" 
+                                                      style="font-style: italic"/>
+                                    </p:column>
+                                    <p:column style="width:100px" styleClass="roseNoBorder">
+                                        <p:outputLabel value="#{roseText.Priority}"/>
+                                    </p:column>
+                                    <p:column styleClass="roseNoBorder">
+                                        <h:outputText value="#{taxpayerCaseMgtBean.targetTaxpayerCaseProfile.primaryLocationProfile.preferenceValue}" 
+                                                      style="font-style: italic"/>
+                                    </p:column>
+                                </p:row>
+                                <p:row styleClass="roseNoBorder">
+                                    <p:column style="width:100px" styleClass="roseNoBorder">
+                                        <p:outputLabel value="#{roseText.Zip}"/>
+                                    </p:column>
+                                    <p:column styleClass="roseNoBorder">
+                                        <h:outputText value="#{taxpayerCaseMgtBean.targetTaxpayerCaseProfile.primaryLocationProfile.locationEntity.zipCode}" 
+                                                      style="font-style: italic"/>
+                                    </p:column>
+                                    <p:column style="width:100px" styleClass="roseNoBorder">
+                                        <p:outputLabel value="#{roseText.State}"/>
+                                    </p:column>
+                                    <p:column styleClass="roseNoBorder">
+                                        <h:outputText value="#{taxpayerCaseMgtBean.targetTaxpayerCaseProfile.primaryLocationProfile.locationEntity.stateName}" 
+                                                      style="font-style: italic"/>
+                                    </p:column>
+                                    <p:column style="width:100px" styleClass="roseNoBorder">
+                                        <p:outputLabel value="#{roseText.Memo}"/>
+                                    </p:column>
+                                    <p:column styleClass="roseNoBorder">
+                                        <h:outputText value="#{taxpayerCaseMgtBean.targetTaxpayerCaseProfile.primaryLocationProfile.locationEntity.shortMemo}" 
+                                                      style="font-style: italic"/>
+                                    </p:column>
+                                    <p:column style="width:100px" styleClass="roseNoBorder">
+                                    </p:column>
+                                    <p:column styleClass="roseNoBorder">
+                                    </p:column>
+                                </p:row>
+                            </p:panelGrid>
+                        </p:panel>
+                        <p:panel id="personalInformationPanel" style="font-size: 11px;" 
+                                 header="#{roseText.Spouse}" rendered="#{taxpayerCaseMgtBean.spouseRequired}">
+                            <p:panelGrid style="width: 100%;" styleClass="roseNoBorder">
+                                <p:row styleClass="roseNoBorder">
+                                    <p:column style="width:100px" styleClass="roseNoBorder">
+                                        <p:outputLabel value="#{roseText.FirstName}"/>
+                                    </p:column>
+                                    <p:column styleClass="roseNoBorder">
+                                        <h:outputText value="#{taxpayerCaseMgtBean.targetTaxpayerCaseProfile.spouseProfile.roseUserProfile.userEntity.firstName}" 
+                                                      style="font-style: italic"/>
+                                    </p:column>
+                                    <p:column style="width:100px" styleClass="roseNoBorder">
+                                        <p:outputLabel value="#{roseText.MiddleName}"/>
+                                    </p:column>
+                                    <p:column styleClass="roseNoBorder">
+                                        <h:outputText value="#{taxpayerCaseMgtBean.targetTaxpayerCaseProfile.spouseProfile.roseUserProfile.userEntity.middleName}" 
+                                                      style="font-style: italic"/>
+                                    </p:column>
+                                    <p:column style="width:100px" styleClass="roseNoBorder">
+                                        <p:outputLabel value="#{roseText.LastName}"/>
+                                    </p:column>
+                                    <p:column styleClass="roseNoBorder">
+                                        <h:outputText value="#{taxpayerCaseMgtBean.targetTaxpayerCaseProfile.spouseProfile.roseUserProfile.userEntity.lastName}" 
+                                                      style="font-style: italic"/>
+                                    </p:column>
+                                    <p:column style="width:100px" styleClass="roseNoBorder">
+                                        <p:outputLabel value="#{roseText.SSN}"/>
+                                    </p:column>
+                                    <p:column styleClass="roseNoBorder">
+                                        <h:outputText value="#{taxpayerCaseMgtBean.targetTaxpayerCaseProfile.spouseProfile.roseUserProfile.userEntity.ssn}" 
+                                                      style="font-style: italic"/>
+                                    </p:column>
+                                    <p:column style="width:100px" styleClass="roseNoBorder">
+                                        <p:outputLabel value="#{roseText.Birthday}"/>
+                                    </p:column>
+                                    <p:column styleClass="roseNoBorder">
+                                        <h:outputText value="#{taxpayerCaseMgtBean.targetTaxpayerCaseProfile.spouseProfile.roseUserProfile.userEntity.birthday}" 
+                                                      style="font-style: italic">
+                                            <f:convertDateTime pattern="MM-dd-yyyy"/>
+                                        </h:outputText>
+                                    </p:column>
+                                </p:row>
+                                <p:row styleClass="roseNoBorder">
+                                    <p:column style="width:100px" styleClass="roseNoBorder">
+                                        <p:outputLabel value="#{roseText.Mobile}"/>
+                                    </p:column>
+                                    <p:column styleClass="roseNoBorder">
+                                        <h:outputText value="#{taxpayerCaseMgtBean.targetTaxpayerCaseProfile.spouseProfile.taxpayerInfoEntity.mobilePhone}" 
+                                                      style="font-style: italic"/>
+                                    </p:column>
+                                    <p:column style="width:100px" styleClass="roseNoBorder">
+                                        <p:outputLabel value="#{roseText.WorkPhone}"/>
+                                    </p:column>
+                                    <p:column styleClass="roseNoBorder">
+                                        <h:outputText value="#{taxpayerCaseMgtBean.targetTaxpayerCaseProfile.spouseProfile.taxpayerInfoEntity.workPhone}" 
+                                                      style="font-style: italic"/>
+                                    </p:column>
+                                    <p:column style="width:100px" styleClass="roseNoBorder">
+                                        <p:outputLabel value="#{roseText.Citizenship}"/>
+                                    </p:column>
+                                    <p:column styleClass="roseNoBorder">
+                                        <h:outputText value="#{taxpayerCaseMgtBean.targetTaxpayerCaseProfile.spouseProfile.roseUserProfile.userEntity.citizenship}" 
+                                                      style="font-style: italic"/>
+                                    </p:column>
+                                    <p:column style="width:100px" styleClass="roseNoBorder">
+                                        <p:outputLabel value="#{roseText.Occupation}"/>
+                                    </p:column>
+                                    <p:column styleClass="roseNoBorder">
+                                        <h:outputText value="#{taxpayerCaseMgtBean.targetTaxpayerCaseProfile.spouseProfile.roseUserProfile.userEntity.occupation}" 
+                                                      style="font-style: italic"/>
+                                    </p:column>
+                                </p:row>
+                            </p:panelGrid>
+                        </p:panel>
+                        <ui:remove><!--Dependant Information--></ui:remove>
+                        <p:outputPanel style="font-size: 11px;" 
+                                       rendered="#{taxpayerCaseMgtBean.targetTaxpayerCaseProfile.dependantProfileList.size() > 0}">
+                            <p:panel id="dependentInformation" style="font-size: 11px; margin-top: 5px; margin-bottom: 5px" 
+                                     header="#{roseText.DependentInformation}">
+                                <p:repeat value="#{taxpayerCaseMgtBean.targetTaxpayerCaseProfile.dependantProfileList}" var="dependantProfile">
+                                    <p:panelGrid style="width: 100%;" styleClass="roseNoBorder">
+                                        <p:row styleClass="roseNoBorder">
+                                            <p:column style="width:100px" styleClass="roseNoBorder">
+                                                <p:outputLabel value="#{roseText.FirstName}"/>
+                                            </p:column>
+                                            <p:column styleClass="roseNoBorder">
+                                                <h:outputText value="#{dependantProfile.roseUserProfile.userEntity.firstName}" 
+                                                              style="font-style: italic"/>
+                                            </p:column>
+                                            <p:column style="width:100px" styleClass="roseNoBorder">
+                                                <p:outputLabel value="#{roseText.Relationship}"/>
+                                            </p:column>
+                                            <p:column styleClass="roseNoBorder">
+                                                <h:outputText value="#{dependantProfile.taxpayerInfoEntity.relationships}" 
+                                                              style="font-style: italic"/>
+                                            </p:column>
+                                            <p:column style="width:100px" styleClass="roseNoBorder">
+                                                <p:outputLabel value="#{roseText.LengthOfLivingTogether}"/>
+                                            </p:column>
+                                            <p:column styleClass="roseNoBorder">
+                                                <h:outputText value="#{dependantProfile.taxpayerInfoEntity.lengthOfLivingTogether}" 
+                                                              style="font-style: italic"/>
+                                            </p:column>
+                                            <p:column style="width:100px" styleClass="roseNoBorder">
+                                                <p:outputLabel value="#{roseText.LastName}"/>
+                                            </p:column>
+                                            <p:column styleClass="roseNoBorder">
+                                                <h:outputText value="#{dependantProfile.roseUserProfile.userEntity.lastName}" 
+                                                              style="font-style: italic"/>
+                                            </p:column>
+                                        </p:row>
+                                        <p:row styleClass="roseNoBorder">
+                                            <p:column style="width:100px" styleClass="roseNoBorder">
+                                                <p:outputLabel value="#{roseText.Gender}"/>
+                                            </p:column>
+                                            <p:column styleClass="roseNoBorder">
+                                                <h:outputText value="#{dependantProfile.roseUserProfile.userEntity.gender}" 
+                                                              style="font-style: italic"/>
+                                            </p:column>
+                                            <p:column style="width:100px" styleClass="roseNoBorder">
+                                                <p:outputLabel value="#{roseText.Memo}"/>
+                                            </p:column>
+                                            <p:column styleClass="roseNoBorder">
+                                                <h:outputText value="#{dependantProfile.taxpayerInfoEntity.memo}" 
+                                                              style="font-style: italic"/>
+                                            </p:column>
+                                            <p:column style="width:100px" styleClass="roseNoBorder">
+                                                <p:outputLabel value="#{roseText.SSN}"/>
+                                            </p:column>
+                                            <p:column styleClass="roseNoBorder">
+                                                <h:outputText value="#{dependantProfile.roseUserProfile.userEntity.ssn}" 
+                                                              style="font-style: italic"/>
+                                            </p:column>
+                                            <p:column style="width:100px" styleClass="roseNoBorder">
+                                                <p:outputLabel value="#{roseText.Occupation}"/>
+                                            </p:column>
+                                            <p:column styleClass="roseNoBorder">
+                                                <h:outputText value="#{dependantProfile.roseUserProfile.userEntity.occupation}" 
+                                                              style="font-style: italic"/>
+                                            </p:column>
+                                        </p:row>
+                                        <p:row styleClass="roseNoBorder">
+                                            <p:column style="width:100px" styleClass="roseNoBorder">
+                                                <p:outputLabel value="#{roseText.Birthday}"/>
+                                            </p:column>
+                                            <p:column styleClass="roseNoBorder">
+                                                <h:outputText value="#{dependantProfile.roseUserProfile.userEntity.birthday}" 
+                                                              style="font-style: italic">
+                                                    <f:convertDateTime pattern="MM-dd-yyyy" />
+                                                </h:outputText>
+                                            </p:column>
+                                            <p:column style="width:100px" styleClass="roseNoBorder">
+                                                <p:outputLabel value="#{roseText.Email}"/>
+                                            </p:column>
+                                            <p:column styleClass="roseNoBorder">
+                                                <h:outputText value="#{dependantProfile.taxpayerInfoEntity.email}" 
+                                                              style="font-style: italic"/>
+                                            </p:column>
+                                            <p:column style="width:100px" styleClass="roseNoBorder">
+                                            </p:column>
+                                            <p:column styleClass="roseNoBorder">
+                                            </p:column>
+                                            <p:column style="width:100px" styleClass="roseNoBorder">
+                                            </p:column>
+                                            <p:column styleClass="roseNoBorder">
+                                            </p:column>
+                                        </p:row>
+                                    </p:panelGrid>
+                                </p:repeat>
+                            </p:panel>
+                        </p:outputPanel>
+                        <p:outputPanel style="font-size: 11px;" 
+                                       rendered="#{taxpayerCaseMgtBean.targetTaxpayerCaseProfile.personalBusinessPropertyProfileList.size() > 0}">
+                            <p:panel id="taxpayerBusinessIncomeAndLoss" style="font-size: 11px; margin-top: 5px; margin-bottom: 5px" 
+                                     header="#{roseText.TaxpayerBusinessIncomeAndLoss}">
+                                <p:repeat value="#{taxpayerCaseMgtBean.targetTaxpayerCaseProfile.personalBusinessPropertyProfileList}" var="personalBusinessProperty">
+                                    <p:panelGrid style="width: 100%;" styleClass="roseNoBorder">
+                                        <p:row styleClass="roseNoBorder">
+                                            <p:column styleClass="roseNoBorder" colspan="8">
+                                                <h:outputText value="#{roseText.PropertyBasicInformationAndIncome}" style="font-size: 12px; color: darkgreen; font-weight: bolder; text-decoration: underline" />
+                                            </p:column>
+                                        </p:row>
+                                        <p:row styleClass="roseNoBorder">
+                                            <p:column style="width:100px" styleClass="roseNoBorder">
+                                                <p:outputLabel value="#{roseText.BusinessPropertyName}"/>
+                                            </p:column>
+                                            <p:column styleClass="roseNoBorder">
+                                                <h:outputText value="#{personalBusinessProperty.personalBusinessPropertyEntity.businessPropertyName}" 
+                                                              style="font-style: italic"/>
+                                            </p:column>
+                                            <p:column style="width:100px" styleClass="roseNoBorder">
+                                                <p:outputLabel value="#{roseText.GrossReceiptsSales}"/>
+                                            </p:column>
+                                            <p:column styleClass="roseNoBorder">
+                                                <h:outputText value="#{personalBusinessProperty.personalBusinessPropertyEntity.grossReceiptsSales}" 
+                                                              style="font-style: italic"/>
+                                            </p:column>
+                                            <p:column style="width:100px" styleClass="roseNoBorder">
+                                                <p:outputLabel value="#{roseText.EinNumber}"/>
+                                            </p:column>
+                                            <p:column styleClass="roseNoBorder">
+                                                <h:outputText value="#{personalBusinessProperty.personalBusinessPropertyEntity.businessEin}" 
+                                                              style="font-style: italic"/>
+                                            </p:column>
+                                            <p:column style="width:100px" styleClass="roseNoBorder">
+                                                <p:outputLabel value="#{roseText.CostOfGoodsSold}"/>
+                                            </p:column>
+                                            <p:column styleClass="roseNoBorder">
+                                                <h:outputText value="#{personalBusinessProperty.personalBusinessPropertyEntity.costOfGoodsSold}" 
+                                                              style="font-style: italic"/>
+                                            </p:column>
+                                        </p:row>
+                                        <p:row styleClass="roseNoBorder">
+                                            <p:column style="width:100px" styleClass="roseNoBorder">
+                                                <p:outputLabel value="#{roseText.BusinessAddress}"/>
+                                            </p:column>
+                                            <p:column styleClass="roseNoBorder">
+                                                <h:outputText value="#{personalBusinessProperty.personalBusinessPropertyEntity.businessAddress}" 
+                                                              style="font-style: italic"/>
+                                            </p:column>
+                                            <p:column style="width:100px" styleClass="roseNoBorder">
+                                                <p:outputLabel value="#{roseText.OtherIncome}"/>
+                                            </p:column>
+                                            <p:column styleClass="roseNoBorder">
+                                                <h:outputText value="#{personalBusinessProperty.personalBusinessPropertyEntity.otherIncome}" 
+                                                              style="font-style: italic"/>
+                                            </p:column>
+                                            <p:column style="width:100px" styleClass="roseNoBorder">
+                                                <p:outputLabel value="#{roseText.BusinessDescription}"/>
+                                            </p:column>
+                                            <p:column styleClass="roseNoBorder">
+                                                <h:outputText value="#{personalBusinessProperty.personalBusinessPropertyEntity.businessDescription}" 
+                                                              style="font-style: italic"/>
+                                            </p:column>
+                                            <p:column style="width:100px" styleClass="roseNoBorder">
+                                            </p:column>
+                                            <p:column styleClass="roseNoBorder">
+                                            </p:column>
+                                        </p:row>
+                                        <p:row styleClass="roseNoBorder">
+                                            <p:column styleClass="roseNoBorder" colspan="8">
+                                                <h:outputText value="#{roseText.PropertyExpenses}" style="font-size: 12px; color: darkgreen; font-weight: bolder; text-decoration: underline" />
+                                            </p:column>
+                                        </p:row>
+                                        <p:row styleClass="roseNoBorder">
+                                            <p:column style="width:100px" styleClass="roseNoBorder">
+                                                <p:outputLabel value="#{roseText.ExpenseOnAdvertising}"/>
+                                            </p:column>
+                                            <p:column styleClass="roseNoBorder">
+                                                <h:outputText value="#{personalBusinessProperty.personalBusinessPropertyEntity.expenseAdvertising}" 
+                                                              style="font-style: italic"/>
+                                            </p:column>
+                                            <p:column style="width:100px" styleClass="roseNoBorder">
+                                                <p:outputLabel value="#{roseText.ExpenseOnRentAndLease}"/>
+                                            </p:column>
+                                            <p:column styleClass="roseNoBorder">
+                                                <h:outputText value="#{personalBusinessProperty.personalBusinessPropertyEntity.expenseRentLease}" 
+                                                              style="font-style: italic"/>
+                                            </p:column>
+                                            <p:column style="width:100px" styleClass="roseNoBorder">
+                                                <p:outputLabel value="#{roseText.ExpenseOnCableInternet}"/>
+                                            </p:column>
+                                            <p:column styleClass="roseNoBorder">
+                                                <h:outputText value="#{personalBusinessProperty.personalBusinessPropertyEntity.expenseCableInternet}" 
+                                                              style="font-style: italic"/>
+                                            </p:column>
+                                            <p:column style="width:100px" styleClass="roseNoBorder">
+                                                <p:outputLabel value="#{roseText.ExpenseOnUtilities}"/>
+                                            </p:column>
+                                            <p:column styleClass="roseNoBorder">
+                                                <h:outputText value="#{personalBusinessProperty.personalBusinessPropertyEntity.expenseUtilities}" 
+                                                              style="font-style: italic"/>
+                                            </p:column>
+                                        </p:row>
+                                        <p:row styleClass="roseNoBorder">
+                                            <p:column style="width:100px" styleClass="roseNoBorder">
+                                                <p:outputLabel value="#{roseText.ExpenseOnOffice}"/>
+                                            </p:column>
+                                            <p:column styleClass="roseNoBorder">
+                                                <h:outputText value="#{personalBusinessProperty.personalBusinessPropertyEntity.expenseOffice}" 
+                                                              style="font-style: italic"/>
+                                            </p:column>
+                                            <p:column style="width:100px" styleClass="roseNoBorder">
+                                                <p:outputLabel value="#{roseText.ExpenseOnInsurance}"/>
+                                            </p:column>
+                                            <p:column styleClass="roseNoBorder">
+                                                <h:outputText value="#{personalBusinessProperty.personalBusinessPropertyEntity.expenseInsurance}" 
+                                                              style="font-style: italic"/>
+                                            </p:column>
+                                            <p:column style="width:100px" styleClass="roseNoBorder">
+                                                <p:outputLabel value="#{roseText.ExpenseOnSupplies}"/>
+                                            </p:column>
+                                            <p:column styleClass="roseNoBorder">
+                                                <h:outputText value="#{personalBusinessProperty.personalBusinessPropertyEntity.expenseSupplies}" 
+                                                              style="font-style: italic"/>
+                                            </p:column>
+                                            <p:column style="width:100px" styleClass="roseNoBorder">
+                                                <p:outputLabel value="#{roseText.ExpenseOnContractLablor}"/>
+                                            </p:column>
+                                            <p:column styleClass="roseNoBorder">
+                                                <h:outputText value="#{personalBusinessProperty.personalBusinessPropertyEntity.expenseContractLabor}" 
+                                                              style="font-style: italic"/>
+                                            </p:column>
+                                        </p:row>
+                                        <p:row styleClass="roseNoBorder">
+                                            <p:column style="width:100px" styleClass="roseNoBorder">
+                                                <p:outputLabel value="#{roseText.ExpenseOnCarAndTruck}"/>
+                                            </p:column>
+                                            <p:column styleClass="roseNoBorder">
+                                                <h:outputText value="#{personalBusinessProperty.personalBusinessPropertyEntity.expenseCarAndTruck}" 
+                                                              style="font-style: italic"/>
+                                            </p:column>
+                                            <p:column style="width:100px" styleClass="roseNoBorder">
+                                                <p:outputLabel value="#{roseText.ExpenseOnTravelAndMeals}"/>
+                                            </p:column>
+                                            <p:column styleClass="roseNoBorder">
+                                                <h:outputText value="#{personalBusinessProperty.personalBusinessPropertyEntity.expenseTravelMeals}" 
+                                                              style="font-style: italic"/>
+                                            </p:column>
+                                            <p:column style="width:100px" styleClass="roseNoBorder">
+                                                <p:outputLabel value="#{roseText.ExpenseOnRepairs}"/>
+                                            </p:column>
+                                            <p:column styleClass="roseNoBorder">
+                                                <h:outputText value="#{personalBusinessProperty.personalBusinessPropertyEntity.expenseRepairs}" 
+                                                              style="font-style: italic"/>
+                                            </p:column>
+                                            <p:column style="width:100px" styleClass="roseNoBorder">
+                                                <p:outputLabel value="#{roseText.OtherExpenses}"/>
+                                            </p:column>
+                                            <p:column styleClass="roseNoBorder">
+                                                <h:outputText value="#{personalBusinessProperty.personalBusinessPropertyEntity.expenseOthers}" 
+                                                              style="font-style: italic"/>
+                                            </p:column>
+                                        </p:row>
+                                        <p:row styleClass="roseNoBorder">
+                                            <p:column style="width:100px" styleClass="roseNoBorder">
+                                                <p:outputLabel value="#{roseText.ExpenseOnCommission}"/>
+                                            </p:column>
+                                            <p:column styleClass="roseNoBorder">
+                                                <h:outputText value="#{personalBusinessProperty.personalBusinessPropertyEntity.expenseCommissions}" 
+                                                              style="font-style: italic"/>
+                                            </p:column>
+                                            <p:column style="width:100px" styleClass="roseNoBorder">
+                                                <p:outputLabel value="#{roseText.ExpenseOnTelephone}"/>
+                                            </p:column>
+                                            <p:column styleClass="roseNoBorder">
+                                                <h:outputText value="#{personalBusinessProperty.personalBusinessPropertyEntity.expenseTelephone}" 
+                                                              style="font-style: italic"/>
+                                            </p:column>
+                                            <p:column style="width:100px" styleClass="roseNoBorder">
+                                                <p:outputLabel value="#{roseText.ExpenseOnProfessionalServices}"/>
+                                            </p:column>
+                                            <p:column styleClass="roseNoBorder">
+                                                <h:outputText value="#{personalBusinessProperty.personalBusinessPropertyEntity.expenseProfServices}" 
+                                                              style="font-style: italic"/>
+                                            </p:column>
+                                            <p:column style="width:100px" styleClass="roseNoBorder">
+                                                <p:outputLabel value="#{roseText.Memo}"/>
+                                            </p:column>
+                                            <p:column styleClass="roseNoBorder">
+                                                <h:outputText value="#{personalBusinessProperty.personalBusinessPropertyEntity.memo}" 
+                                                              style="font-style: italic"/>
+                                            </p:column>
+                                        </p:row>
+                                    </p:panelGrid>
+                                </p:repeat>
+                            </p:panel>
+                        </p:outputPanel>
+
+                        <ui:remove><!--Personal Property Information--></ui:remove>
+                        <p:outputPanel style="font-size: 11px;" 
+                                       rendered="#{taxpayerCaseMgtBean.targetTaxpayerCaseProfile.personalPropertyProfileList.size() > 0}">
+                            <p:panel id="taxpayerProperty" style="font-size: 11px; margin-top: 5px; margin-bottom: 5px" 
+                                     header="#{roseText.TaxpayerProperty}">
+                                <p:repeat value="#{taxpayerCaseMgtBean.targetTaxpayerCaseProfile.personalPropertyProfileList}" var="personalProperty">
+                                    <p:panelGrid style="width: 100%;" styleClass="roseNoBorder">
+                                        <p:row styleClass="roseNoBorder">
+                                            <p:column styleClass="roseNoBorder" colspan="8">
+                                                <h:outputText value="#{roseText.BasicInformation}" style="font-size: 12px; color: darkgreen; font-weight: bolder; text-decoration: underline" />
+                                            </p:column>
+                                        </p:row>
+                                        <p:row styleClass="roseNoBorder">
+                                            <p:column style="width:100px" styleClass="roseNoBorder">
+                                                <p:outputLabel value="#{roseText.PropertyType}"/>
+                                            </p:column>
+                                            <p:column styleClass="roseNoBorder">
+                                                <h:outputText value="#{personalProperty.personalPropertyEntity.propertyType}" 
+                                                              style="font-style: italic"/>
+                                            </p:column>
+                                            <p:column style="width:100px" styleClass="roseNoBorder">
+                                                <p:outputLabel value="#{roseText.PercentageOfRentalUse}"/>
+                                            </p:column>
+                                            <p:column styleClass="roseNoBorder">
+                                                <h:outputText value="#{personalProperty.personalPropertyEntity.percentageOfRentalUse}" 
+                                                              style="font-style: italic"/>
+                                            </p:column>
+                                            <p:column style="width:100px" styleClass="roseNoBorder">
+                                                <p:outputLabel value="#{roseText.IncomeRentsReceived}"/>
+                                            </p:column>
+                                            <p:column styleClass="roseNoBorder">
+                                                <h:outputText value="#{personalProperty.personalPropertyEntity.incomeRentsReceieved}" 
+                                                              style="font-style: italic"/>
+                                            </p:column>
+                                            <p:column style="width:100px" styleClass="roseNoBorder">
+                                                <p:outputLabel value="#{roseText.PropertyAddress}"/>
+                                            </p:column>
+                                            <p:column styleClass="roseNoBorder">
+                                                <h:outputText value="#{personalProperty.personalPropertyEntity.propertyAddress}" 
+                                                              style="font-style: italic"/>
+                                            </p:column>
+                                        </p:row>
+                                        <p:row styleClass="roseNoBorder">
+                                            <p:column style="width:100px" styleClass="roseNoBorder">
+                                                <p:outputLabel value="#{roseText.ImprovementCost}"/>
+                                            </p:column>
+                                            <p:column styleClass="roseNoBorder">
+                                                <h:outputText value="#{personalProperty.personalPropertyEntity.improvementCost}" 
+                                                              style="font-style: italic"/>
+                                            </p:column>
+                                            <p:column style="width:100px" styleClass="roseNoBorder">
+                                                <p:outputLabel value="#{roseText.PurchasePrice}"/>
+                                            </p:column>
+                                            <p:column styleClass="roseNoBorder">
+                                                <h:outputText value="#{personalProperty.personalPropertyEntity.purchasePrice}" 
+                                                              style="font-style: italic"/>
+                                            </p:column>
+                                            <p:column style="width:100px" styleClass="roseNoBorder">
+                                                <p:outputLabel value="#{roseText.DateOfService}"/>
+                                            </p:column>
+                                            <p:column styleClass="roseNoBorder">
+                                                <h:outputText value="#{personalProperty.personalPropertyEntity.dateOnService}" 
+                                                              style="font-style: italic">
+                                                    <f:convertDateTime pattern="MM-dd-yyyy" type="date" />
+                                                </h:outputText>
+                                            </p:column>
+                                            <p:column style="width:100px" styleClass="roseNoBorder">
+                                                <p:outputLabel value="#{roseText.PercentageOfOwnership}"/>
+                                            </p:column>
+                                            <p:column styleClass="roseNoBorder">
+                                                <h:outputText value="#{personalProperty.personalPropertyEntity.percentageOfOwnership}" 
+                                                              style="font-style: italic"/>
+                                            </p:column>
+                                        </p:row>
+                                        <p:row styleClass="roseNoBorder">
+                                            <p:column style="width:100px" styleClass="roseNoBorder">
+                                                <p:outputLabel value="#{roseText.DateOfImprovement}"/>
+                                            </p:column>
+                                            <p:column styleClass="roseNoBorder">
+                                                <h:outputText value="#{personalProperty.personalPropertyEntity.dateOnImprovement}" 
+                                                              style="font-style: italic">
+                                                    <f:convertDateTime pattern="MM-dd-yyyy" type="date" />
+                                                </h:outputText>
+                                            </p:column>
+                                            <p:column style="width:100px" styleClass="roseNoBorder">
+                                            </p:column>
+                                            <p:column styleClass="roseNoBorder">
+                                            </p:column>
+                                            <p:column style="width:100px" styleClass="roseNoBorder">
+                                            </p:column>
+                                            <p:column styleClass="roseNoBorder">
+                                            </p:column>
+                                            <p:column style="width:100px" styleClass="roseNoBorder">
+                                            </p:column>
+                                            <p:column styleClass="roseNoBorder">
+                                            </p:column>
+                                        </p:row>
+                                        <p:row styleClass="roseNoBorder">
+                                            <p:column styleClass="roseNoBorder" colspan="8">
+                                                <h:outputText value="#{roseText.PropertyExpenses}" style="font-size: 12px; color: darkgreen; font-weight: bolder; text-decoration: underline" />
+                                            </p:column>
+                                        </p:row>
+                                        <p:row styleClass="roseNoBorder">
+                                            <p:column style="width:100px" styleClass="roseNoBorder">
+                                                <p:outputLabel value="#{roseText.ExpenseOnAdvertising}"/>
+                                            </p:column>
+                                            <p:column styleClass="roseNoBorder">
+                                                <h:outputText value="#{personalProperty.personalPropertyEntity.expenseAdvertising}" 
+                                                              style="font-style: italic"/>
+                                            </p:column>
+                                            <p:column style="width:100px" styleClass="roseNoBorder">
+                                                <p:outputLabel value="#{roseText.ExpenseOnDepreciation}"/>
+                                            </p:column>
+                                            <p:column styleClass="roseNoBorder">
+                                                <h:outputText value="#{personalProperty.personalPropertyEntity.expenseDepreciation}" 
+                                                              style="font-style: italic"/>
+                                            </p:column>
+                                            <p:column style="width:100px" styleClass="roseNoBorder">
+                                                <p:outputLabel value="#{roseText.ExpenseOnMorgageInterest}"/>
+                                            </p:column>
+                                            <p:column styleClass="roseNoBorder">
+                                                <h:outputText value="#{personalProperty.personalPropertyEntity.expenseMorgageInterest}" 
+                                                              style="font-style: italic"/>
+                                            </p:column>
+                                            <p:column style="width:100px" styleClass="roseNoBorder">
+                                                <p:outputLabel value="#{roseText.ExpenseOnUtilities}"/>
+                                            </p:column>
+                                            <p:column styleClass="roseNoBorder">
+                                                <h:outputText value="#{personalProperty.personalPropertyEntity.expenseUtilities}" 
+                                                              style="font-style: italic"/>
+                                            </p:column>
+                                        </p:row>
+                                        <p:row styleClass="roseNoBorder">
+                                            <p:column style="width:100px" styleClass="roseNoBorder">
+                                                <p:outputLabel value="#{roseText.ExpenseOnAutoTravel}"/>
+                                            </p:column>
+                                            <p:column styleClass="roseNoBorder">
+                                                <h:outputText value="#{personalProperty.personalPropertyEntity.expenseAutoAndTravel}" 
+                                                              style="font-style: italic"/>
+                                            </p:column>
+                                            <p:column style="width:100px" styleClass="roseNoBorder">
+                                                <p:outputLabel value="#{roseText.ExpenseOnInsurance}"/>
+                                            </p:column>
+                                            <p:column styleClass="roseNoBorder">
+                                                <h:outputText value="#{personalProperty.personalPropertyEntity.expenseInsurance}" 
+                                                              style="font-style: italic"/>
+                                            </p:column>
+                                            <p:column style="width:100px" styleClass="roseNoBorder">
+                                                <p:outputLabel value="#{roseText.ExpenseOnSupplies}"/>
+                                            </p:column>
+                                            <p:column styleClass="roseNoBorder">
+                                                <h:outputText value="#{personalProperty.personalPropertyEntity.expenseSupplies}" 
+                                                              style="font-style: italic"/>
+                                            </p:column>
+                                            <p:column style="width:100px" styleClass="roseNoBorder">
+                                                <p:outputLabel value="#{roseText.ExpenseOnWaterSewer}"/>
+                                            </p:column>
+                                            <p:column styleClass="roseNoBorder">
+                                                <h:outputText value="#{personalProperty.personalPropertyEntity.expenseWaterSewer}" 
+                                                              style="font-style: italic"/>
+                                            </p:column>
+                                        </p:row>
+                                        <p:row styleClass="roseNoBorder">
+                                            <p:column style="width:100px" styleClass="roseNoBorder">
+                                                <p:outputLabel value="#{roseText.ExpenseOnCleaning}"/>
+                                            </p:column>
+                                            <p:column styleClass="roseNoBorder">
+                                                <h:outputText value="#{personalProperty.personalPropertyEntity.expenseCleaning}" 
+                                                              style="font-style: italic"/>
+                                            </p:column>
+                                            <p:column style="width:100px" styleClass="roseNoBorder">
+                                                <p:outputLabel value="#{roseText.ExpenseOnMgtFee}"/>
+                                            </p:column>
+                                            <p:column styleClass="roseNoBorder">
+                                                <h:outputText value="#{personalProperty.personalPropertyEntity.expenseMgtFee}" 
+                                                              style="font-style: italic"/>
+                                            </p:column>
+                                            <p:column style="width:100px" styleClass="roseNoBorder">
+                                                <p:outputLabel value="#{roseText.ExpenseOnRepairs}"/>
+                                            </p:column>
+                                            <p:column styleClass="roseNoBorder">
+                                                <h:outputText value="#{personalProperty.personalPropertyEntity.expenseRepairs}" 
+                                                              style="font-style: italic"/>
+                                            </p:column>
+                                            <p:column style="width:100px" styleClass="roseNoBorder">
+                                                <p:outputLabel value="#{roseText.OtherExpenses}"/>
+                                            </p:column>
+                                            <p:column styleClass="roseNoBorder">
+                                                <h:outputText value="#{personalProperty.personalPropertyEntity.expenseOthers}" 
+                                                              style="font-style: italic"/>
+                                            </p:column>
+                                        </p:row>
+                                        <p:row styleClass="roseNoBorder">
+                                            <p:column style="width:100px" styleClass="roseNoBorder">
+                                                <p:outputLabel value="#{roseText.ExpenseOnCommission}"/>
+                                            </p:column>
+                                            <p:column styleClass="roseNoBorder">
+                                                <h:outputText value="#{personalProperty.personalPropertyEntity.expenseCommissions}" 
+                                                              style="font-style: italic"/>
+                                            </p:column>
+                                            <p:column style="width:100px" styleClass="roseNoBorder">
+                                                <p:outputLabel value="#{roseText.ExpenseOnRETaxes}"/>
+                                            </p:column>
+                                            <p:column styleClass="roseNoBorder">
+                                                <h:outputText value="#{personalProperty.personalPropertyEntity.expenseReTaxes}" 
+                                                              style="font-style: italic"/>
+                                            </p:column>
+                                            <p:column style="width:100px" styleClass="roseNoBorder">
+                                                <p:outputLabel value="#{roseText.ExpenseOnProfessionalServices}"/>
+                                            </p:column>
+                                            <p:column styleClass="roseNoBorder">
+                                                <h:outputText value="#{personalProperty.personalPropertyEntity.expenseProfServices}" 
+                                                              style="font-style: italic"/>
+                                            </p:column>
+                                            <p:column style="width:100px" styleClass="roseNoBorder">
+                                                <p:outputLabel value="#{roseText.Memo}"/>
+                                            </p:column>
+                                            <p:column styleClass="roseNoBorder">
+                                                <h:outputText value="#{personalProperty.personalPropertyEntity.memo}" 
+                                                              style="font-style: italic"/>
+                                            </p:column>
+                                        </p:row>
+                                    </p:panelGrid>
+                                </p:repeat>
+                            </p:panel>
+                        </p:outputPanel>
+
+                        <ui:remove><!--TLC License--></ui:remove>
+                        <p:outputPanel style="font-size: 11px;" 
+                                       rendered="#{taxpayerCaseMgtBean.targetTaxpayerCaseProfile.tlcLicenseProfileList.size() > 0}">
+                            <p:panel id="taxpayerTLC" style="font-size: 11px; margin-top: 5px; margin-bottom: 5px" 
+                                     header="#{roseText.TaxpayerTLC}">
+                                <p:repeat value="#{taxpayerCaseMgtBean.targetTaxpayerCaseProfile.tlcLicenseProfileList}" var="tlcLicense">
+                                    <p:panelGrid style="width: 100%;" styleClass="roseNoBorder">
+                                        <p:row styleClass="roseNoBorder">
+                                            <p:column style="width:100px" styleClass="roseNoBorder">
+                                                <p:outputLabel value="#{roseText.TlcLicense}"/>
+                                            </p:column>
+                                            <p:column styleClass="roseNoBorder">
+                                                <h:outputText value="#{tlcLicense.tlcLicenseEntity.tlcLicense}" 
+                                                              style="font-style: italic"/>
+                                            </p:column>
+                                            <p:column style="width:100px" styleClass="roseNoBorder">
+                                                <p:outputLabel value="#{roseText.MileageRate}"/>
+                                            </p:column>
+                                            <p:column styleClass="roseNoBorder">
+                                                <h:outputText value="#{tlcLicense.tlcLicenseEntity.mileageRate}" 
+                                                              style="font-style: italic"/>
+                                            </p:column>
+                                            <p:column style="width:100px" styleClass="roseNoBorder">
+                                                <p:outputLabel value="#{roseText.RadioRepair}"/>
+                                            </p:column>
+                                            <p:column styleClass="roseNoBorder">
+                                                <h:outputText value="#{tlcLicense.tlcLicenseEntity.radioRepair}" 
+                                                              style="font-style: italic"/>
+                                            </p:column>
+                                            <p:column style="width:100px" styleClass="roseNoBorder">
+                                                <p:outputLabel value="#{roseText.Repairs}"/>
+                                            </p:column>
+                                            <p:column styleClass="roseNoBorder">
+                                                <h:outputText value="#{tlcLicense.tlcLicenseEntity.repairs}" 
+                                                              style="font-style: italic"/>
+                                            </p:column>
+                                        </p:row>
+                                        <p:row styleClass="roseNoBorder">
+                                            <p:column style="width:100px" styleClass="roseNoBorder">
+                                                <p:outputLabel value="#{roseText.VehicleMake}"/>
+                                            </p:column>
+                                            <p:column styleClass="roseNoBorder">
+                                                <h:outputText value="#{tlcLicense.tlcLicenseEntity.vehicleType}" 
+                                                              style="font-style: italic"/>
+                                            </p:column>
+                                            <p:column style="width:100px" styleClass="roseNoBorder">
+                                                <p:outputLabel value="#{roseText.GarageRent}"/>
+                                            </p:column>
+                                            <p:column styleClass="roseNoBorder">
+                                                <h:outputText value="#{tlcLicense.tlcLicenseEntity.garageRent}" 
+                                                              style="font-style: italic"/>
+                                            </p:column>
+                                            <p:column style="width:100px" styleClass="roseNoBorder">
+                                                <p:outputLabel value="#{roseText.Accessories}"/>
+                                            </p:column>
+                                            <p:column styleClass="roseNoBorder">
+                                                <h:outputText value="#{tlcLicense.tlcLicenseEntity.accessories}" 
+                                                              style="font-style: italic"/>
+                                            </p:column>
+                                            <p:column style="width:100px" styleClass="roseNoBorder">
+                                                <p:outputLabel value="#{roseText.Gas}"/>
+                                            </p:column>
+                                            <p:column styleClass="roseNoBorder">
+                                                <h:outputText value="#{tlcLicense.tlcLicenseEntity.gas}" 
+                                                              style="font-style: italic"/>
+                                            </p:column>
+                                        </p:row>
+                                        <p:row styleClass="roseNoBorder">
+                                            <p:column style="width:100px" styleClass="roseNoBorder">
+                                                <p:outputLabel value="#{roseText.VehicleModel}"/>
+                                            </p:column>
+                                            <p:column styleClass="roseNoBorder">
+                                                <h:outputText value="#{tlcLicense.tlcLicenseEntity.vehicleModel}" 
+                                                              style="font-style: italic"/>
+                                            </p:column>
+                                            <p:column style="width:100px" styleClass="roseNoBorder">
+                                                <p:outputLabel value="#{roseText.Tires}"/>
+                                            </p:column>
+                                            <p:column styleClass="roseNoBorder">
+                                                <h:outputText value="#{tlcLicense.tlcLicenseEntity.tires}" 
+                                                              style="font-style: italic"/>
+                                            </p:column>
+                                            <p:column style="width:100px" styleClass="roseNoBorder">
+                                                <p:outputLabel value="#{roseText.Telephone}"/>
+                                            </p:column>
+                                            <p:column styleClass="roseNoBorder">
+                                                <h:outputText value="#{tlcLicense.tlcLicenseEntity.telephone}" 
+                                                              style="font-style: italic"/>
+                                            </p:column>
+                                            <p:column style="width:100px" styleClass="roseNoBorder">
+                                                <p:outputLabel value="#{roseText.Oil}"/>
+                                            </p:column>
+                                            <p:column styleClass="roseNoBorder">
+                                                <h:outputText value="#{tlcLicense.tlcLicenseEntity.oil}" 
+                                                              style="font-style: italic"/>
+                                            </p:column>
+                                        </p:row>
+                                        <p:row styleClass="roseNoBorder">
+                                            <p:column style="width:100px" styleClass="roseNoBorder">
+                                                <p:outputLabel value="#{roseText.DateInService}"/>
+                                            </p:column>
+                                            <p:column styleClass="roseNoBorder">
+                                                <h:outputText value="#{tlcLicense.tlcLicenseEntity.dateInService}" 
+                                                              style="font-style: italic">
+                                                    <f:convertDateTime pattern="MM-dd-yyyy" />
+                                                </h:outputText>
+                                            </p:column>
+                                            <p:column style="width:100px" styleClass="roseNoBorder">
+                                                <p:outputLabel value="#{roseText.Tolls}"/>
+                                            </p:column>
+                                            <p:column styleClass="roseNoBorder">
+                                                <h:outputText value="#{tlcLicense.tlcLicenseEntity.tolls}" 
+                                                              style="font-style: italic"/>
+                                            </p:column>
+                                            <p:column style="width:100px" styleClass="roseNoBorder">
+                                                <p:outputLabel value="#{roseText.Parking}"/>
+                                            </p:column>
+                                            <p:column styleClass="roseNoBorder">
+                                                <h:outputText value="#{tlcLicense.tlcLicenseEntity.parking}" 
+                                                              style="font-style: italic"/>
+                                            </p:column>
+                                            <p:column style="width:100px" styleClass="roseNoBorder">
+                                                <p:outputLabel value="#{roseText.RegistrationFee}"/>
+                                            </p:column>
+                                            <p:column styleClass="roseNoBorder">
+                                                <h:outputText value="#{tlcLicense.tlcLicenseEntity.registrationFee}" 
+                                                              style="font-style: italic"/>
+                                            </p:column>
+                                        </p:row>
+                                        <p:row styleClass="roseNoBorder">
+                                            <p:column style="width:100px" styleClass="roseNoBorder">
+                                                <p:outputLabel value="#{roseText.NumberOfSeats}"/>
+                                            </p:column>
+                                            <p:column styleClass="roseNoBorder">
+                                                <h:outputText value="#{tlcLicense.tlcLicenseEntity.numberOfSeats}" 
+                                                              style="font-style: italic"/>
+                                            </p:column>
+                                            <p:column style="width:100px" styleClass="roseNoBorder">
+                                                <p:outputLabel value="#{roseText.ServiceFee}"/>
+                                            </p:column>
+                                            <p:column styleClass="roseNoBorder">
+                                                <h:outputText value="#{tlcLicense.tlcLicenseEntity.serviceFee}" 
+                                                              style="font-style: italic"/>
+                                            </p:column>
+                                            <p:column style="width:100px" styleClass="roseNoBorder">
+                                                <p:outputLabel value="#{roseText.Insurance}"/>
+                                            </p:column>
+                                            <p:column styleClass="roseNoBorder">
+                                                <h:outputText value="#{tlcLicense.tlcLicenseEntity.insurance}" 
+                                                              style="font-style: italic"/>
+                                            </p:column>
+                                            <p:column style="width:100px" styleClass="roseNoBorder">
+                                                <p:outputLabel value="#{roseText.Memo}"/>
+                                            </p:column>
+                                            <p:column styleClass="roseNoBorder">
+                                                <h:outputText value="#{tlcLicense.tlcLicenseEntity.memo}" 
+                                                              style="font-style: italic"/>
+                                            </p:column>
+                                        </p:row>
+                                        <p:row styleClass="roseNoBorder">
+                                            <p:column style="width:100px" styleClass="roseNoBorder">
+                                                <p:outputLabel value="#{roseText.Over600lbs}"/>
+                                            </p:column>
+                                            <p:column styleClass="roseNoBorder">
+                                                <h:outputText value="#{tlcLicense.tlcLicenseEntity.over600lbs}" 
+                                                              style="font-style: italic"/>
+                                            </p:column>
+                                            <p:column style="width:100px" styleClass="roseNoBorder">
+                                                <p:outputLabel value="#{roseText.Meals}"/>
+                                            </p:column>
+                                            <p:column styleClass="roseNoBorder">
+                                                <h:outputText value="#{tlcLicense.tlcLicenseEntity.meals}" 
+                                                              style="font-style: italic"/>
+                                            </p:column>
+                                            <p:column style="width:100px" styleClass="roseNoBorder">
+                                                <p:outputLabel value="#{roseText.Depreciation}"/>
+                                            </p:column>
+                                            <p:column styleClass="roseNoBorder">
+                                                <h:outputText value="#{tlcLicense.tlcLicenseEntity.depreciation}" 
+                                                              style="font-style: italic"/>
+                                            </p:column>
+                                            <p:column style="width:100px" styleClass="roseNoBorder">
+                                                <p:outputLabel value="#{roseText.TotalMiles}"/>
+                                            </p:column>
+                                            <p:column styleClass="roseNoBorder">
+                                                <h:outputText value="#{tlcLicense.tlcLicenseEntity.totalMiles}" 
+                                                              style="font-style: italic"/>
+                                            </p:column>
+                                        </p:row>
+                                        <p:row styleClass="roseNoBorder">
+                                            <p:column style="width:100px" styleClass="roseNoBorder">
+                                                <p:outputLabel value="#{roseText.Uniform}"/>
+                                            </p:column>
+                                            <p:column styleClass="roseNoBorder">
+                                                <h:outputText value="#{tlcLicense.tlcLicenseEntity.uniform}" 
+                                                              style="font-style: italic"/>
+                                            </p:column>
+                                            <p:column style="width:100px" styleClass="roseNoBorder">
+                                                <p:outputLabel value="#{roseText.LeasePayment}"/>
+                                            </p:column>
+                                            <p:column styleClass="roseNoBorder">
+                                                <h:outputText value="#{tlcLicense.tlcLicenseEntity.leasePayment}" 
+                                                              style="font-style: italic"/>
+                                            </p:column>
+                                            <p:column style="width:100px" styleClass="roseNoBorder">
+                                                <p:outputLabel value="#{roseText.BusinessMiles}"/>
+                                            </p:column>
+                                            <p:column styleClass="roseNoBorder">
+                                                <h:outputText value="#{tlcLicense.tlcLicenseEntity.businessMiles}" 
+                                                              style="font-style: italic"/>
+                                            </p:column>
+                                            <p:column style="width:100px" styleClass="roseNoBorder">
+                                                <p:outputLabel value="#{roseText.CarWash}"/>
+                                            </p:column>
+                                            <p:column styleClass="roseNoBorder">
+                                                <h:outputText value="#{tlcLicense.tlcLicenseEntity.carWash}" 
+                                                              style="font-style: italic"/>
+                                            </p:column>
+                                        </p:row>
+                                        <p:row styleClass="roseNoBorder">
+                                            <p:column style="width:100px" styleClass="roseNoBorder">
+                                                <p:outputLabel value="#{roseText.Maintenance}"/>
+                                            </p:column>
+                                            <p:column styleClass="roseNoBorder">
+                                                <h:outputText value="#{cc.attrs.tlcLicenseProfile.tlcLicenseEntity.maintenance}" 
+                                                              style="font-style: italic"/>
+                                            </p:column>
+                                            <p:column style="width:100px" styleClass="roseNoBorder">
+                                            </p:column>
+                                            <p:column styleClass="roseNoBorder">
+                                            </p:column>
+                                            <p:column style="width:100px" styleClass="roseNoBorder">
+                                            </p:column>
+                                            <p:column styleClass="roseNoBorder">
+                                            </p:column>
+                                            <p:column style="width:100px" styleClass="roseNoBorder">
+                                            </p:column>
+                                            <p:column styleClass="roseNoBorder">
+                                            </p:column>
+                                        </p:row>
+                                    </p:panelGrid>
+                                </p:repeat>
+                            </p:panel>
+                        </p:outputPanel>
+                        
+                        <ui:remove><!--Bill & Payment--></ui:remove>
+                        <p:outputPanel style="font-size: 11px;" >
+                            <ez:businessCaseBillAndPaymentPanel businessCaseProfile="#{taxpayerCaseMgtBean.targetTaxpayerCaseProfile}"
+                                                                businessBillPaymentInvoiceBean="#{taxpayerCaseMgtBean}" viewOnly="true"/>
+                        </p:outputPanel>
+                        
+                        <ui:remove><!--Upload/Download Documents--></ui:remove>
+                        <p:outputPanel style="font-size: 11px;" >
+                            <ez:uploadedArchivedDocumentDataList currentBean="#{taxpayerCaseMgtBean}" printableOnly="true"/>
+                        </p:outputPanel>
+                        
+                    </h:form>
+                </p:outputPanel>
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>

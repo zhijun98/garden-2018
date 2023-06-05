@@ -1,0 +1,175 @@
+/*
+Copyright 2018 ZComApproach Inc.
+
+Licensed under multiple open source licenses involved in the project (the "Licenses");
+you may not use this file except in compliance with the Licenses.
+You may obtain copies of the Licenses at
+
+     http://www.zcomapproach.com/licenses
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+*/
+/* 
+    Created on : Mar 9, 2018, 9:51:03 PM
+    Author     : zhijun98
+*/
+
+/*
+    Override placeholder text color
+*/
+:placeholder {
+  color: #cccccc;
+  font-style: italic;
+  font-size: 11px;
+}
+:placeholder-shown {
+  color: #cccccc;
+  font-style: italic;
+  font-size: 11px;
+}
+::-webkit-input-placeholder { /* Chrome/Opera/Safari */
+  color: #cccccc;
+  font-style: italic;
+  font-size: 11px;
+}
+::-moz-placeholder { /* Firefox 19+ */
+  color: #cccccc;
+  font-style: italic;
+  font-size: 11px;
+}
+:-ms-input-placeholder { /* IE 10+ */
+  color: #cccccc;
+  font-style: italic;
+  font-size: 11px;
+}
+:-moz-placeholder { /* Firefox 18- */
+  color: #cccccc;
+  font-style: italic;
+  font-size: 11px;
+}
+
+.rosePanelGridCellAlignTop td {
+    vertical-align: top;
+}
+
+/*
+    Override PrimeFaces CSS
+ui-panel ui-widget ui-widget-content ui-corner-all roseNoBorder
+*/
+div .roseNoBorder *,
+.ui-datalist-content.roseNoBorder,
+ui-datalist-data.roseNoBorder,
+.ui-panel.roseNoBorder,
+.ui-panel-content.roseNoBorder,
+.ui-widget.roseNoBorder,
+.ui-widget-content.roseNoBorder,
+.ui-corner-all.roseNoBorder,
+.ui-panelgrid.roseNoBorder,
+.ui-panelgrid-even.roseNoBorder,
+.ui-panelgrid-odd.roseNoBorder,
+.ui-panelgrid-cell.roseNoBorder{
+    border: none;
+}
+.ui-menubar.rosePageTopMenubar{
+    font-size: 12px;
+    padding-left: 40px;
+    padding-right: 30px;
+}
+
+.ui-growl{
+    position: fixed;
+    top: 75%;
+    right: 25px;
+}
+
+/*
+    Override Bootstrap
+*/
+.navbar.roseNavbar {
+    margin-bottom: 0px;
+}
+
+/*
+    Rose CSS
+*/
+a.roseGreenYellowHover{
+    color: lawngreen;
+}
+a.roseGreenYellowHover:hover{
+    color: yellow;
+}
+.rosePageTopicText{
+    color: darkgreen;
+}
+.roseHint{
+    color: green;
+    font-weight: lighter; 
+    font-size: 11px;
+}
+
+.roseDangerColors{
+    color: #721c24; 
+    background-color: #f8d7da; 
+    border-color: #f5c6cb
+}
+
+.roseWarningColors{
+    color: #8a6d3b; 
+    background-color: #fcf8e3; 
+    border-color: #faebcc
+}
+
+.roseInfoColors{
+    color: #31708f; 
+    background-color: #d9edf7; 
+    border-color: #bce8f1
+}
+
+.roseSuccessColors{
+    color: #3c763d; 
+    background-color: #dff0d8; 
+    border-color: #d6e9c6
+}
+
+.roseHelpComment{
+    color: green;
+    font-weight: lighter; 
+    font-size: 9px;
+}
+.roseFaded {
+    font-style: italic;
+    text-shadow: 0 0 3px rgba(0,0,0,0.5);
+}
+.roseDataListItemStyle{
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+.roseBlinking{
+    animation:blinkingText 2.0s infinite;
+}
+@keyframes blinkingText{
+    0%{     color: #000;    }
+    49%{    color: transparent; }
+    50%{    color: transparent; }
+    99%{    color:transparent;  }
+    100%{   color: #000;    }
+}
+.alert-roseInfoAlert {
+  background-color: #d9edf7;
+  border-color: #bce8f1;
+  color: #31708f;
+}
+.alert-roseWarningAlert {
+  background-color: #fcf8e3;
+  border-color: #f5e79e;
+  color: #8a6d3b;
+}
+.alert-roseDangerAlert {
+  background-color: #f2dede;
+  border-color: #ebccd1;
+  color: #a94442;
+}

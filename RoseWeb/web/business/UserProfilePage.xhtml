@@ -1,0 +1,142 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:rose="http://xmlns.jcp.org/jsf/composite/rose">
+
+    <body>
+        <ui:composition template="./../templates/templateTopLeftCenterBottom.xhtml">
+            
+            <ui:remove><!--Title--></ui:remove>
+            <ui:param name="rosePageTopic" value="#{roseText.UserProfile}: #{userProfileBean.targetUserProfile.profileDescriptiveName}"/>
+            <ui:param name="topicIconAwesome" value="user"/>
+            
+            <ui:define name="f-metadata">
+                <f:metadata>
+                    <f:event listener="#{roseUserSession.handlePreRenderViewEvent()}" type="preRenderView" />
+                    <f:viewParam name="#{roseParamKeys.viewPurposeParamKey}" value="#{userProfileBean.requestedViewPurpose}"/>
+                    <f:viewParam name="#{roseParamKeys.userUuidParamKey}" value="#{userProfileBean.requestUserUuid}"/>
+                </f:metadata>
+            </ui:define>
+            
+            <ui:remove><!--This page displays public web post for any web users to read--></ui:remove>
+            <ui:define name="rosePageContent">
+                <ui:remove><!--Commands Buttons for User-Profile--></ui:remove>
+                <p:outputPanel style="margin-bottom: 20px;">
+                    <rose:userProfileCommandsForm personalProfileBean="#{userProfileBean}"/>
+                </p:outputPanel>
+                
+                <ui:remove><!--Redundancy--></ui:remove>
+                <rose:redundantUserProfilePanel currentBean="#{userProfileBean}"/>
+
+                <ui:remove><!--Summary--></ui:remove>
+                <p:outputPanel style="margin-bottom: 5px; font-size: 12px">
+                    <p:panel header="#{roseText.Summary}" style="width: 100%">
+                        <h:panelGrid columns="1">
+                            <p:spacer width="1"/>
+
+                            <ui:remove><!--account--></ui:remove>
+                            <h:link style="font-size: 12px;" outcome="#{rosePages.clientProfilePageName}" rendered="#{userProfileBean.targetUserAccountEntity == null}">
+                                <i class="fa fa-chevron-circle-right"/> #{roseText.AccountProfile}: #{roseText.UserWithoutAccount_T} - #{roseText.AddNewCustomer}
+                                <f:param name="#{roseParamKeys.viewPurposeParamKey}" 
+                                         value="#{roseParamValues.createNewEntityParamValue}" />
+                                <f:param name="#{roseParamKeys.userUuidParamKey}" 
+                                         value="#{userProfileBean.targetUserProfile.userEntity.userUuid}" />
+                            </h:link>
+                            <h:link style="font-size: 12px;" outcome="#{rosePages.clientProfilePageName}" rendered="#{userProfileBean.targetUserAccountEntity != null}">
+                                <i class="fa fa-chevron-circle-right"/> #{roseText.AccountInformation}
+                                <f:param name="#{roseParamKeys.customerUuidParamKey}" 
+                                         value="#{userProfileBean.targetUserAccountEntity.accountUuid}" />
+                            </h:link>
+                            <p:spacer width="1"/>
+
+                            <ui:remove><!--taxpayer (as primary)--></ui:remove>
+                            <p:outputPanel rendered="#{userProfileBean.historicalTaxpayerCaseProfileList.size() == 0}">
+                                <i class="fa fa-chevron-circle-right"/> #{roseText.IndividualTaxFiling} (#{roseText.UserPrimary_T}): #{roseText.NoRecord}
+                            </p:outputPanel>
+                            <p:outputPanel rendered="#{userProfileBean.historicalTaxpayerCaseProfileList.size() > 0}">
+                                <i class="fa fa-chevron-circle-right"/> #{roseText.IndividualTaxFiling} (#{roseText.UserPrimary_T}):
+                            </p:outputPanel>
+                            <ui:repeat value="#{userProfileBean.historicalTaxpayerCaseProfileList}" var="taxpayerCase" >
+                                <h:panelGrid columns="2">
+                                    <p:spacer width="25"/>
+                                    <h:link style="font-size: 12px;" outcome="#{rosePages.taxpayerCaseMgtPageName}">
+                                        <i class="fa fa-caret-square-o-right"/> #{taxpayerCase.profileDescriptiveName}
+                                        <f:param name="#{roseParamKeys.taxpayerCaseUuidParamKey}" 
+                                                 value="#{taxpayerCase.taxpayerCaseEntity.taxpayerCaseUuid}" />
+                                    </h:link>
+                                </h:panelGrid>
+                            </ui:repeat>
+                            <p:spacer width="1"/>
+
+                            <ui:remove><!--taxpayer (as dependant)--></ui:remove>
+                            <p:outputPanel rendered="#{userProfileBean.historicalInvolvedTaxpayerCaseProfileList.size() == 0}">
+                                <i class="fa fa-chevron-circle-right"/> #{roseText.IndividualTaxFiling} (#{roseText.UserDependant_T}): #{roseText.NoRecord}
+                            </p:outputPanel>
+                            <p:outputPanel rendered="#{userProfileBean.historicalInvolvedTaxpayerCaseProfileList.size() > 0}">
+                                <i class="fa fa-chevron-circle-right"/> #{roseText.IndividualTaxFiling} (#{roseText.UserDependant_T}):
+                            </p:outputPanel>
+                            <ui:repeat value="#{userProfileBean.historicalInvolvedTaxpayerCaseProfileList}" var="taxpayerCase" >
+                                <h:panelGrid columns="2">
+                                    <p:spacer width="25"/>
+                                    <h:link style="font-size: 12px;" outcome="#{rosePages.taxpayerCaseMgtPageName}">
+                                        <i class="fa fa-caret-square-o-right"/> #{taxpayerCase.profileDescriptiveName}
+                                        <f:param name="#{roseParamKeys.taxpayerCaseUuidParamKey}" 
+                                                 value="#{taxpayerCase.taxpayerCaseEntity.taxpayerCaseUuid}" />
+                                    </h:link>
+                                </h:panelGrid>
+                            </ui:repeat>
+                            <p:spacer width="1"/>
+
+                            <ui:remove><!--taxcorp (as owner)--></ui:remove>
+                            <p:outputPanel rendered="#{userProfileBean.historicalTaxcorpCaseProfileList.size() == 0}">
+                                <i class="fa fa-chevron-circle-right"/> #{roseText.CorporateTaxFiling} (#{roseText.UserOwner_T}): #{roseText.NoRecord}
+                            </p:outputPanel>
+                            <p:outputPanel rendered="#{userProfileBean.historicalTaxcorpCaseProfileList.size() > 0}">
+                                <i class="fa fa-chevron-circle-right"/> #{roseText.CorporateTaxFiling} (#{roseText.UserOwner_T}): #{roseText.NoRecord}
+                            </p:outputPanel>
+                            <ui:repeat value="#{userProfileBean.historicalTaxcorpCaseProfileList}" var="taxcorpCase" >
+                                <h:panelGrid columns="2">
+                                    <p:spacer width="25"/>
+                                    <h:link style="font-size: 12px;" outcome="#{rosePages.taxcorpCaseMgtPageName}">
+                                        <i class="fa fa-chevron-circle-right"/> #{taxcorpCase.profileDescriptiveName}
+                                        <f:param name="#{roseParamKeys.taxcorpCaseUuidParamKey}" 
+                                                 value="#{taxcorpCase.taxcorpCaseEntity.taxcorpCaseUuid}" />
+                                    </h:link>
+                                </h:panelGrid>
+                            </ui:repeat>
+                            <p:spacer width="1"/>
+
+                            <ui:remove><!--taxcorp (as contactor)--></ui:remove>
+                            <p:outputPanel rendered="#{userProfileBean.historicalInvolvedTaxcorpCaseProfileList.size() == 0}">
+                                <i class="fa fa-chevron-circle-right"/> #{roseText.CorporateTaxFiling} (#{roseText.UserContactor_T}): #{roseText.NoRecord}
+                            </p:outputPanel>
+                            <p:outputPanel rendered="#{userProfileBean.historicalInvolvedTaxcorpCaseProfileList.size() > 0}">
+                                <i class="fa fa-chevron-circle-right"/> #{roseText.CorporateTaxFiling} (#{roseText.UserContactor_T}): #{roseText.NoRecord}
+                            </p:outputPanel>
+                            <ui:repeat value="#{userProfileBean.historicalInvolvedTaxcorpCaseProfileList}" var="taxcorpCase" >
+                                <h:panelGrid columns="2">
+                                    <p:spacer width="25"/>
+                                    <h:link style="font-size: 12px;" outcome="#{rosePages.taxcorpCaseMgtPageName}">
+                                        <i class="fa fa-chevron-circle-right"/> #{taxcorpCase.profileDescriptiveName}
+                                        <f:param name="#{roseParamKeys.taxcorpCaseUuidParamKey}" 
+                                                 value="#{taxcorpCase.taxcorpCaseEntity.taxcorpCaseUuid}" />
+                                    </h:link>
+                                </h:panelGrid>
+                            </ui:repeat>
+                            <p:spacer width="1"/>
+                        </h:panelGrid>
+                    </p:panel>
+                </p:outputPanel>
+
+                <ui:remove><!--User Profile--></ui:remove>
+                <rose:userProfileEditor userProfileBean="#{userProfileBean}" toggleable="true"
+                                        forDataEntry="#{userProfileBean.userProfileUpdateDemanded}" />
+            </ui:define>
+        </ui:composition>
+
+    </body>
+</html>

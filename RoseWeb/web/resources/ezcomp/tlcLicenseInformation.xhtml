@@ -1,0 +1,462 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:cc="http://xmlns.jcp.org/jsf/composite"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:b="http://bootsfaces.net/ui">
+
+    <!-- INTERFACE -->
+    <cc:interface>
+        <!--Target entity record for this panel-->
+        <cc:attribute name="tlcLicenseProfile" type="com.zcomapproach.garden.rose.data.profile.TlcLicenseProfile" required="true"/>
+        <!--Only view data-->
+        <cc:attribute name="viewOnly" type="java.lang.Boolean" required="true"/>
+    </cc:interface>
+
+    <!-- IMPLEMENTATION -->
+    <cc:implementation>
+        <b:row>
+            <b:column col-md="3">
+                <p:panelGrid style="width: 100%;" styleClass="roseNoBorder">
+                    <p:row styleClass="roseNoBorder">
+                        <p:column style="width:100px" styleClass="roseNoBorder">
+                            <p:outputLabel for="tlcLicense" value="#{roseText.TlcLicense}"/>
+                        </p:column>
+                        <p:column styleClass="roseNoBorder">
+                            <h:outputText value="#{cc.attrs.tlcLicenseProfile.tlcLicenseEntity.tlcLicense}" 
+                                          style="font-style: italic" rendered="#{cc.attrs.viewOnly}"/>
+                            <p:inputText id="tlcLicense" value="#{cc.attrs.tlcLicenseProfile.tlcLicenseEntity.tlcLicense}"
+                                         validatorMessage="#{roseText.TlcLicense} - #{roseText.FieldLengthRequired_T}: 45" rendered="#{!cc.attrs.viewOnly}">
+                                <f:validateLength maximum="45"/>
+                                <p:ajax/>
+                            </p:inputText>
+                        </p:column>
+                    </p:row>
+                    <p:row styleClass="roseNoBorder">
+                        <p:column style="width:100px" styleClass="roseNoBorder">
+                            <p:outputLabel for="mileageRate" value="#{roseText.MileageRate}"/>
+                        </p:column>
+                        <p:column styleClass="roseNoBorder">
+                            <h:outputText value="#{cc.attrs.tlcLicenseProfile.tlcLicenseEntity.mileageRate}" 
+                                          style="font-style: italic" rendered="#{cc.attrs.viewOnly}"/>
+                            <p:inputText id="mileageRate" value="#{cc.attrs.tlcLicenseProfile.tlcLicenseEntity.mileageRate}"
+                                         validatorMessage="#{roseText.MileageRate} - #{roseText.FieldLengthRequired_T}: 45" rendered="#{!cc.attrs.viewOnly}">
+                                <f:validateLength maximum="45"/>
+                                <p:ajax/>
+                            </p:inputText>
+                        </p:column>
+                    </p:row>
+                    <p:row styleClass="roseNoBorder">
+                        <p:column style="width:100px" styleClass="roseNoBorder">
+                            <p:outputLabel for="radioRepair" value="#{roseText.RadioRepair}"/>
+                        </p:column>
+                        <p:column styleClass="roseNoBorder">
+                            <h:outputText value="#{cc.attrs.tlcLicenseProfile.tlcLicenseEntity.radioRepair}" 
+                                          style="font-style: italic" rendered="#{cc.attrs.viewOnly}"/>
+                            <p:inputText id="radioRepair" value="#{cc.attrs.tlcLicenseProfile.tlcLicenseEntity.radioRepair}"
+                                         validatorMessage="#{roseText.RadioRepair} - #{roseText.FieldLengthRequired_T}: 45" rendered="#{!cc.attrs.viewOnly}">
+                                <f:validateLength maximum="45"/>
+                                <p:ajax/>
+                            </p:inputText>
+                        </p:column>
+                    </p:row>
+                    <p:row styleClass="roseNoBorder">
+                        <p:column style="width:100px" styleClass="roseNoBorder">
+                            <p:outputLabel for="repairs" value="#{roseText.Repairs}"/>
+                        </p:column>
+                        <p:column styleClass="roseNoBorder">
+                            <h:outputText value="#{cc.attrs.tlcLicenseProfile.tlcLicenseEntity.repairs}" 
+                                          style="font-style: italic" rendered="#{cc.attrs.viewOnly}"/>
+                            <p:inputText id="repairs" value="#{cc.attrs.tlcLicenseProfile.tlcLicenseEntity.repairs}"
+                                         validatorMessage="#{roseText.Repairs} - #{roseText.FieldLengthRequired_T}: 45" rendered="#{!cc.attrs.viewOnly}">
+                                <f:validateLength maximum="45"/>
+                                <p:ajax/>
+                            </p:inputText>
+                        </p:column>
+                    </p:row>
+                </p:panelGrid>
+            </b:column>
+            <b:column col-md="3">
+                <p:panelGrid style="width: 100%;" styleClass="roseNoBorder">
+                    <p:row styleClass="roseNoBorder">
+                        <p:column style="width:100px" styleClass="roseNoBorder">
+                            <p:outputLabel for="vehicleType" value="#{roseText.VehicleMake}"/>
+                        </p:column>
+                        <p:column styleClass="roseNoBorder">
+                            <h:outputText value="#{cc.attrs.tlcLicenseProfile.tlcLicenseEntity.vehicleType}" 
+                                          style="font-style: italic" rendered="#{cc.attrs.viewOnly}"/>
+                            <p:inputText id="vehicleType" value="#{cc.attrs.tlcLicenseProfile.tlcLicenseEntity.vehicleType}"
+                                         validatorMessage="#{roseText.VehicleMake} - #{roseText.FieldLengthRequired_T}: 45" rendered="#{!cc.attrs.viewOnly}">
+                                <f:validateLength maximum="45"/>
+                                <p:ajax/>
+                            </p:inputText>
+                        </p:column>
+                    </p:row>
+                    <p:row styleClass="roseNoBorder">
+                        <p:column style="width:100px" styleClass="roseNoBorder">
+                            <p:outputLabel for="garageRent" value="#{roseText.GarageRent}"/>
+                        </p:column>
+                        <p:column styleClass="roseNoBorder">
+                            <h:outputText value="#{cc.attrs.tlcLicenseProfile.tlcLicenseEntity.garageRent}" 
+                                          style="font-style: italic" rendered="#{cc.attrs.viewOnly}"/>
+                            <p:inputText id="garageRent" value="#{cc.attrs.tlcLicenseProfile.tlcLicenseEntity.garageRent}"
+                                         validatorMessage="#{roseText.GarageRent} - #{roseText.FieldLengthRequired_T}: 45" rendered="#{!cc.attrs.viewOnly}">
+                                <f:validateLength maximum="45"/>
+                                <p:ajax/>
+                            </p:inputText>
+                        </p:column>
+                    </p:row>
+                    <p:row styleClass="roseNoBorder">
+                        <p:column style="width:100px" styleClass="roseNoBorder">
+                            <p:outputLabel for="accessories" value="#{roseText.Accessories}"/>
+                        </p:column>
+                        <p:column styleClass="roseNoBorder">
+                            <h:outputText value="#{cc.attrs.tlcLicenseProfile.tlcLicenseEntity.accessories}" 
+                                          style="font-style: italic" rendered="#{cc.attrs.viewOnly}"/>
+                            <p:inputText id="accessories" value="#{cc.attrs.tlcLicenseProfile.tlcLicenseEntity.accessories}"
+                                         validatorMessage="#{roseText.Accessories} - #{roseText.FieldLengthRequired_T}: 45" rendered="#{!cc.attrs.viewOnly}">
+                                <f:validateLength maximum="45"/>
+                                <p:ajax/>
+                            </p:inputText>
+                        </p:column>
+                    </p:row>
+                    <p:row styleClass="roseNoBorder">
+                        <p:column style="width:100px" styleClass="roseNoBorder">
+                            <p:outputLabel for="gas" value="#{roseText.Gas}"/>
+                        </p:column>
+                        <p:column styleClass="roseNoBorder">
+                            <h:outputText value="#{cc.attrs.tlcLicenseProfile.tlcLicenseEntity.gas}" 
+                                          style="font-style: italic" rendered="#{cc.attrs.viewOnly}"/>
+                            <p:inputText id="gas" value="#{cc.attrs.tlcLicenseProfile.tlcLicenseEntity.gas}"
+                                         validatorMessage="#{roseText.Gas} - #{roseText.FieldLengthRequired_T}: 45" rendered="#{!cc.attrs.viewOnly}">
+                                <f:validateLength maximum="45"/>
+                                <p:ajax/>
+                            </p:inputText>
+                        </p:column>
+                    </p:row>
+                </p:panelGrid>
+            </b:column>
+            <b:column col-md="3">
+                <p:panelGrid style="width: 100%;" styleClass="roseNoBorder">
+                    <p:row styleClass="roseNoBorder">
+                        <p:column style="width:100px" styleClass="roseNoBorder">
+                            <p:outputLabel for="vehicleModel" value="#{roseText.VehicleModel}"/>
+                        </p:column>
+                        <p:column styleClass="roseNoBorder">
+                            <h:outputText value="#{cc.attrs.tlcLicenseProfile.tlcLicenseEntity.vehicleModel}" 
+                                          style="font-style: italic" rendered="#{cc.attrs.viewOnly}"/>
+                            <p:inputText id="vehicleModel" value="#{cc.attrs.tlcLicenseProfile.tlcLicenseEntity.vehicleModel}"
+                                         validatorMessage="#{roseText.VehicleModel} - #{roseText.FieldLengthRequired_T}: 45" rendered="#{!cc.attrs.viewOnly}">
+                                <f:validateLength maximum="45"/>
+                                <p:ajax/>
+                            </p:inputText>
+                        </p:column>
+                    </p:row>
+                    <p:row styleClass="roseNoBorder">
+                        <p:column style="width:100px" styleClass="roseNoBorder">
+                            <p:outputLabel for="tires" value="#{roseText.Tires}"/>
+                        </p:column>
+                        <p:column styleClass="roseNoBorder">
+                            <h:outputText value="#{cc.attrs.tlcLicenseProfile.tlcLicenseEntity.tires}" 
+                                          style="font-style: italic" rendered="#{cc.attrs.viewOnly}"/>
+                            <p:inputText id="tires" value="#{cc.attrs.tlcLicenseProfile.tlcLicenseEntity.tires}"
+                                         validatorMessage="#{roseText.Tires} - #{roseText.FieldLengthRequired_T}: 45" rendered="#{!cc.attrs.viewOnly}">
+                                <f:validateLength maximum="45"/>
+                                <p:ajax/>
+                            </p:inputText>
+                        </p:column>
+                    </p:row>
+                    <p:row styleClass="roseNoBorder">
+                        <p:column style="width:100px" styleClass="roseNoBorder">
+                            <p:outputLabel for="telephone" value="#{roseText.Telephone}"/>
+                        </p:column>
+                        <p:column styleClass="roseNoBorder">
+                            <h:outputText value="#{cc.attrs.tlcLicenseProfile.tlcLicenseEntity.telephone}" 
+                                          style="font-style: italic" rendered="#{cc.attrs.viewOnly}"/>
+                            <p:inputText id="telephone" value="#{cc.attrs.tlcLicenseProfile.tlcLicenseEntity.telephone}"
+                                         validatorMessage="#{roseText.Telephone} - #{roseText.FieldLengthRequired_T}: 45" rendered="#{!cc.attrs.viewOnly}">
+                                <f:validateLength maximum="45"/>
+                                <p:ajax/>
+                            </p:inputText>
+                        </p:column>
+                    </p:row>
+                    <p:row styleClass="roseNoBorder">
+                        <p:column style="width:100px" styleClass="roseNoBorder">
+                            <p:outputLabel for="oil" value="#{roseText.Oil}"/>
+                        </p:column>
+                        <p:column styleClass="roseNoBorder">
+                            <h:outputText value="#{cc.attrs.tlcLicenseProfile.tlcLicenseEntity.oil}" 
+                                          style="font-style: italic" rendered="#{cc.attrs.viewOnly}"/>
+                            <p:inputText id="oil" value="#{cc.attrs.tlcLicenseProfile.tlcLicenseEntity.oil}"
+                                         validatorMessage="#{roseText.Oil} - #{roseText.FieldLengthRequired_T}: 45" rendered="#{!cc.attrs.viewOnly}">
+                                <f:validateLength maximum="45"/>
+                                <p:ajax/>
+                            </p:inputText>
+                        </p:column>
+                    </p:row>
+                </p:panelGrid>
+            </b:column>
+            <b:column col-md="3">
+                <p:panelGrid style="width: 100%;" styleClass="roseNoBorder">
+                    <p:row styleClass="roseNoBorder">
+                        <p:column style="width:100px" styleClass="roseNoBorder">
+                            <p:outputLabel for="dateInService" value="#{roseText.DateInService}"/>
+                        </p:column>
+                        <p:column styleClass="roseNoBorder">
+                            <h:outputText value="#{cc.attrs.tlcLicenseProfile.tlcLicenseEntity.dateInService}" 
+                                          style="font-style: italic" rendered="#{cc.attrs.viewOnly}">
+                                <f:convertDateTime pattern="MM-dd-yyyy" />
+                            </h:outputText>
+                            <p:calendar id="dateInService" locale="#{roseUserSession.localeCode}" pattern="MM-dd-yyyy" navigator="true"
+                                        value="#{cc.attrs.tlcLicenseProfile.tlcLicenseEntity.dateInService}" rendered="#{!cc.attrs.viewOnly}">
+                                <p:ajax event="dateSelect" process="@this"/>
+                            </p:calendar>
+                        </p:column>
+                    </p:row>
+                    <p:row styleClass="roseNoBorder">
+                        <p:column style="width:100px" styleClass="roseNoBorder">
+                            <p:outputLabel for="tolls" value="#{roseText.Tolls}"/>
+                        </p:column>
+                        <p:column styleClass="roseNoBorder">
+                            <h:outputText value="#{cc.attrs.tlcLicenseProfile.tlcLicenseEntity.tolls}" 
+                                          style="font-style: italic" rendered="#{cc.attrs.viewOnly}"/>
+                            <p:inputText id="tolls" value="#{cc.attrs.tlcLicenseProfile.tlcLicenseEntity.tolls}"
+                                         validatorMessage="#{roseText.Tolls} - #{roseText.FieldLengthRequired_T}: 45" rendered="#{!cc.attrs.viewOnly}">
+                                <f:validateLength maximum="45"/>
+                                <p:ajax/>
+                            </p:inputText>
+                        </p:column>
+                    </p:row>
+                    <p:row styleClass="roseNoBorder">
+                        <p:column style="width:100px" styleClass="roseNoBorder">
+                            <p:outputLabel for="parking" value="#{roseText.Parking}"/>
+                        </p:column>
+                        <p:column styleClass="roseNoBorder">
+                            <h:outputText value="#{cc.attrs.tlcLicenseProfile.tlcLicenseEntity.parking}" 
+                                          style="font-style: italic" rendered="#{cc.attrs.viewOnly}"/>
+                            <p:inputText id="parking" value="#{cc.attrs.tlcLicenseProfile.tlcLicenseEntity.parking}"
+                                         validatorMessage="#{roseText.Parking} - #{roseText.FieldLengthRequired_T}: 45" rendered="#{!cc.attrs.viewOnly}">
+                                <f:validateLength maximum="45"/>
+                                <p:ajax/>
+                            </p:inputText>
+                        </p:column>
+                    </p:row>
+                    <p:row styleClass="roseNoBorder">
+                        <p:column style="width:100px" styleClass="roseNoBorder">
+                            <p:outputLabel for="registrationFee" value="#{roseText.RegistrationFee}"/>
+                        </p:column>
+                        <p:column styleClass="roseNoBorder">
+                            <h:outputText value="#{cc.attrs.tlcLicenseProfile.tlcLicenseEntity.registrationFee}" 
+                                          style="font-style: italic" rendered="#{cc.attrs.viewOnly}"/>
+                            <p:inputText id="registrationFee" value="#{cc.attrs.tlcLicenseProfile.tlcLicenseEntity.registrationFee}"
+                                         validatorMessage="#{roseText.RegistrationFee} - #{roseText.FieldLengthRequired_T}: 45" rendered="#{!cc.attrs.viewOnly}">
+                                <f:validateLength maximum="45"/>
+                                <p:ajax/>
+                            </p:inputText>
+                        </p:column>
+                    </p:row>
+                </p:panelGrid>
+            </b:column>
+            <b:column col-md="3">
+                <p:panelGrid style="width: 100%;" styleClass="roseNoBorder">
+                    <p:row styleClass="roseNoBorder">
+                        <p:column style="width:100px" styleClass="roseNoBorder">
+                            <p:outputLabel for="numberOfSeats" value="#{roseText.NumberOfSeats}"/>
+                        </p:column>
+                        <p:column styleClass="roseNoBorder">
+                            <h:outputText value="#{cc.attrs.tlcLicenseProfile.tlcLicenseEntity.numberOfSeats}" 
+                                          style="font-style: italic" rendered="#{cc.attrs.viewOnly}"/>
+                            <p:inputText id="numberOfSeats" value="#{cc.attrs.tlcLicenseProfile.tlcLicenseEntity.numberOfSeats}"
+                                         validatorMessage="#{roseText.NumberOfSeats} - #{roseText.FieldLengthRequired_T}: 45" rendered="#{!cc.attrs.viewOnly}">
+                                <f:validateLength maximum="45"/>
+                                <p:ajax/>
+                            </p:inputText>
+                        </p:column>
+                    </p:row>
+                    <p:row styleClass="roseNoBorder">
+                        <p:column style="width:100px" styleClass="roseNoBorder">
+                            <p:outputLabel for="serviceFee" value="#{roseText.ServiceFee}"/>
+                        </p:column>
+                        <p:column styleClass="roseNoBorder">
+                            <h:outputText value="#{cc.attrs.tlcLicenseProfile.tlcLicenseEntity.serviceFee}" 
+                                          style="font-style: italic" rendered="#{cc.attrs.viewOnly}"/>
+                            <p:inputText id="serviceFee" value="#{cc.attrs.tlcLicenseProfile.tlcLicenseEntity.serviceFee}"
+                                         validatorMessage="#{roseText.ServiceFee} - #{roseText.FieldLengthRequired_T}: 45" rendered="#{!cc.attrs.viewOnly}">
+                                <f:validateLength maximum="45"/>
+                                <p:ajax/>
+                            </p:inputText>
+                        </p:column>
+                    </p:row>
+                    <p:row styleClass="roseNoBorder">
+                        <p:column style="width:100px" styleClass="roseNoBorder">
+                            <p:outputLabel for="insurance" value="#{roseText.Insurance}"/>
+                        </p:column>
+                        <p:column styleClass="roseNoBorder">
+                            <h:outputText value="#{cc.attrs.tlcLicenseProfile.tlcLicenseEntity.insurance}" 
+                                          style="font-style: italic" rendered="#{cc.attrs.viewOnly}"/>
+                            <p:inputText id="insurance" value="#{cc.attrs.tlcLicenseProfile.tlcLicenseEntity.insurance}"
+                                         validatorMessage="#{roseText.Insurance} - #{roseText.FieldLengthRequired_T}: 45" rendered="#{!cc.attrs.viewOnly}">
+                                <f:validateLength maximum="45"/>
+                                <p:ajax/>
+                            </p:inputText>
+                        </p:column>
+                    </p:row>
+                    <p:row styleClass="roseNoBorder">
+                        <p:column style="width:100px" styleClass="roseNoBorder">
+                            <p:outputLabel for="memo" value="#{roseText.Memo}"/>
+                        </p:column>
+                        <p:column styleClass="roseNoBorder">
+                            <h:outputText value="#{cc.attrs.tlcLicenseProfile.tlcLicenseEntity.memo}" 
+                                          style="font-style: italic" rendered="#{cc.attrs.viewOnly}"/>
+                            <p:inputText id="memo" value="#{cc.attrs.tlcLicenseProfile.tlcLicenseEntity.memo}"
+                                         validatorMessage="#{roseText.Memo} - #{roseText.FieldLengthRequired_T}: 450" rendered="#{!cc.attrs.viewOnly}">
+                                <f:validateLength maximum="450"/>
+                                <p:ajax/>
+                            </p:inputText>
+                        </p:column>
+                    </p:row>
+                </p:panelGrid>
+            </b:column>
+            <b:column col-md="3">
+                <p:panelGrid style="width: 100%;" styleClass="roseNoBorder">
+                    <p:row styleClass="roseNoBorder">
+                        <p:column style="width:100px" styleClass="roseNoBorder">
+                            <p:outputLabel for="over600lbs" value="#{roseText.Over600lbs}"/>
+                        </p:column>
+                        <p:column styleClass="roseNoBorder">
+                            <h:outputText value="#{cc.attrs.tlcLicenseProfile.tlcLicenseEntity.over600lbs}" 
+                                          style="font-style: italic" rendered="#{cc.attrs.viewOnly}"/>
+                            <p:inputText id="over600lbs" value="#{cc.attrs.tlcLicenseProfile.tlcLicenseEntity.over600lbs}"
+                                         validatorMessage="#{roseText.Over600lbs} - #{roseText.FieldLengthRequired_T}: 45" rendered="#{!cc.attrs.viewOnly}">
+                                <f:validateLength maximum="45"/>
+                                <p:ajax/>
+                            </p:inputText>
+                        </p:column>
+                    </p:row>
+                    <p:row styleClass="roseNoBorder">
+                        <p:column style="width:100px" styleClass="roseNoBorder">
+                            <p:outputLabel for="meals" value="#{roseText.Meals}"/>
+                        </p:column>
+                        <p:column styleClass="roseNoBorder">
+                            <h:outputText value="#{cc.attrs.tlcLicenseProfile.tlcLicenseEntity.meals}" 
+                                          style="font-style: italic" rendered="#{cc.attrs.viewOnly}"/>
+                            <p:inputText id="meals" value="#{cc.attrs.tlcLicenseProfile.tlcLicenseEntity.meals}"
+                                         validatorMessage="#{roseText.Meals} - #{roseText.FieldLengthRequired_T}: 45" rendered="#{!cc.attrs.viewOnly}">
+                                <f:validateLength maximum="45"/>
+                                <p:ajax/>
+                            </p:inputText>
+                        </p:column>
+                    </p:row>
+                    <p:row styleClass="roseNoBorder">
+                        <p:column style="width:100px" styleClass="roseNoBorder">
+                            <p:outputLabel for="depreciation" value="#{roseText.Depreciation}"/>
+                        </p:column>
+                        <p:column styleClass="roseNoBorder">
+                            <h:outputText value="#{cc.attrs.tlcLicenseProfile.tlcLicenseEntity.depreciation}" 
+                                          style="font-style: italic" rendered="#{cc.attrs.viewOnly}"/>
+                            <p:inputText id="depreciation" value="#{cc.attrs.tlcLicenseProfile.tlcLicenseEntity.depreciation}"
+                                         validatorMessage="#{roseText.Depreciation} - #{roseText.FieldLengthRequired_T}: 45" rendered="#{!cc.attrs.viewOnly}">
+                                <f:validateLength maximum="45"/>
+                                <p:ajax/>
+                            </p:inputText>
+                        </p:column>
+                    </p:row>
+                </p:panelGrid>
+            </b:column>
+            <b:column col-md="3">
+                <p:panelGrid style="width: 100%;" styleClass="roseNoBorder">
+                    <p:row styleClass="roseNoBorder">
+                        <p:column style="width:100px" styleClass="roseNoBorder">
+                            <p:outputLabel for="totalMiles" value="#{roseText.TotalMiles}"/>
+                        </p:column>
+                        <p:column styleClass="roseNoBorder">
+                            <h:outputText value="#{cc.attrs.tlcLicenseProfile.tlcLicenseEntity.totalMiles}" 
+                                          style="font-style: italic" rendered="#{cc.attrs.viewOnly}"/>
+                            <p:inputText id="totalMiles" value="#{cc.attrs.tlcLicenseProfile.tlcLicenseEntity.totalMiles}"
+                                         validatorMessage="#{roseText.TotalMiles} - #{roseText.FieldLengthRequired_T}: 45" rendered="#{!cc.attrs.viewOnly}">
+                                <f:validateLength maximum="45"/>
+                                <p:ajax/>
+                            </p:inputText>
+                        </p:column>
+                    </p:row>
+                    <p:row styleClass="roseNoBorder">
+                        <p:column style="width:100px" styleClass="roseNoBorder">
+                            <p:outputLabel for="uniform" value="#{roseText.Uniform}"/>
+                        </p:column>
+                        <p:column styleClass="roseNoBorder">
+                            <h:outputText value="#{cc.attrs.tlcLicenseProfile.tlcLicenseEntity.uniform}" 
+                                          style="font-style: italic" rendered="#{cc.attrs.viewOnly}"/>
+                            <p:inputText id="uniform" value="#{cc.attrs.tlcLicenseProfile.tlcLicenseEntity.uniform}"
+                                         validatorMessage="#{roseText.Uniform} - #{roseText.FieldLengthRequired_T}: 45" rendered="#{!cc.attrs.viewOnly}">
+                                <f:validateLength maximum="45"/>
+                                <p:ajax/>
+                            </p:inputText>
+                        </p:column>
+                    </p:row>
+                    <p:row styleClass="roseNoBorder">
+                        <p:column style="width:100px" styleClass="roseNoBorder">
+                            <p:outputLabel for="leasePayment" value="#{roseText.LeasePayment}"/>
+                        </p:column>
+                        <p:column styleClass="roseNoBorder">
+                            <h:outputText value="#{cc.attrs.tlcLicenseProfile.tlcLicenseEntity.leasePayment}" 
+                                          style="font-style: italic" rendered="#{cc.attrs.viewOnly}"/>
+                            <p:inputText id="leasePayment" value="#{cc.attrs.tlcLicenseProfile.tlcLicenseEntity.leasePayment}"
+                                         validatorMessage="#{roseText.LeasePayment} - #{roseText.FieldLengthRequired_T}: 45" rendered="#{!cc.attrs.viewOnly}">
+                                <f:validateLength maximum="45"/>
+                                <p:ajax/>
+                            </p:inputText>
+                        </p:column>
+                    </p:row>
+                </p:panelGrid>
+            </b:column>
+            <b:column col-md="3">
+                <p:panelGrid style="width: 100%;" styleClass="roseNoBorder">
+                    <p:row styleClass="roseNoBorder">
+                        <p:column style="width:100px" styleClass="roseNoBorder">
+                            <p:outputLabel for="businessMiles" value="#{roseText.BusinessMiles}"/>
+                        </p:column>
+                        <p:column styleClass="roseNoBorder">
+                            <h:outputText value="#{cc.attrs.tlcLicenseProfile.tlcLicenseEntity.businessMiles}" 
+                                          style="font-style: italic" rendered="#{cc.attrs.viewOnly}"/>
+                            <p:inputText id="businessMiles" value="#{cc.attrs.tlcLicenseProfile.tlcLicenseEntity.businessMiles}"
+                                         validatorMessage="#{roseText.BusinessMiles} - #{roseText.FieldLengthRequired_T}: 45" rendered="#{!cc.attrs.viewOnly}">
+                                <f:validateLength maximum="45"/>
+                                <p:ajax/>
+                            </p:inputText>
+                        </p:column>
+                    </p:row>
+                    <p:row styleClass="roseNoBorder">
+                        <p:column style="width:100px" styleClass="roseNoBorder">
+                            <p:outputLabel for="carWash" value="#{roseText.CarWash}"/>
+                        </p:column>
+                        <p:column styleClass="roseNoBorder">
+                            <h:outputText value="#{cc.attrs.tlcLicenseProfile.tlcLicenseEntity.carWash}" 
+                                          style="font-style: italic" rendered="#{cc.attrs.viewOnly}"/>
+                            <p:inputText id="carWash" value="#{cc.attrs.tlcLicenseProfile.tlcLicenseEntity.carWash}"
+                                         validatorMessage="#{roseText.CarWash} - #{roseText.FieldLengthRequired_T}: 45" rendered="#{!cc.attrs.viewOnly}">
+                                <f:validateLength maximum="45"/>
+                                <p:ajax/>
+                            </p:inputText>
+                        </p:column>
+                    </p:row>
+                    <p:row styleClass="roseNoBorder">
+                        <p:column style="width:100px" styleClass="roseNoBorder">
+                            <p:outputLabel for="maintenance" value="#{roseText.Maintenance}"/>
+                        </p:column>
+                        <p:column styleClass="roseNoBorder">
+                            <h:outputText value="#{cc.attrs.tlcLicenseProfile.tlcLicenseEntity.maintenance}" 
+                                          style="font-style: italic" rendered="#{cc.attrs.viewOnly}"/>
+                            <p:inputText id="maintenance" value="#{cc.attrs.tlcLicenseProfile.tlcLicenseEntity.maintenance}"
+                                         validatorMessage="#{roseText.Maintenance} - #{roseText.FieldLengthRequired_T}: 45" rendered="#{!cc.attrs.viewOnly}">
+                                <f:validateLength maximum="45"/>
+                                <p:ajax/>
+                            </p:inputText>
+                        </p:column>
+                    </p:row>
+                </p:panelGrid>
+            </b:column>
+        </b:row>
+    </cc:implementation>
+</html>

@@ -1,0 +1,65 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:cc="http://xmlns.jcp.org/jsf/composite"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <!-- INTERFACE -->
+    <cc:interface>
+        <cc:attribute name="personalProfileBean" type="com.zcomapproach.garden.rose.bean.IRosePersonalProfileBean" required="true"/>
+        <!--Only view data-->
+        <cc:attribute name="viewOnly" type="java.lang.Boolean" required="true"/>
+    </cc:interface>
+
+    <!-- IMPLEMENTATION -->
+    <cc:implementation>
+        <h:panelGrid columns="1" style="width: 100%">
+            <p:messages styleClass="roseMessages" style="font-size: 11px"/>
+            <p:panel>
+                <h:panelGrid columns="7" style="width: 100%;">
+                    <p:outputPanel>
+                        <h:graphicImage class="img-rounded" library="images" name="NewIcon.png" rendered="#{cc.attrs.personalProfileBean.forCreateNewEntity}"
+                                        alt="#{roseText.AddNewCustomer}" title="#{roseText.AddNewCustomer}" style="height: 50px; width: 50px;"/>
+                        <h:graphicImage class="img-rounded" library="images" name="EditIcon.png" rendered="#{!cc.attrs.personalProfileBean.forCreateNewEntity}" 
+                                        alt="#{roseText.CustomerProfile}" title="#{roseText.CustomerProfile}" style="height: 50px; width: 50px;"/>
+                    </p:outputPanel>
+                    <p:outputPanel style="float: right">
+                        <h:panelGrid columns="7">
+                            
+                            <h:link class="btn btn-warning" style="font-size: 12px; color: white"
+                                    rendered="#{(!roseUserSession.employed) and (!cc.attrs.personalProfileBean.forCreateNewEntity)}"
+                                    outcome="#{rosePages.taxpayerCasePageName}">
+                                <i class="fa fa-edit"/> #{roseText.NewTaxpayer}
+                                <f:param name="#{roseParamKeys.viewPurposeParamKey}" 
+                                         value="#{roseParamValues.createNewEntityParamValue}" />
+                                <f:param name="#{roseParamKeys.customerUuidParamKey}" 
+                                         value="#{roseUserSession.targetAccountProfile.accountEntity.accountUuid}" />
+                            </h:link>                           
+                            <p:spacer width="2" rendered="#{!cc.attrs.personalProfileBean.forCreateNewEntity}"/>
+                            
+                            <h:link class="btn btn-warning" style="font-size: 12px; color: white" outcome="#{rosePages.taxcorpCasePageName}" 
+                                    rendered="#{(!roseUserSession.employed) and (!cc.attrs.personalProfileBean.forCreateNewEntity)}">
+                                <i class="fa fa-edit"/> #{roseText.RequestNewCorporateTax}
+                                <f:param name="#{roseParamKeys.viewPurposeParamKey}" 
+                                         value="#{roseParamValues.createNewEntityParamValue}" />
+                                <f:param name="#{roseParamKeys.customerUuidParamKey}" 
+                                         value="#{roseUserSession.targetAccountProfile.accountEntity.accountUuid}" />
+                            </h:link>
+                            <p:spacer width="2" rendered="#{!cc.attrs.personalProfileBean.forCreateNewEntity}"/>
+                            
+                            <h:commandButton class="btn btn-success" style="font-size: 12px; margin-left: 0px; margin-right: 0px"
+                                             rendered="#{!cc.attrs.viewOnly}" value="#{roseText.Save}" 
+                                             action="#{cc.attrs.personalProfileBean.storeTargetPersonalProfile()}"/>
+                            <p:spacer width="2"/>
+                            
+                            <h:link class="btn btn-default" style="font-size: 12px; margin-left: 0px; margin-right: 0px" 
+                                    value="#{roseText.Cancel}" outcome="#{rosePages.customerHomePageName}"/>
+                        </h:panelGrid>
+                    </p:outputPanel>
+                </h:panelGrid>
+            </p:panel>
+        </h:panelGrid>
+    </cc:implementation>
+</html>

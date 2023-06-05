@@ -1,0 +1,54 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:cc="http://xmlns.jcp.org/jsf/composite"
+      xmlns:b="http://bootsfaces.net/ui"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <!-- INTERFACE -->
+    <cc:interface>
+        <!--Data model supports presenting Rose basic settings data entry-->
+        <cc:attribute name="roseSettingsGridModel" type="com.zcomapproach.garden.rose.data.model.RoseSettingsGridModel" required="true"/>
+        <!--Only view data-->
+        <cc:attribute name="viewOnly" type="java.lang.Boolean" required="true"/>
+    </cc:interface>
+
+    <!-- IMPLEMENTATION: this panel only let propery value and its description editable -->
+    <cc:implementation>
+        <p:panel id="defaultSystemPropertiesPanel" style="font-size: 12px" header="#{roseText.GardenBasicSettings}">
+            <ui:repeat value="#{cc.attrs.roseSettingsGridModel.roseSettingsRowDataList}" var="settingsRowData">
+                <b:row>
+                    <ui:repeat value="#{settingsRowData.roseSettingsColumnDataList}" var="settingsColumnData">
+                        <b:column col-md="4">
+                            <p:panelGrid style="width: 100%; font-size: 11px" styleClass="roseNoBorder">
+                                <p:row styleClass="roseNoBorder">
+                                    <p:column style="width:125px" styleClass="roseNoBorder" headerText="test">
+                                        <h:outputLabel value="#{settingsColumnData.propertyReadableName}"/>
+                                    </p:column>
+                                    <p:column styleClass="roseNoBorder">
+                                        <h:outputText value="#{settingsColumnData.propertyReadableName}" rendered="#{cc.attrs.viewOnly}"/>
+                                        <p:inputText rendered="#{!cc.attrs.viewOnly}" value="#{settingsColumnData.propertyValue}" 
+                                                     required="true" requiredMessage="#{settingsColumnData.propertyReadableName} - #{roseText.FieldRequired_T}"
+                                                     validatorMessage="#{settingsColumnData.propertyReadableName} - #{roseText.MaxLengthRequired_T}: 150">
+                                            <f:validateLength maximum="150"/>
+                                            <p:ajax/>
+                                        </p:inputText>
+                                    </p:column>
+                                </p:row>
+                                <p:row styleClass="roseNoBorder">
+                                    <p:column colspan="2" styleClass="roseNoBorder">
+                                        <h:outputText style="font-size: 10px; font-style: italic"
+                                                      value="* #{settingsColumnData.propertyDescription}"/>
+                                    </p:column>
+                                </p:row>
+                            </p:panelGrid>
+                        </b:column>
+                    </ui:repeat>
+                </b:row>
+            </ui:repeat>
+        </p:panel>
+    </cc:implementation>
+</html>
